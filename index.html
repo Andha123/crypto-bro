@@ -472,6 +472,7 @@ table.t tr:hover td{background:color-mix(in srgb,var(--fg) 3%,transparent)}
 .term{padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
 .term b{display:block;font-size:14px}
 .term p{margin:2px 0 0;font-size:13px;color:var(--fg2)}
+.ak-steps{margin:14px 0 4px;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--fg2);font-size:14px}.ak-steps b{color:var(--fg)}
 .bn-pick{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end;max-width:760px}
 .bn-fixed{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;font-weight:700;color:var(--fg3);padding-bottom:8px}.bn-fixed svg{width:20px;height:20px}
 .bn-slot{display:flex;flex-direction:column;gap:4px;min-width:0}.bn-slot small{font-size:11.5px;font-weight:700;color:var(--fg3)}.bn-slot select{width:100%}
@@ -1921,7 +1922,7 @@ V.leaders = () => pageHead(t('p_leaders'), esc(t('lead_lead')) + ' ' + esc(t('co
   + `<p class="dim" style="font-size:13px;margin:0">${esc(t('lb_minvol',{v:fmtCur(S.minVol*(usdRate()||1),{compact:true})}))}</p>${simple()?help('volatility'):''}`;
 
 /* ---- News ---- */
-function topNews(n){ return D.news.filter(x => Date.now()-x.t < 24*HOUR && x.kind==='crypto' && isRelevant(x)).sort((a,b)=>b.score-a.score).slice(0,n); }
+function topNews(n){ return D.news.filter(x => Date.now()-x.t < 24*HOUR && x.kind==='crypto' && isRelevant(x)).sort((a,b)=>b.score-a.score).slice(0,n).sort((a,b)=>b.t-a.t); }
 function newsLi(n, desc){
   return `<div class="li"><div class="li-m"><a class="t" href="${esc(safeUrl(n.link))}" target="_blank" rel="noopener">${esc(n.title)}</a>${desc&&n.desc?`<div class="d">${esc(n.desc)}</div>`:''}
     <div class="meta"><b style="color:var(--fg2)">${esc(n.src)}</b><span data-ago="${n.t}">${esc(ago(n.t))}</span>${n.searchLink?`<span>↗ ${esc(t('search_link'))}</span>`:''}${n.topics.slice(0,simple()?2:3).map(x=>`<span class="tag ${['macro','etf','reg','sec'].includes(x)?'hot':''}">${esc(t('topics.'+x))}</span>`).join('')}${(n.people||[]).slice(0,2).map(p=>`<span class="tag hot">${esc(p)}</span>`).join('')}</div></div></div>`;
@@ -2231,13 +2232,36 @@ function checkEventAlerts(){
 /* =====================================================================
    AI (optional; the person's own Anthropic key, sent only to api.anthropic.com)
    ===================================================================== */
+function aiErrText(st, m){
+  if(st === 401) return t('ai_e401'); if(st === 403) return t('ai_e403');
+  if(/credit|balance|billing/i.test(m)) return t('ai_ecredit'); if(st === 429) return t('ai_e429'); if(st === 529 || /overload/i.test(m)) return t('ai_e529');
+  return m || ('HTTP ' + st);
+}
+function askKey(after){
+  UI.aiAfter = after || null;
+  $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="ak-h" style="width:min(560px,100%)">
+    <div class="modal-h"><div><h2 id="ak-h" style="font-size:26px">✦ ${esc(t('ak_t'))}</h2><p>${esc(t('ak_d'))}</p></div><button class="btn ghost" data-act="close">${esc(t('close'))}</button></div>
+    <ol class="ak-steps">${t('ak_steps').map(x => `<li>${x}</li>`).join('')}</ol>
+    <form id="ak-form" class="cn-form"><label>${esc(t('s_aikey'))}<input class="inp" id="ak-in" type="password" placeholder="sk-ant-…" autocomplete="off" required></label><div id="ak-msg"></div><button class="btn pri big" type="submit">${esc(t('ak_save'))}</button></form>
+    <p class="dim" style="font-size:12.5px;margin:10px 0 0">${esc(t('s_aikey_d'))}</p></div></div>`;
+  setTimeout(() => { const x = $('#ak-in'); if(x) x.focus(); }, 80);
+}
+document.addEventListener('submit', async e => { if(e.target.id !== 'ak-form') return; e.preventDefault();
+  const key = $('#ak-in').value.trim(), msg = $('#ak-msg'), btn = e.target.querySelector('button'); if(!key) return; btn.disabled = true; msg.innerHTML = `<p class="dim">${esc(t('ak_testing'))}</p>`;
+  const old = S.aiKey; S.aiKey = key;
+  try{ await askClaude('Reply with OK.', 'OK?', false); saveS(); msg.innerHTML = `<p class="up" style="font-weight:700">✓ ${esc(t('ak_ok'))}</p>`; const after = UI.aiAfter; UI.aiAfter = null; setTimeout(() => { closeModal(); if(after) setTimeout(after, 260); }, 600); }
+  catch(err){ S.aiKey = old; msg.innerHTML = `<div class="err"><b>${esc(err.message)}</b></div>`; btn.disabled = false; } });
 async function askClaude(system, user, search){
-  const msgs = [{role:'user', content:user}]; const body = {model:S.aiModel, max_tokens:2500, system, messages:msgs};
+  const msgs = [{role:'user', content:user}]; const body = {model:S.aiModel, max_tokens: search === false ? 10 : 2500, system, messages:msgs};
   if(search) body.tools = [{type:'web_search_20250305', name:'web_search', max_uses: typeof search === 'number' ? search : 5}];
   let text = '', sources = [];
   for(let i=0;i<4;i++){
-    const r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'content-type':'application/json','x-api-key':S.aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify(body)});
-    const j = await r.json().catch(()=>({})); if(!r.ok) throw new Error((j.error && j.error.message) || ('HTTP '+r.status));
+    let r; try{ r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'content-type':'application/json','x-api-key':S.aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify(body)}); }catch(e){ throw new Error(t('ai_net')); }
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok){ const m = (j.error && j.error.message) || ''; 
+      if(body.tools && /web.?search|tool/i.test(m)){ delete body.tools; i--; continue; }
+      if(r.status === 404 && /model/i.test(m) && body.model !== 'claude-sonnet-4-5'){ body.model = 'claude-sonnet-4-5'; i--; continue; }
+      throw new Error(aiErrText(r.status, m)); }
     (j.content||[]).forEach(b => { if(b.type==='text'){ text += b.text; (b.citations||[]).forEach(c => { if(c.url && !sources.find(s=>s.url===c.url)) sources.push({url:c.url, title:c.title||c.url}); }); } });
     if(j.stop_reason === 'pause_turn'){ msgs.push({role:'assistant', content:j.content}); continue; } break;
   }
@@ -2293,7 +2317,7 @@ function openHello(){
   const b = $('.modal [data-act="close"]'); if(b) b.focus();
 }
 async function aiBrief(){
-  if(!S.aiKey){ go('settings'); return; }
+  if(!S.aiKey){ askKey(() => { openHello(); setTimeout(aiBrief, 350); }); return; }
   const out = $('#hello-body'), btn = $('[data-act="ai-brief"]'); if(btn) btn.disabled = true; out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
   try{ const [sys, user] = briefPrompt(); const r = await askClaude(sys, user, true); store.set('briefing', {at:Date.now(), lang:S.lang, text:r.text, sources:r.sources});
     out.innerHTML = `<div class="md">${md(r.text)}</div>${aiSources(r.sources)}<div class="note">${badge('ai')} ${esc(t('o_ai'))}</div>`; }
@@ -2301,7 +2325,7 @@ async function aiBrief(){
   if(btn) btn.disabled = false;
 }
 async function aiScan(){
-  if(!S.aiKey){ go('settings'); return; }
+  if(!S.aiKey){ askKey(() => aiScan()); return; }
   const out = $('#ai-scan-out'); out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`; const no = S.lang !== 'en';
   const sys = no ? 'Du er en nøktern markedsanalytiker. Skriv på enkel norsk. Ikke finn på innlegg eller sitater: oppgi bare det du finner i nettsøk, med kilde. Ikke gi investeringsråd.' : 'You are a sober market analyst. Write in plain English. Do not invent posts or quotes: report only what you find via web search, with sources. No investment advice.';
   const user = (no ? 'Søk etter de viktigste innleggene og uttalelsene de siste 24 timene (fra nå: ' : 'Search for the most important posts and statements from the last 24 hours (as of: ') + new Date().toISOString() + (no
@@ -2453,6 +2477,12 @@ setInterval(() => { if(D.liveConnected && lastMsg && Date.now()-lastMsg > 45000)
    TRADING MODULE: live candles, support/resistance, patterns, setups,
    risk calculator, demo trading + journal (based on the user's trading document)
    ===================================================================== */
+Object.assign(I18N.no, {ak_t:'Koble til AI', ak_d:'AI-funksjonene (oppsummeringer, forklaringer og søk på X og nettet) bruker Claude fra Anthropic. Det krever din egen API-nøkkel. Du betaler bare for det du bruker.',
+  ak_steps:['Gå til <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a> og lag en konto eller logg inn.','Under <b>Billing</b>: legg inn litt kreditt.','Under <b>API Keys</b>: trykk <b>Create Key</b> og kopier nøkkelen.','Lim den inn her og trykk <b>Lagre og prøv</b>.'],
+  ak_save:'Lagre og prøv', ak_testing:'Sjekker nøkkelen …', ak_ok:'Nøkkelen virker! Starter AI …', ai_net:'Fikk ikke kontakt med AI-tjenesten. Sjekk internett og prøv igjen.', ai_e401:'API-nøkkelen er ugyldig. Sjekk at du kopierte hele nøkkelen.', ai_e403:'Nøkkelen har ikke tilgang til denne funksjonen.', ai_ecredit:'Anthropic-kontoen mangler kreditt. Legg inn kreditt under Billing på console.anthropic.com.', ai_e429:'For mange forespørsler akkurat nå. Vent litt og prøv igjen.', ai_e529:'AI-tjenesten er overbelastet. Prøv igjen om litt.'});
+Object.assign(I18N.en, {ak_t:'Connect AI', ak_d:'The AI features (summaries, explanations and searching X and the web) use Claude from Anthropic. They need your own API key. You only pay for what you use.',
+  ak_steps:['Go to <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a> and sign up or log in.','Under <b>Billing</b>: add some credit.','Under <b>API Keys</b>: tap <b>Create Key</b> and copy the key.','Paste it here and tap <b>Save and try</b>.'],
+  ak_save:'Save and try', ak_testing:'Checking the key …', ak_ok:'The key works! Starting AI …', ai_net:'Could not reach the AI service. Check your internet and try again.', ai_e401:'The API key is invalid. Check that you copied the whole key.', ai_e403:'The key does not have access to this feature.', ai_ecredit:'The Anthropic account has no credit. Add credit under Billing at console.anthropic.com.', ai_e429:'Too many requests right now. Wait a moment and try again.', ai_e529:'The AI service is overloaded. Try again shortly.'});
 Object.assign(I18N.no, {s_bnav:'Knappene nederst (mobil)', s_bnav_d:'Velg hvilke tre sider som skal ligge nederst mellom Hjem og Mer. Resten finner du under Mer.', bn_slot:n=>`Knapp ${n}`, s_bnav_edit:'Endre knappene nederst'});
 Object.assign(I18N.en, {s_bnav:'Bottom buttons (mobile)', s_bnav_d:'Choose which three pages sit at the bottom between Home and More. Everything else is under More.', bn_slot:n=>`Button ${n}`, s_bnav_edit:'Change the bottom buttons'});
 Object.assign(I18N.no, {
@@ -4402,7 +4432,7 @@ function coinLiveUpdate(){
   const X = coinData(UI.coinId); if(X){ X._facts = coinFacts(X); $('#coin-stats').innerHTML = coinStatsHTML(X); }
 }
 async function coinAI(id){
-  if(!S.aiKey){ go('settings'); return; }
+  if(!S.aiKey){ askKey(() => coinAI(id)); return; }
   const X = coinData(id); if(!X) return; const out = $('#coin-ai-out'), btn = $('[data-act="coin-ai"]'); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
   const no = S.lang !== 'en', today = new Date().toISOString().slice(0,10);
   const sys = no ? 'Du er en tålmodig og ærlig kryptolærer for nybegynnere. Skriv på enkel norsk (bokmål) og forklar fagord kort. Ikke gi kjøps- eller salgsråd. Ikke finn på fakta: bruk dataene du får og det du faktisk finner i nettsøk, og oppgi kilder.'
@@ -4945,18 +4975,18 @@ function aiSweepHTML(){
 function newsBriefHTML(){
   const K = keyStories(), ai = store.get('newsai', null);
   if(S.aiKey && S.newsAuto && !UI.nsAuto && (!ai || ai.lang !== S.lang || Date.now()-ai.at > 3*HOUR) && D.news.length){ UI.nsAuto = true; setTimeout(aiSweep, 400); }
-  const list = K.stories.slice(0, 14);
+  const list = K.stories.slice(0, 18).sort((a,b) => b.t - a.t);
   return `<section class="card nb-head"><div class="card-h"><h2>${esc(t('nb_t'))}</h2><span class="dim" style="font-size:13px">${esc(t('updated'))} <span data-ago="${D.newsAt}">${esc(ago(D.newsAt))}</span></span></div>
       <p class="muted" style="margin:-4px 0 0;font-size:13.5px">${esc(t('nb_scan', {n:K.total, s:K.srcCount, r:K.rel, c:K.stories.length, h:K.hidden}))}</p>
       <div class="nb-ai"><div><b>✦ ${esc(t('nb_ai_t'))}</b><p>${esc(t('nb_ai_d'))}</p>
-        ${S.aiKey ? `<div class="nb-ai-c"><button class="btn pri" data-act="ns-sweep">${esc(t('nb_ai_btn'))}</button><label class="chk"><input type="checkbox" id="ns-auto" ${S.newsAuto?'checked':''}>${esc(t('nb_ai_auto'))}</label></div>` : `<p class="dim" style="font-size:12.5px">${esc(t('nb_ai_need'))}</p>`}</div>
+        <div class="nb-ai-c"><button class="btn pri" data-act="ns-sweep">${esc(t('nb_ai_btn'))}</button>${S.aiKey ? `<label class="chk"><input type="checkbox" id="ns-auto" ${S.newsAuto?'checked':''}>${esc(t('nb_ai_auto'))}</label>` : `<span class="dim" style="font-size:12.5px">${esc(t('nb_ai_need'))}</span>`}</div></div>
         <div id="ns-sweep-out">${ai && ai.lang===S.lang ? `<div class="src" style="margin:0 0 8px">${badge('ai')} ${esc(t('nb_ai_res'))} · ${esc(fmtDT(new Date(ai.at)))}</div>${aiSweepHTML()}` : ''}</div></div></section>
     ${list.length ? list.map(storyCard).join('') : `<section class="card">${D.news.length ? `<div class="empty">${esc(t('nb_none'))}</div>` : errOr('news', t('ds.news'))}</section>`}
     <p class="dim" style="font-size:12.5px;margin:0">${esc(t('nb_auto'))}</p>`;
 }
 function parseJSONLoose(s){ const m = String(s).match(/```(?:json)?\s*([\s\S]*?)```/); const raw = m ? m[1] : String(s).slice(String(s).indexOf('{'), String(s).lastIndexOf('}')+1); try{ return JSON.parse(raw); }catch(e){ return null; } }
 async function aiSweep(){
-  if(!S.aiKey){ go('settings'); return; } const out = $('#ns-sweep-out'), btn = $('[data-act="ns-sweep"]'); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
+  if(!S.aiKey){ askKey(() => aiSweep()); return; } const out = $('#ns-sweep-out'), btn = $('[data-act="ns-sweep"]'); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
   const no = S.lang !== 'en', K = keyStories(), cands = K.stories.slice(0, 25).map(s => `[${s.srcs.join(', ')} · ${new Date(s.t).toISOString().slice(0,16)}Z] ${s.lead.title}`);
   const sys = no ? 'Du er en nøktern nyhetsredaktør for kryptomarkedet. Du skriver for en person som ikke kan så mye om finans: enkel norsk (bokmål), korte setninger, forklar fagord. Ikke gi kjøps- eller salgsråd. Ikke finn på saker, tall eller sitater – bruk bare det du faktisk finner i nettsøk, og oppgi kilder.'
     : 'You are a sober news editor for the crypto market. You write for someone who does not know much about finance: plain English, short sentences, explain jargon. Do not give buy or sell advice. Do not invent stories, numbers or quotes – use only what you actually find via web search, and cite sources.';
@@ -4969,7 +4999,7 @@ async function aiSweep(){
   const b2 = $('[data-act="ns-sweep"]'); if(b2) b2.disabled = false;
 }
 async function aiStory(sid){
-  if(!S.aiKey){ go('settings'); return; } const st = UI.nsMap[sid]; if(!st) return; const out = $('#nso-'+sid), btn = $(`[data-act="ns-ai"][data-sid="${sid}"]`); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
+  if(!S.aiKey){ askKey(() => aiStory(sid)); return; } const st = UI.nsMap[sid]; if(!st) return; const out = $('#nso-'+sid), btn = $(`[data-act="ns-ai"][data-sid="${sid}"]`); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
   const no = S.lang !== 'en';
   const sys = no ? 'Du forklarer nyheter for en nybegynner innen krypto og finans. Enkel norsk (bokmål), korte setninger. Ikke gi kjøps- eller salgsråd. Ikke finn på fakta; bruk saken og nettsøk, og oppgi kilder.' : 'You explain news to a beginner in crypto and finance. Plain English, short sentences. No buy or sell advice. Do not invent facts; use the story and web search, and cite sources.';
   const user = (no ? 'Forklar denne nyhetssaken. Søk gjerne opp saken for å få med detaljene. Bruk overskriftene (## ):\n## Hva skjedde?\n## Hvorfor betyr det noe?\n## Mulig effekt på markedet (positiv, negativ eller uklar – og for hvilke coins)\nMaks 170 ord.\n\n' : 'Explain this news story. Feel free to look it up for details. Use the headings (## ):\n## What happened?\n## Why does it matter?\n## Possible market effect (positive, negative or unclear – and for which coins)\nMax 170 words.\n\n')
