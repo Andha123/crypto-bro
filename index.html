@@ -173,7 +173,9 @@ main{max-width:1240px;margin:0 auto;padding:22px 20px 60px;display:flex;flex-dir
 .today-hi .chips{margin:0}
 .today-list{padding:20px 22px 14px;border-left:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
 .today-list .card-h{margin-bottom:8px}
-.tl-box{position:relative;max-height:440px;overflow-y:auto;margin-right:-10px;padding-right:10px;scrollbar-width:thin}
+.tl-box{position:relative;max-height:440px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;margin-right:-10px;padding-right:10px;scrollbar-width:thin}
+.tl-more{display:block;width:100%;margin:2px 0 4px;padding:9px 12px;border-radius:12px;border:1px dashed var(--line2);background:none;color:var(--fg2);font:700 13px/1.2 var(--sans);cursor:pointer;text-align:center}
+.tl-more:active{transform:scale(.98)}
 .ev{display:grid;grid-template-columns:48px 30px minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg)}
 .ev:last-child{border-bottom:0}
 .ev .tm{font-weight:800;font-size:14px;padding-top:4px}
@@ -806,7 +808,7 @@ a.lbr:hover{background:var(--card2)}
 @media (max-width:760px){.coin-hero{grid-template-columns:minmax(0,1fr)}.ch-px{text-align:left}.kv{grid-template-columns:minmax(0,1fr)}.modal{padding:20px 16px}}
 @media (max-width:1050px){.tr-grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.plan{grid-template-columns:minmax(0,1fr)}.lesson-b{grid-template-columns:minmax(0,1fr)}.lesson-fig{width:100%}.chk-l{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:1050px){.mks{grid-template-columns:repeat(3,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.today{grid-template-columns:minmax(0,1fr)}.today-list{border-left:0;border-top:1px solid var(--line)}}
+@media (max-width:1050px){.tl-box{max-height:none;overflow:visible;margin-right:0;padding-right:0}.today-list,.today{overflow:hidden;max-width:100%}.mks{grid-template-columns:repeat(3,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.today{grid-template-columns:minmax(0,1fr)}.today-list{border-left:0;border-top:1px solid var(--line)}}
 @media (max-width:760px){
   .hdr-in{padding:8px 16px}
   .hdr-row{flex-wrap:nowrap;gap:8px}
@@ -820,7 +822,7 @@ a.lbr:hover{background:var(--card2)}
   .today{border-radius:18px}
   .today-hi{padding:22px 18px}
   .today-list{padding:16px 16px 10px}
-  .tl-box{max-height:400px}
+  .tl-box{max-height:none}
   .ev{grid-template-columns:44px 28px minmax(0,1fr)}
   .ev .rt{grid-column:3;text-align:left;padding-top:0}
   .logo{width:34px;height:34px}
@@ -1771,8 +1773,11 @@ function todayHTML(){
   const map = {cal:['cal','fng','alert'], mkt:['mkt'], news:['news'], social:['social']};
   const list = f==='all' ? all : all.filter(x => map[f].includes(x.k));
   const now = Date.now(); let nowDone = false; let rows = '';
+  const stacked = window.innerWidth <= 1050, pastN = list.filter(x => x.at <= now).length, hideN = stacked && !UI.tlAll ? Math.max(0, pastN - 3) : 0; let skipped = 0;
+  if(stacked && pastN > 3) rows += `<button class="tl-more" data-act="tl-all">${esc(UI.tlAll ? t('tl_less') : t('tl_more', hideN))}</button>`;
   const nowRow = () => `<div class="now-line" id="now-line">${esc(t('now_l'))} · ${esc(fmtTime(new Date()))}</div>`;
   list.forEach(x => {
+    if(x.at <= now && skipped < hideN){ skipped++; return; }
     if(!nowDone && x.at > now){ rows += nowRow(); nowDone = true; }
     const past = x.at <= now; const tag = x.link ? `a href="${esc(safeUrl(x.link))}" target="_blank" rel="noopener"` : x.href ? `a href="${x.href}"${x.tab?` data-act="go-tab" data-tab="${x.tab}"`:''}` : 'div';
     rows += `<${tag} class="ev${past?' past':''}"><span class="tm n">${esc(fmtTime(new Date(x.at)))}</span><span class="ic ${x.k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${EV_ICON[x.k]}</svg></span><span class="tx">${esc(x.title)}${x.sub?`<small>${esc(x.sub)}</small>`:''}</span><span class="rt">${x.imp?impBars(x.imp):''}${x.cd && !past ? `<div class="cd n" data-cd="${x.at}">${esc(countdown(x.at-now))}</div>` : ''}</span></${tag.split(' ')[0]}>`;
@@ -2417,6 +2422,7 @@ function onClick(e){
     case 'test': { a.disabled = true; D.cgBackoff = 0; wsIdx = 0; wsFails = 0; connectLive(); scheduler(true).then(()=>{ renderView(); toast(t('updated')); }); break; }
     case 'export': { const data = {app:'crypto-bro', v:2, at:new Date().toISOString(), settings:S, alerts:store.get('alerts',[]), events:store.get('events',[]), quiz:store.get('quiz',{}), demo:store.get('demo',null), levels:store.get('levels',{})}; const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'}); const u = URL.createObjectURL(blob); const l = document.createElement('a'); l.href = u; l.download = 'crypto-bro-innstillinger.json'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(u), 2000); break; }
     case 'reset': if(UI.resetArm){ store.clear(); try{ history.replaceState(null,'','#home'); }catch(x){} location.reload(); } else { UI.resetArm = true; renderView(); setTimeout(()=>{ UI.resetArm = false; if(UI.route==='settings') renderView(); }, 4000); } break;
+    case 'tl-all': { UI.tlAll = !UI.tlAll; const tl = $('.today-list'); if(tl) tl.innerHTML = todayHTML(); break; }
     case 'today-f': UI.todayF = a.dataset.f; const tl = $('.today-list'); if(tl){ tl.innerHTML = todayHTML(); UI.tlTouched = 0; scrollNow($('#tl-box')); } break;
     case 'go-tab': e.preventDefault(); UI.tab.calendar = a.dataset.tab; go('calendar'); break;
   }
@@ -2483,6 +2489,8 @@ Object.assign(I18N.no, {ak_t:'Koble til AI', ak_d:'AI-funksjonene (oppsummeringe
 Object.assign(I18N.en, {ak_t:'Connect AI', ak_d:'The AI features (summaries, explanations and searching X and the web) use Claude from Anthropic. They need your own API key. You only pay for what you use.',
   ak_steps:['Go to <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a> and sign up or log in.','Under <b>Billing</b>: add some credit.','Under <b>API Keys</b>: tap <b>Create Key</b> and copy the key.','Paste it here and tap <b>Save and try</b>.'],
   ak_save:'Save and try', ak_testing:'Checking the key …', ak_ok:'The key works! Starting AI …', ai_net:'Could not reach the AI service. Check your internet and try again.', ai_e401:'The API key is invalid. Check that you copied the whole key.', ai_e403:'The key does not have access to this feature.', ai_ecredit:'The Anthropic account has no credit. Add credit under Billing at console.anthropic.com.', ai_e429:'Too many requests right now. Wait a moment and try again.', ai_e529:'The AI service is overloaded. Try again shortly.'});
+Object.assign(I18N.no, {tl_more:n=>`Vis tidligere i dag (${n})`, tl_less:'Skjul tidligere i dag'});
+Object.assign(I18N.en, {tl_more:n=>`Show earlier today (${n})`, tl_less:'Hide earlier today'});
 Object.assign(I18N.no, {s_bnav:'Knappene nederst (mobil)', s_bnav_d:'Velg hvilke tre sider som skal ligge nederst mellom Hjem og Mer. Resten finner du under Mer.', bn_slot:n=>`Knapp ${n}`, s_bnav_edit:'Endre knappene nederst'});
 Object.assign(I18N.en, {s_bnav:'Bottom buttons (mobile)', s_bnav_d:'Choose which three pages sit at the bottom between Home and More. Everything else is under More.', bn_slot:n=>`Button ${n}`, s_bnav_edit:'Change the bottom buttons'});
 Object.assign(I18N.no, {
