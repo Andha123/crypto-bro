@@ -43,9 +43,8 @@
 *{box-sizing:border-box}
 html{font-size:var(--fs);-webkit-text-size-adjust:100%}
 body{margin:0;font-family:var(--sans);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;
-  background:var(--bg);
-  background:radial-gradient(900px 460px at 0% -10%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 70%),radial-gradient(800px 420px at 100% -5%,color-mix(in srgb,var(--accent-b) 12%,transparent),transparent 70%),var(--bg);
-  background-attachment:fixed;min-height:100vh}
+  background:var(--bg);min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(900px 460px at 0% -10%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 70%),radial-gradient(800px 420px at 100% -5%,color-mix(in srgb,var(--accent-b) 12%,transparent),transparent 70%);transform:translateZ(0)}
 a{color:var(--accent)}
 button,input,select,textarea{font:inherit;color:inherit}
 [hidden]{display:none!important}
@@ -473,6 +472,238 @@ table.t tr:hover td{background:color-mix(in srgb,var(--fg) 3%,transparent)}
 .term{padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
 .term b{display:block;font-size:14px}
 .term p{margin:2px 0 0;font-size:13px;color:var(--fg2)}
+/* ---------- trading agent ---------- */
+.ag-hero{background:radial-gradient(520px 260px at 0% 0%,var(--acc-bg),transparent 70%),radial-gradient(420px 260px at 100% 100%,color-mix(in srgb,var(--accent-b) 10%,transparent),transparent 70%),var(--card)}
+.ag-top{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.ag-top b{display:block;font-family:var(--display);font-size:17px}.ag-top .dim{font-size:12.5px}
+.ag-bot{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--grad);color:#fff;flex:none;box-shadow:0 8px 22px color-mix(in srgb,var(--accent-b) 30%,transparent)}
+.ag-bot svg{width:24px;height:24px}
+#ag-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr);gap:14px 28px;align-items:end}
+.ag-hero-v .k,.ag-cmp .k,.ag-stats .k{display:block;font-size:12px;font-weight:700;color:var(--fg3)}
+.ag-hero-v b{display:block;font-family:var(--display);font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.ag-hero-v>span:last-child{font-weight:800;font-size:16px}
+.ag-cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ag-cmp>div{padding:12px;border-radius:14px;background:var(--bg2);border:1px solid var(--line)}
+.ag-cmp b{display:block;font-size:19px;font-weight:800}.ag-cmp span.n{font-weight:700;font-size:13px}
+.ag-verdict{grid-column:1/-1;justify-self:start;font-weight:800;font-size:14px;padding:8px 14px;border-radius:999px}
+.ag-verdict.win{background:var(--up-bg);color:var(--up)}.ag-verdict.lose{background:var(--down-bg);color:var(--down)}
+.ag-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}
+.ag-stats>div{padding:10px 0;border-bottom:1px solid var(--line)}.ag-stats b{display:block;font-size:17px;font-weight:800;margin-top:2px}
+.ag-pos{padding:12px 0;border-bottom:1px solid var(--line)}.ag-pos:last-child{border:0}
+.ag-pos-h{display:flex;gap:10px;align-items:center}.ag-pos-h .pchip{margin-left:auto}
+.ag-sym{font-family:var(--display);font-weight:800;color:var(--fg);text-decoration:none}
+.ag-pos-n{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:13px;color:var(--fg2);margin-top:6px}.ag-pos-n b{color:var(--fg)}
+.ag-why{margin:6px 0 0;font-size:13px;color:var(--fg2);line-height:1.45}
+.ag-log{display:flex;flex-direction:column}
+.ag-tr{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}.ag-tr:last-child{border:0}
+.ag-side{font:800 11px/1 var(--sans);letter-spacing:.06em;padding:6px 0;border-radius:8px;text-align:center}
+.ag-tr.buy .ag-side{background:var(--up-bg);color:var(--up)}.ag-tr.sell .ag-side{background:var(--down-bg);color:var(--down)}
+.ag-tr-t{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:700}
+.ag-when{font-size:12px;white-space:nowrap}
+.ag-rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--fg2);font-size:14px}
+@media (max-width:760px){#ag-hero{grid-template-columns:minmax(0,1fr)}.ag-tr{grid-template-columns:52px minmax(0,1fr)}.ag-when{grid-column:2}}
+/* ---------- news analysis ---------- */
+.nb-ai{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:14px;padding:16px;border-radius:16px;background:radial-gradient(400px 200px at 0% 0%,var(--acc-bg),transparent 70%),var(--bg2);border:1px solid var(--acc-line)}
+.nb-ai p{margin:4px 0 10px;color:var(--fg2);font-size:13.5px;max-width:70ch}
+.nb-ai-c{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.ns{display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.ns::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--fg3)}
+.ns.ns-pos::before{background:var(--up)}.ns.ns-neg::before{background:var(--down)}.ns.ns-mix::before{background:var(--warn)}
+.ns-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.ns-imp{display:inline-flex;gap:6px;align-items:center;font-weight:800;color:var(--fg2)}
+.ns-dir{font-weight:800;padding:3px 9px;border-radius:999px;font-size:12px}
+.ns-dir.pos{background:var(--up-bg);color:var(--up)}.ns-dir.neg{background:var(--down-bg);color:var(--down)}.ns-dir.mix{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.ns h3{font-size:clamp(17px,2vw,20px);line-height:1.3;letter-spacing:-.01em}
+.ns h3 a{color:var(--fg);text-decoration:none}.ns h3 a:hover{text-decoration:underline}
+.ns-sec h4{margin:0 0 4px;font:800 12.5px/1.2 var(--sans);color:var(--fg3);text-transform:uppercase;letter-spacing:.05em;display:flex;gap:8px;align-items:center}
+.ns-sec p{margin:0;font-size:15px;line-height:1.55;max-width:75ch}
+.ns-sec small{display:block;margin-top:4px;font-size:11.5px}
+.ns-sec.ai{padding:12px 14px;border-radius:12px;background:var(--bg2);border:1px solid var(--line)}
+.ns-chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px}
+.ns-chips a.ctag{text-decoration:none;color:var(--fg)}.ns-chips a.ctag:hover{border-color:var(--acc-line);color:var(--accent)}
+.ns-f{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+.ns-src{font-size:12px;color:var(--fg3)}.ns-src a{color:var(--fg2)}
+.ns-overall{margin:0 0 10px;font-size:15px}
+.ns-ai-list{display:flex;flex-direction:column;gap:10px}
+.ns-ai-i{padding:12px 14px 12px 16px;border-radius:12px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+.ns-ai-i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--warn)}.ns-ai-i.ns-pos::before{background:var(--up)}.ns-ai-i.ns-neg::before{background:var(--down)}
+.ns-ai-i h4{margin:8px 0 4px;font:800 15.5px/1.3 var(--sans)}.ns-ai-i p{margin:0 0 6px;font-size:14px;color:var(--fg2)}.ns-why b{color:var(--fg)}
+/* ---------- motion (GPU-only: opacity + transform, no blur, no full-page snapshots) ---------- */
+:root{--ease-out:cubic-bezier(.22,1,.36,1);--ease-in:cubic-bezier(.4,0,1,1);--spring:cubic-bezier(.34,1.3,.64,1)}
+#view.a-pre,#view.a-pre-tab>.tabs~*,.a-pre{opacity:0}
+#view.a-fade{animation:pgIn .34s var(--ease-out) both}
+#view.a-fwd{animation:pgInR .36s var(--ease-out) both}
+#view.a-back{animation:pgInL .36s var(--ease-out) both}
+#view.a-tab>.tabs~*{animation:pgIn .3s var(--ease-out) both}
+#view.a-fade,#view.a-fwd,#view.a-back{will-change:opacity,transform}
+@keyframes pgIn{from{opacity:0;transform:translate3d(0,10px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes pgInR{from{opacity:0;transform:translate3d(26px,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes pgInL{from{opacity:0;transform:translate3d(-26px,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes rise{from{opacity:0;transform:translate3d(0,8px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-bg{background:rgba(4,6,12,.72);animation:bgIn .24s ease-out both}
+.modal{animation:modalIn .36s var(--ease-out) both;will-change:transform,opacity}
+.modal-bg.out{animation:bgOut .18s ease-in both}.modal-bg.out .modal{animation:modalOut .18s var(--ease-in) both}
+.modal-bg.still,.modal-bg.still .modal{animation:none}
+@keyframes bgIn{from{opacity:0}to{opacity:1}}@keyframes bgOut{from{opacity:1}to{opacity:0}}
+@keyframes modalIn{from{opacity:0;transform:translate3d(0,18px,0) scale(.97)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+@keyframes modalOut{from{opacity:1;transform:translate3d(0,0,0)}to{opacity:0;transform:translate3d(0,10px,0) scale(.985)}}
+.sheet-bg{animation:bgIn .24s ease-out both}.sheet{animation:sheetIn .38s var(--ease-out) both;will-change:transform}
+.sheet-bg.out{animation:bgOut .2s ease-in both}.sheet-bg.out .sheet{animation:sheetOut .2s var(--ease-in) both}
+@keyframes sheetIn{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}@keyframes sheetOut{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,100%,0)}}
+.btn{transition:transform .14s var(--ease-out),filter .2s,border-color .2s,background-color .2s,color .2s}
+.btn:active:not(:disabled){transform:scale(.96)}
+.tile{transition:border-color .2s,transform .25s var(--ease-out)}
+.cc{transition:border-color .2s,transform .25s var(--ease-out)}
+.tile:active,.cc:active{transform:scale(.98)}
+.tabs button{transition:background-color .2s,color .2s,border-color .2s,transform .14s var(--ease-out)}
+.tabs button:active,.seg button:active,.fchips button:active{transform:scale(.95)}
+.seg button{transition:background-color .2s,color .2s,box-shadow .2s,transform .14s var(--ease-out)}
+.tabsnav a.on::after{animation:uline .4s var(--ease-out) both;transform-origin:center}
+@keyframes uline{from{transform:scaleX(.2);opacity:0}to{transform:scaleX(1);opacity:1}}
+.bnav .on svg{animation:pop .42s var(--spring) both}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.toast{animation:rise .32s var(--ease-out) both}
+.qres:not([hidden]){animation:rise .22s var(--ease-out) both}
+.help p,.kd p,.cat-d p,.desc-d .desc{animation:fadeIn .25s ease-out both}
+/* ---------- calendar (Apple-style views) ---------- */
+:root{--k-cb:#A78BFA;--k-macro:#5EA8FF;--k-crypto:var(--accent);--k-market:#34D399;--k-custom:#F472B6;--k-hours:#8B93A7}
+:root[data-theme="light"]{--k-cb:#7C3AED;--k-macro:#2563EB;--k-market:#059669;--k-custom:#DB2777;--k-hours:#64748B}
+.k-cb{--kc:var(--k-cb)}.k-macro{--kc:var(--k-macro)}.k-crypto{--kc:var(--k-crypto)}.k-market{--kc:var(--k-market)}.k-custom{--kc:var(--k-custom)}.k-hours{--kc:var(--k-hours)}
+.cal{--lw:54px;padding:18px 18px 16px;overflow:hidden}
+.cal-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cal-crumb{display:block;border:0;background:none;color:var(--accent);font:700 13.5px/1.2 var(--sans);padding:0;margin:0 0 4px;cursor:pointer}
+.cal-title{font-size:clamp(26px,3.6vw,36px);font-weight:800;letter-spacing:-.035em;line-height:1.05;text-transform:capitalize}
+.cal-title span{color:var(--accent)}
+.cal-title small{font-family:var(--sans);font-size:13px;color:var(--fg3);font-weight:700;margin-left:10px;letter-spacing:0;text-transform:none}
+.cal-nav{display:flex;gap:6px;align-items:center}
+.cal-nav .icon-btn{font-size:20px;font-weight:600;color:var(--fg);line-height:1}
+.cal-nav .icon-btn.add{background:var(--grad);border-color:transparent;color:#fff;font-size:22px}
+.cal-seg{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:3px;margin:16px 0 12px}
+.cal-seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/var(--n));border-radius:9px;background:var(--card2);box-shadow:0 1px 3px rgba(0,0,0,.3),inset 0 0 0 1px var(--line2);transform:translateX(calc(var(--i)*100%));transition:transform .5s var(--spring)}
+.cal-seg button{position:relative;border:0;background:none;padding:8px 4px;font:700 13px/1.2 var(--sans);color:var(--fg2);cursor:pointer;border-radius:9px;transition:color .25s}
+.cal-seg button.on{color:var(--fg)}
+.cal-cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+.cal-cats::-webkit-scrollbar{display:none}
+.cal-cat{display:inline-flex;align-items:center;gap:7px;flex:none;border:1px solid var(--line);background:none;color:var(--fg3);border-radius:999px;padding:5px 11px;font:700 12px/1.2 var(--sans);cursor:pointer;transition:color .2s,border-color .2s,background-color .2s,transform .16s var(--ease-out)}
+.cal-cat i{width:9px;height:9px;border-radius:50%;border:2px solid var(--kc);transition:background-color .2s}
+.cal-cat.on{color:var(--fg);border-color:var(--line2);background:var(--card2)}.cal-cat.on i{background:var(--kc)}
+.cal-cat:active{transform:scale(.95)}
+.cal-body.a-pre,.cal-list.a-pre{opacity:0}
+.cal-body.a-next{animation:calNext .34s var(--ease-out) both}.cal-body.a-prev{animation:calPrev .34s var(--ease-out) both}
+.cal-body.a-zin{animation:calZin .36s var(--ease-out) both}.cal-body.a-zout{animation:calZout .36s var(--ease-out) both}.cal-body.a-fade,.cal-list.a-fade{animation:rise .3s var(--ease-out) both}
+.cal-body[class*="a-"]{will-change:transform,opacity}
+@keyframes calNext{from{opacity:0;transform:translate3d(30px,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}@keyframes calPrev{from{opacity:0;transform:translate3d(-30px,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes calZin{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}@keyframes calZout{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}
+.cal-wd{border:0;background:none;color:var(--fg3);font:700 11.5px/1.2 var(--sans);display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0 8px;cursor:pointer;text-transform:capitalize;min-width:0}
+.cal-wd b{font:700 17px/1 var(--display);color:var(--fg);width:34px;height:34px;display:grid;place-items:center;border-radius:50%;transition:background-color .25s,color .25s,transform .3s var(--spring)}
+.cal-wd:hover b{background:var(--card2)}
+.cal-wd.today b{color:var(--accent)}
+.cal-wd.sel b{background:var(--fg);color:var(--bg)}
+.cal-wd.today.sel b,.cal-wh .cal-wd.today b{background:var(--accent);color:#fff}
+.cal-wd .dots{display:flex;gap:3px;height:5px}.cal-wd .dots i{width:5px;height:5px;border-radius:50%;background:var(--kc)}
+.cal-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+.cal-dayt{font:700 14px/1.3 var(--sans);color:var(--fg2);margin:6px 0 10px}
+.cal-wh{display:grid;grid-template-columns:var(--lw) repeat(var(--n),minmax(0,1fr))}
+.cal-ad{display:grid;grid-template-columns:var(--lw) repeat(var(--n),minmax(0,1fr));border-top:1px solid var(--line);padding:4px 0}
+.cal-ad-l{font-size:10.5px;color:var(--fg3);font-weight:700;align-self:center}
+.cal-ad>div{min-width:0}
+.cal-pill{display:block;width:calc(100% - 4px);margin:1px 2px;border:0;border-left:3px solid var(--kc);text-align:left;border-radius:6px;padding:3px 6px;font:700 11px/1.3 var(--sans);color:var(--fg);background:color-mix(in srgb,var(--kc) 22%,var(--card));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.cal-scroll{position:relative;max-height:min(64vh,760px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-top:1px solid var(--line);padding-top:10px;scroll-behavior:auto}
+.cal-grid{position:relative}
+.cal-hr{position:absolute;left:0;right:0;border-top:1px solid var(--line)}
+.cal-hr span{position:absolute;left:0;top:-8px;width:calc(var(--lw) - 8px);text-align:right;font-size:11px;font-weight:600;color:var(--fg3);font-variant-numeric:tabular-nums}
+.cal-cols{position:absolute;top:0;bottom:0;left:var(--lw);right:0;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.cal-col{position:relative;border-left:1px solid var(--line);min-width:0}
+.cal-col.today{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.cal-sess{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--k-hours) 11%,transparent) 0 6px,transparent 6px 12px);border-left:2px solid color-mix(in srgb,var(--k-hours) 55%,transparent);pointer-events:none}
+.cal-sess span{position:absolute;right:5px;bottom:4px;font-size:10px;font-weight:700;color:var(--fg3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 10px)}
+.cal-ev{position:absolute;border:0;border-left:3px solid var(--kc);border-radius:7px;background:color-mix(in srgb,var(--kc) 22%,var(--card));color:var(--fg);text-align:left;padding:3px 6px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;gap:1px;font:inherit;z-index:1;transition:transform .25s var(--ease-out),box-shadow .25s,z-index 0s}
+.cal-ev b{flex:none;font-size:11.5px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-ev time{font-weight:700;color:var(--fg2);margin-right:3px}
+.cal-ev span{font-size:10.5px;color:var(--fg2);font-weight:700}
+.cal-ev.hi{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--kc) 60%,transparent)}
+.cal-ev.past{opacity:.55}
+.cal-ev:hover,.cal-ev:focus-visible{z-index:4;transform:scale(1.03);box-shadow:0 10px 24px rgba(0,0,0,.32)}
+.cal-now{position:absolute;left:0;right:0;height:2px;background:var(--down);z-index:3;pointer-events:none;box-shadow:0 0 10px color-mix(in srgb,var(--down) 60%,transparent)}
+.cal-now::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--down)}
+.cal-now-l{position:absolute;left:0;width:calc(var(--lw) - 6px);text-align:right;font-size:11px;font-weight:800;color:var(--down);transform:translateY(-50%);z-index:3;background:var(--card);padding:1px 0}
+.cal-mh{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));font:800 11px/1 var(--sans);color:var(--fg3);text-align:right;padding:0 8px 8px 0;text-transform:uppercase;letter-spacing:.05em}
+.cal-mh span{padding-right:8px}
+.cal-mg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line)}
+.cal-mc{min-height:118px;border:0;border-bottom:1px solid var(--line);border-right:1px solid var(--line);background:none;color:var(--fg);text-align:left;padding:5px;display:flex;flex-direction:column;gap:3px;cursor:pointer;min-width:0;font:inherit;transition:background-color .25s}
+.cal-mc:nth-child(7n){border-right:0}
+.cal-mc:hover{background:color-mix(in srgb,var(--fg) 3.5%,transparent)}
+.cal-mc.out .cal-mn{color:var(--fg3);opacity:.6}
+.cal-mn{font:700 13.5px/1 var(--sans);width:28px;height:28px;display:grid;place-items:center;border-radius:50%;align-self:flex-end;flex:none;transition:background-color .25s,color .25s}
+.cal-mc.today .cal-mn{color:var(--accent)}
+.cal-mc.sel .cal-mn{background:var(--fg);color:var(--bg)}
+.cal-mc.today.sel .cal-mn{background:var(--accent);color:#fff}
+.cal-mp{display:block;font:700 11px/1.35 var(--sans);padding:2px 5px;border-radius:5px;background:color-mix(in srgb,var(--kc) 18%,transparent);border-left:2px solid var(--kc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fg)}
+.cal-mp em{font-style:normal;color:var(--fg2);margin-right:4px;font-variant-numeric:tabular-nums}
+.cal-mmore{font-size:10.5px;color:var(--fg3);font-weight:700;padding-left:4px}
+.cal-mdots{display:none;gap:3px;justify-content:center;height:5px}.cal-mdots i{width:5px;height:5px;border-radius:50%;background:var(--kc)}
+.cal-yg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 22px;padding-top:4px}
+.cal-ym{display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;border:0;background:none;color:var(--fg);text-align:left;padding:10px;border-radius:16px;cursor:pointer;font:inherit;transition:background-color .25s,transform .35s var(--ease-out)}
+.cal-ym:hover{background:var(--card2);transform:translateY(-2px)}
+.cal-ym h4{margin:0 0 8px;font:700 16px/1.1 var(--display);color:var(--fg);text-transform:capitalize}
+.cal-ym.cur h4{color:var(--accent)}
+.cal-ymg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px 0;font:600 10.5px/1 var(--sans);text-align:center;color:var(--fg2)}
+.cal-ymg i{font-style:normal;position:relative;display:grid;place-items:center;height:19px;width:19px;margin:auto;border-radius:50%}
+.cal-ymg i.t{background:var(--accent);color:#fff;font-weight:800}
+.cal-ymg i.h3::after,.cal-ymg i.h2::after{content:"";position:absolute;left:50%;bottom:-3px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent)}
+.cal-ymg i.h2::after{background:var(--fg3)}
+.cal-list{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.cal-list h3{font-size:16px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cal-list h3 .dim{font-family:var(--sans);font-size:12.5px;font-weight:700;text-transform:none}
+.cal-li{display:grid;grid-template-columns:70px 4px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;border:0;background:none;color:var(--fg);text-align:left;padding:10px 8px;border-radius:12px;cursor:pointer;font:inherit;transition:background-color .2s,transform .2s var(--ease-out)}
+.cal-li:hover{background:var(--card2)}
+.cal-li:active{transform:scale(.99)}
+.cal-li.past{opacity:.6}
+.cal-li .w{font-size:12px;font-weight:700;color:var(--fg2);line-height:1.3;font-variant-numeric:tabular-nums}.cal-li .w b{display:block;color:var(--fg);font-size:13.5px;text-transform:capitalize}
+.cal-li .bar{width:4px;align-self:stretch;border-radius:2px;background:var(--kc);min-height:30px}
+.cal-li .tt{font-weight:700;font-size:14.5px;line-height:1.3;min-width:0}.cal-li .tt small{display:block;color:var(--fg3);font-weight:600;font-size:12px;margin-top:2px}
+.cal-li .r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.cal-agh{font:800 13px/1.3 var(--sans);color:var(--fg2);padding:14px 8px 4px;border-top:1px solid var(--line);margin-top:6px}
+.cal-agh:first-of-type{border-top:0;margin-top:0}
+.cal-agh.today{color:var(--accent)}
+.cev .modal-h h2{font-size:clamp(24px,4vw,32px);margin-top:8px}
+.cev-tag{display:inline-flex;align-items:center;gap:7px;font:800 11.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--kc)}
+.cev-tag i{width:10px;height:10px;border-radius:50%;background:var(--kc)}
+.modal.cev{border-top:4px solid var(--kc)}
+.cev-when{display:flex;flex-direction:column;gap:2px;margin-top:14px;padding:14px;border-radius:14px;background:var(--bg2);border:1px solid var(--line)}
+.cev-when b{font-size:16px}.cev-when span{color:var(--fg2);font-weight:700}
+.cev-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:14px}
+.cev-imp{display:inline-flex;gap:8px;align-items:center;font-weight:700}
+.cev-why{margin-top:14px}.cev-why h3{font-size:15px;margin:0 0 4px}.cev-why p{margin:0;color:var(--fg2);max-width:65ch}
+.cev-f{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}.cev-f .dim{font-size:12px;flex:1 1 220px}
+.cn-form{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.cn-form label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:13px;color:var(--fg2)}
+.cn-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:1050px){.cal-yg{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){
+  .cal{--lw:40px;padding:14px 12px 14px}
+  .cal-title small{display:block;margin:4px 0 0}
+  .cal-nav{width:100%;justify-content:flex-end}
+  .cal-nav .btn{margin-right:auto}
+  .cal-seg button{font-size:12.5px;padding:8px 2px}
+  .cal-wd b{width:30px;height:30px;font-size:15px}
+  .cal-wh .cal-wd{font-size:10px}
+  .cal-wh .cal-wd b{width:26px;height:26px;font-size:13.5px}
+  .n7 .cal-ev{padding:2px 3px;border-left-width:2px}
+  .n7 .cal-ev b{font-size:9.5px;white-space:normal;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .n7 .cal-ev time,.n7 .cal-sess span{display:none}
+  .cal-hr span{font-size:10px}
+  .cal-mh{text-align:center;padding:0 0 8px}.cal-mh span{padding:0}
+  .cal-mc{min-height:56px;align-items:center;padding:6px 2px;border-right:0;gap:5px}
+  .cal-mn{align-self:center;width:30px;height:30px;font-size:15px}
+  .cal-mp,.cal-mmore{display:none}.cal-mdots{display:flex}
+  .cal-yg{gap:10px 6px}.cal-ym{padding:4px}.cal-ym h4{font-size:13px;margin-bottom:5px}
+  .cal-ymg{font-size:8.5px;gap:2px 0}.cal-ymg i{width:14px;height:14px}
+  .cal-li{grid-template-columns:52px 4px minmax(0,1fr) auto;gap:9px;padding:9px 4px}
+  .cal-li .tt{font-size:14px}
+  .cn-row{grid-template-columns:1fr}
+}
 /* ---------- greeting line ---------- */
 .today-hi .motto{font-family:var(--display);font-weight:600;font-size:clamp(16px,1.7vw,19px);line-height:1.32;letter-spacing:-.015em;color:var(--fg);margin:-4px 0 0;max-width:38ch;text-wrap:balance;min-height:1.32em}
 .today-hi .motto.in{animation:mottoIn .7s ease-out both}
@@ -838,7 +1069,7 @@ const store = {
   keys(){ try{ return Object.keys(localStorage).filter(k=>k.startsWith('bro.')); }catch(e){ return []; } },
   clear(){ this.keys().forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} }); }
 };
-const ALL_PAGES = ['market','trade','leaders','news','calendar','fng','watchlist','alerts','learn'];
+const ALL_PAGES = ['market','trade','agent','leaders','news','calendar','fng','watchlist','alerts','learn'];
 const DEF = {lang:'no', theme:'dark', accent:'#FF8A00', size:'n', mode:'simple', greet:'Hello sir', start:'home', pages:ALL_PAGES.slice(), hidden:[], favs:['bitcoin','ethereum','solana'], watch:['bitcoin','ethereum','solana'], meta:{bitcoin:'btc',ethereum:'eth',solana:'sol'}, cur:'usd', tz:'Europe/Oslo', refresh:60, minVol:2000000, evAlert:30, feedsOff:[], customFeeds:[], aiKey:'', aiModel:'claude-sonnet-5-5', cgKey:'', r2jKey:''};
 const S = Object.assign({}, DEF, store.get('settings', {}));
 ['pages','hidden','favs','watch','feedsOff','customFeeds'].forEach(k => { if(!Array.isArray(S[k])) S[k] = DEF[k].slice(); });
@@ -1081,7 +1312,8 @@ async function fetchFeed(f, useJina){
       st.route.push('jina'+(added?` +${added}`:'')); if(!items.length && !fresh.length) st.err += (st.err?' · ':'')+'jina: empty'; }
     catch(e){ st.err += (st.err?' · ':'')+'jina: '+e.message; }
   }
-  items.forEach(x => { x.src = f.name; x.srcId = f.id; x.kind = f.kind; x.id = f.id+'|'+normT(x.title); if(x.searchLink || !x.link) { x.link = 'https://www.google.com/search?q='+encodeURIComponent('"'+x.title+'" '+f.name); x.searchLink = true; } });
+  if(f.gnews) items.forEach(x => { const m = String(x.title).match(/^(.*\S)\s+-\s+([^-]{2,60})$/); if(m){ x.title = m[1]; x.gsrc = m[2].trim(); } if(normT(x.desc).startsWith(normT(x.title).slice(0,30))) x.desc = ''; });
+  items.forEach(x => { x.src = x.gsrc || f.name; x.srcId = f.id; x.kind = f.kind; x.id = f.id+'|'+normT(x.title); if(x.searchLink || !x.link) { x.link = 'https://www.google.com/search?q='+encodeURIComponent('"'+x.title+'" '+f.name); x.searchLink = true; } });
   st.n = items.length; st.newest = Math.max(0, ...items.map(x=>x.t||0)); st.ok = items.length > 0;
   D.feedSt[f.id] = st;
   return items;
@@ -1527,6 +1759,7 @@ function tile(p){
     if(p==='watchlist') pv = t('tile_watch',{n:S.watch.length});
     if(p==='alerts') pv = t('tile_alerts',{n:store.get('alerts',[]).filter(a=>!a.fired).length});
     if(p==='learn') pv = t('tile_course', coursePct());
+    if(p==='agent' && agState){ const N = agNow(); pv = t('tile_agent', {r:fmtPct((N.eq/1000-1)*100,1), b:fmtPct((N.btc/1000-1)*100,1)}); }
     if(p==='trade'){ const an = btcTech(); pv = an ? t('tile_trade',{t:t('tr_trend_v')[an.trend], s:an.sups[0]?fmtCur(an.sups[0].price,{cur:'usd'}):'—'}) : t('d_trade'); }
   }catch(e){}
   return `<a class="tile" href="#${p}"><span class="tile-ic">${ico(p)}</span><span class="tile-t">${esc(t('p_'+p))}</span><span class="tile-p">${esc(pv||' ')}</span><span class="tile-d">${esc(t('d_'+p))}</span><span class="arr">→</span></a>`;
@@ -1644,18 +1877,20 @@ V.leaders = () => pageHead(t('p_leaders'), esc(t('lead_lead')) + ' ' + esc(t('co
   + `<p class="dim" style="font-size:13px;margin:0">${esc(t('lb_minvol',{v:fmtCur(S.minVol*(usdRate()||1),{compact:true})}))}</p>${simple()?help('volatility'):''}`;
 
 /* ---- News ---- */
-function topNews(n){ return D.news.filter(x => Date.now()-x.t < 24*HOUR && x.kind==='crypto').sort((a,b)=>b.score-a.score).slice(0,n); }
+function topNews(n){ return D.news.filter(x => Date.now()-x.t < 24*HOUR && x.kind==='crypto' && isRelevant(x)).sort((a,b)=>b.score-a.score).slice(0,n); }
 function newsLi(n, desc){
   return `<div class="li"><div class="li-m"><a class="t" href="${esc(safeUrl(n.link))}" target="_blank" rel="noopener">${esc(n.title)}</a>${desc&&n.desc?`<div class="d">${esc(n.desc)}</div>`:''}
     <div class="meta"><b style="color:var(--fg2)">${esc(n.src)}</b><span data-ago="${n.t}">${esc(ago(n.t))}</span>${n.searchLink?`<span>↗ ${esc(t('search_link'))}</span>`:''}${n.topics.slice(0,simple()?2:3).map(x=>`<span class="tag ${['macro','etf','reg','sec'].includes(x)?'hot':''}">${esc(t('topics.'+x))}</span>`).join('')}${(n.people||[]).slice(0,2).map(p=>`<span class="tag hot">${esc(p)}</span>`).join('')}</div></div></div>`;
 }
 V.news = () => {
   const tab = UI.tab.news; let body = '';
+  if(tab==='brief') body = newsBriefHTML();
   if(tab==='top') body = `<section class="card"><div class="card-h"><h2>${esc(t('t_top'))}</h2>${badge('interp')}</div><div class="list">${topNews(12).map(n=>newsLi(n,true)).join('')||errOr('news', t('ds.news'))}</div><div class="src">${esc(t('top_note'))}</div></section>`;
   if(tab==='all'){
-    const feeds = allFeeds(); const list = D.news.filter(n => (UI.newsSrc==='all' || n.srcId===UI.newsSrc) && (UI.newsTopic==='all' || n.topics.includes(UI.newsTopic)));
+    const feeds = allFeeds(); const nHid = D.news.filter(n => !isRelevant(n)).length; const list = D.news.filter(n => (UI.newsAll || isRelevant(n)) && (UI.newsSrc==='all' || n.srcId===UI.newsSrc) && (UI.newsTopic==='all' || n.topics.includes(UI.newsTopic)));
     body = `<section class="card"><div class="fchips" style="margin-bottom:8px"><button data-act="news-src" data-s="all" class="${UI.newsSrc==='all'?'on':''}">${esc(t('all_sources'))}</button>${feeds.map(f=>`<button data-act="news-src" data-s="${esc(f.id)}" class="${UI.newsSrc===f.id?'on':''}">${esc(f.name)}</button>`).join('')}</div>
       <div class="fchips" style="margin-bottom:6px"><button data-act="news-topic" data-tp="all" class="${UI.newsTopic==='all'?'on':''}">${esc(t('all_topics'))}</button>${TOPICS.map(x=>`<button data-act="news-topic" data-tp="${x.id}" class="${UI.newsTopic===x.id?'on':''}">${esc(t('topics.'+x.id))}</button>`).join('')}</div>
+      ${nHid ? `<div style="margin:2px 0 6px"><button class="btn sm ghost" data-act="ns-all">${esc(UI.newsAll ? t('nb_hide') : t('nb_show_all', nHid))}</button></div>` : ''}
       <div class="list">${list.length?list.slice(0,120).map(n=>newsLi(n,!simple())).join(''):(D.news.length?`<div class="empty">${esc(t('no_news'))}</div>`:errOr('news', t('ds.news')))}</div></section>`;
   }
   if(tab==='macro'){ const m = D.news.filter(n => n.kind==='macro' || n.topics.includes('macro')).slice(0,40); body = `<section class="card"><div class="list">${m.length?m.map(n=>newsLi(n,true)).join(''):errOr('news', t('ds.news'))}</div>${simple()?help('fomc'):''}</section>`; }
@@ -1673,7 +1908,7 @@ V.news = () => {
       <div class="list">${rd.length?rd.slice(0,15).map(x=>`<div class="li"><div class="li-m"><a class="t" href="${esc(safeUrl(x.link))}" target="_blank" rel="noopener">${esc(x.title)}</a><div class="meta"><span data-ago="${x.t}">${esc(ago(x.t))}</span>${x.author?`<span>${esc(x.author)}</span>`:''}</div></div></div>`).join(''):errOr('social','Reddit')}</div></article></section>
     <section class="card"><div class="card-h"><h2>${esc(t('people_news'))}</h2></div><p class="dim" style="margin:-4px 0 6px;font-size:13px">${esc(t('people_d'))}</p><div class="list">${ppl.length?ppl.map(n=>newsLi(n,false)).join(''):errOr('news', t('ds.news'))}</div></section>`;
   }
-  return pageHead(t('p_news'), esc(t('news_lead')), `<span class="dim" style="font-size:13px">${esc(t('updated'))} <span data-ago="${D.newsAt}">${esc(ago(D.newsAt))}</span></span>`) + tabs('news', [['top',t('t_top')],['all',t('t_allnews')],['macro',t('t_macro')],['people',t('t_people')]]) + body;
+  return pageHead(t('p_news'), esc(t('news_lead')), `<span class="dim" style="font-size:13px">${esc(t('updated'))} <span data-ago="${D.newsAt}">${esc(ago(D.newsAt))}</span></span>`) + tabs('news', [['brief',t('t_brief')],['top',t('t_top')],['all',t('t_allnews')],['macro',t('t_macro')],['people',t('t_people')]]) + body;
 };
 
 /* ---- Calendar ---- */
@@ -1685,22 +1920,9 @@ function eventLi(e, compact){
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="cd n" data-cd="${e.at}">${esc(countdown(e.at-Date.now()))}</span>${!compact&&e.kind==='custom'?`<button class="btn sm ghost" data-act="ev-del" data-id="${esc(e.id)}">${esc(t('del'))}</button>`:''}</div></div>`;
 }
 V.calendar = () => {
-  const tab = UI.tab.calendar; let body = '';
-  if(tab==='events'){
-    const now = Date.now(), H = UI.calH;
-    const ev = allEvents().filter(e => e.at >= now - HOUR && e.at <= now + H*DAY && (UI.calCat==='all' || e.cat===UI.calCat));
-    const groups = {}; ev.forEach(e => { const k = ymdIn(new Date(e.at)); (groups[k] = groups[k] || []).push(e); });
-    const big = ev.filter(e => e.imp===3).slice(0,3);
-    body = `<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between"><div class="seg">${[[1,t('h24')],[7,t('h7')],[30,t('h30')],[90,t('h90')]].map(([h,l])=>`<button data-act="cal-h" data-h="${h}" class="${H===h?'on':''}">${esc(l)}</button>`).join('')}</div>
-      <div class="fchips">${['all','cb','macro','crypto','market','custom'].map(c=>`<button data-act="cal-cat" data-c="${c}" class="${UI.calCat===c?'on':''}">${esc(t('cat_'+c))}</button>`).join('')}</div></div>
-    ${big.length?`<section class="card" style="border-color:var(--acc-line)"><div class="card-h"><h2>${esc(t('watch_close'))}</h2></div><div class="g3">${big.map(e=>`<div><div style="font-weight:800;font-size:16px">${esc(evTitle(e))}</div><div class="muted" style="font-size:13.5px">${esc(dayWord(e.at))} · ${esc(fmtTime(new Date(e.at)))}</div><div class="cd n" style="font-size:22px;margin-top:4px" data-cd="${e.at}">${esc(countdown(e.at-now))}</div></div>`).join('')}</div></section>`:''}
-    <section class="card">${Object.keys(groups).length?Object.entries(groups).map(([k,list])=>`<h3 style="font-size:15px;margin:14px 0 2px;color:var(--fg2);font-family:var(--sans);font-weight:800">${esc(fmtDate(new Date(list[0].at)))}</h3><div class="list">${list.map(e=>eventLi(e,false)).join('')}</div>`).join(''):`<div class="empty">${esc(t('no_cal'))}${(() => { const n = upcoming(400*DAY, 2)[0]; return n ? `<br><br>${esc(t('chip_next'))}: <b>${esc(evTitle(n))}</b> · ${esc(whenWords(n.at))}` : ''; })()}</div>`}</section>
-    <section class="card"><div class="card-h"><h2>${esc(t('add_event'))}</h2>${UI.evForm?'':`<button class="btn" data-act="ev-form">${esc(t('add'))}</button>`}</div>
-      ${UI.evForm?`<form class="form" id="ev-form"><div class="fld" style="flex:2 1 220px"><label for="ev-t">${esc(t('ev_title'))}</label><input class="inp" id="ev-t" required maxlength="120"></div><div class="fld"><label for="ev-d">${esc(t('ev_date'))}</label><input class="inp" id="ev-d" type="date" required value="${ymdIn(new Date())}"></div><div class="fld"><label for="ev-h">${esc(t('ev_time'))}</label><input class="inp" id="ev-h" type="time" value="14:30" required></div><div class="fld"><label for="ev-i">${esc(t('ev_imp'))}</label><select class="inp" id="ev-i"><option value="3">${esc(t('imp3'))}</option><option value="2" selected>${esc(t('imp2'))}</option><option value="1">${esc(t('imp1'))}</option></select></div><button class="btn pri" type="submit">${esc(t('save'))}</button><button class="btn ghost" type="button" data-act="ev-form">${esc(t('cancel'))}</button></form>`:''}
-      <div class="src">${esc(t('cal_src'))} ${Object.values(SRC).map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')}</div></section>`;
-  }
-  if(tab==='hours') body = `<p class="lead">${esc(t('hours_lead', S.tz))}</p><section class="card">${hoursTimelineHTML()}</section><section class="card">${hoursTable()}</section>`;
-  return pageHead(t('p_calendar'), esc(t('cal_lead'))) + tabs('calendar', [['events',t('t_events')],['hours',t('t_hours')]]) + body;
+  if(UI.tab.calendar !== 'hours') UI.tab.calendar = 'cal';
+  const body = UI.tab.calendar === 'hours' ? `<p class="lead">${esc(t('hours_lead', S.tz))}</p><section class="card">${hoursTimelineHTML()}</section><section class="card">${hoursTable()}</section>` : calPageHTML();
+  return pageHead(t('p_calendar'), esc(t('cal_lead2'))) + tabs('calendar', [['cal',t('t_cal')],['hours',t('t_hours')]]) + body;
 };
 function hoursTimelineHTML(){
   const [ds, de] = userDay(), now = Date.now(), span = de - ds; const pct = x => ((clamp(x,ds,de)-ds)/span*100).toFixed(3);
@@ -1859,7 +2081,7 @@ function renderView(){
   window.scrollTo(0, sx);
   const tb2 = $('#tl-box'); if(tb2){ if(tbs!=null && sameRoute && Date.now()-(UI.tlTouched||0) < 90000) tb2.scrollTop = tbs; else scrollNow(tb2); }
   if(aid && $('#'+aid) && /INPUT/.test($('#'+aid).tagName) && $('#'+aid).type!=='checkbox'){ const el = $('#'+aid); el.focus(); try{ el.setSelectionRange(sel, sel); }catch(e){} }
-  try{ if(UI.route==='market' && UI.tab.market==='chart') drawPriceChart(); if(UI.route==='fng') drawFngChart(); if(UI.route==='trade') tradeAfterRender(); if(UI.route==='coin') coinAfterRender(); }catch(err){ logErr(err); }
+  try{ if(UI.route==='market' && UI.tab.market==='chart') drawPriceChart(); if(UI.route==='fng') drawFngChart(); if(UI.route==='trade') tradeAfterRender(); if(UI.route==='coin') coinAfterRender(); if(UI.route==='calendar') calAfterRender(); }catch(err){ logErr(err); }
   renderTop();
 }
 function scrollNow(box){ const nl = $('#now-line'); if(!box || !nl) return; D.progScroll = true; box.scrollTop = Math.max(0, nl.offsetTop - 80); setTimeout(() => { D.progScroll = false; }, 150); }
@@ -1871,6 +2093,8 @@ function dataUpdated(){ try{ dataUpdated2(); }catch(err){ logErr(err); } }
 function dataUpdated2(){
   if(UI.route==='trade'){ updateTradeLive(true); return renderTop(); }
   if(UI.route==='coin'){ if(!$('.modal')) coinLiveUpdate(); return renderTop(); }
+  if(UI.route==='calendar' && UI.tab.calendar==='cal'){ calTick(); return renderTop(); }
+  if(UI.route==='agent'){ if(!agState) renderView(); else agUpdateLive(); return renderTop(); }
   if(UI.route==='learn'){ return renderTop(); }
   const ae = document.activeElement;
   if(ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName) && $('#view').contains(ae)){
@@ -1963,7 +2187,7 @@ function checkEventAlerts(){
    ===================================================================== */
 async function askClaude(system, user, search){
   const msgs = [{role:'user', content:user}]; const body = {model:S.aiModel, max_tokens:2500, system, messages:msgs};
-  if(search) body.tools = [{type:'web_search_20250305', name:'web_search', max_uses:5}];
+  if(search) body.tools = [{type:'web_search_20250305', name:'web_search', max_uses: typeof search === 'number' ? search : 5}];
   let text = '', sources = [];
   for(let i=0;i<4;i++){
     const r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'content-type':'application/json','x-api-key':S.aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify(body)});
@@ -2082,17 +2306,17 @@ function onClick(e){
   switch(act){
     case 'refresh': refreshAll(); break;
     case 'status': { const p = $('#status-pop'); p.hidden = !p.hidden; renderStatus(); break; }
-    case 'lang': { setSetting('lang', a.dataset.l); renderView(); const md = $('.modal'); if(md){ if(md.dataset.cq) renderCoinQ(md.dataset.cq); else openHello(); } break; }
+    case 'lang': { setSetting('lang', a.dataset.l); renderView(); const md = $('.modal'); if(md){ if(md.dataset.cq) renderCoinQ(md.dataset.cq); else if($('#hello-body')) openHello(); else closeModal(); const bg = $('.modal-bg'); if(bg) bg.classList.add('still'); } break; }
     case 'set': { e.preventDefault(); setSetting(a.dataset.k, a.dataset.v); renderView(); break; }
     case 'accent': setSetting('accent', a.dataset.a); renderView(); break;
     case 'hello': openHello(); break;
-    case 'close': $('#modal-root').innerHTML = ''; break;
-    case 'modal-bg': if(e.target === a) $('#modal-root').innerHTML = ''; break;
+    case 'close': closeModal(); break;
+    case 'modal-bg': if(e.target === a) closeModal(); break;
     case 'sheet': { $('#sheet-root').innerHTML = `<div class="sheet-bg" data-act="sheet-bg"><div class="sheet"><h3>${esc(t('more'))}</h3><div class="sheet-grid">${['home'].concat(visiblePages(),['settings']).map(p=>`<a href="#${p}">${ico(p)}${esc(t('p_'+p))}</a>`).join('')}</div><div style="display:flex;justify-content:center;margin-top:14px"><div class="seg">${[['simple',t('simple')],['expert',t('expert')]].map(([v,l])=>`<button data-act="set" data-k="mode" data-v="${v}" class="${S.mode===v?'on':''}">${esc(l)}</button>`).join('')}</div></div></div></div>`; break; }
-    case 'sheet-bg': if(e.target === a) $('#sheet-root').innerHTML = ''; break;
+    case 'sheet-bg': if(e.target === a) closeSheet(); break;
     case 'ai-brief': aiBrief(); break;
     case 'ai-scan': aiScan(); break;
-    case 'tab': UI.tab[a.dataset.g] = a.dataset.v; renderView(); break;
+    case 'tab': if(UI.tab[a.dataset.g] !== a.dataset.v){ UI.tab[a.dataset.g] = a.dataset.v; withTransition('tab', renderView); } break;
     case 'chart-days': UI.chartDays = +a.dataset.d; renderView(); break;
     case 'chart-to': e.preventDefault(); UI.chartCoin = a.dataset.id; UI.tab.market = 'chart'; $$('.qres').forEach(x=>x.hidden=true); if(UI.route==='market') renderView(); else go('market'); break;
     case 'lb-win': UI.lbWin = a.dataset.w; renderView(); break;
@@ -2151,16 +2375,20 @@ document.addEventListener('submit', e => {
     const al = store.get('alerts', []); al.push({id:Date.now(), type, coin:cid, v, cur:S.cur, fired:0}); store.set('alerts', al); $('#al-list').innerHTML = alertList(); $('#al-val').value = ''; checkAlerts(); toast(t('saved')); }
   if(e.target.id==='feed-form'){ const name = $('#fd-n').value.trim(), url = $('#fd-u').value.trim(); if(!/^https?:\/\//i.test(url)) return; S.customFeeds.push({id:'u'+Date.now(), name, url, kind:'crypto'}); saveS(); UI.feedForm = false; D.tries.news = 0; renderView(); toast(t('saved')); }
 });
-document.addEventListener('keydown', e => { if(e.key==='Escape'){ $('#modal-root').innerHTML = ''; $('#sheet-root').innerHTML = ''; $$('.qres').forEach(x=>x.hidden=true); } });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeModal(); closeSheet(); $$('.qres').forEach(x=>x.hidden=true); } });
 const VALID = ['home','settings','coin'].concat(ALL_PAGES);
 UI.navN = 0;
 function parseHash(h){ h = String(h||'').replace(/^#/, ''); const i = h.indexOf('/'); let arg = ''; try{ arg = i < 0 ? '' : decodeURIComponent(h.slice(i+1)); }catch(e){ arg = h.slice(i+1); } return {p: i < 0 ? h : h.slice(0, i), arg}; }
 function showPage(p, arg){
+  const prev = UI.route;
   UI.route = VALID.includes(p) ? p : 'home';
   if(UI.route==='coin'){ if(arg) UI.coinId = arg; if(!UI.coinId) UI.route = 'home'; }
-  $('#sheet-root').innerHTML = ''; $('#modal-root').innerHTML = '';
-  renderNav(); renderView(); window.scrollTo(0,0);
-  const on = $('#tabsnav a.on'); if(on && on.scrollIntoView) try{ on.scrollIntoView({block:'nearest', inline:'nearest'}); }catch(e){}
+  const kind = UI.route==='coin' && prev!=='coin' ? 'fwd' : prev==='coin' && UI.route!=='coin' ? 'back' : 'fade';
+  withTransition(kind, () => {
+    $('#sheet-root').innerHTML = ''; $('#modal-root').innerHTML = '';
+    renderNav(); renderView(); window.scrollTo(0,0);
+    const on = $('#tabsnav a.on'); if(on && on.scrollIntoView) try{ on.scrollIntoView({block:'nearest', inline:'nearest'}); }catch(e){}
+  });
 }
 function go(h){ const {p, arg} = parseHash(h); const ok = VALID.includes(p) && (p !== 'coin' || arg); const full = !ok ? 'home' : p==='coin' ? 'coin/'+encodeURIComponent(arg) : p;
   try{ if((location.hash||'').slice(1) !== full){ history.pushState(null, '', '#'+full); UI.navN++; } }catch(e){} showPage(ok ? p : 'home', arg); }
@@ -4041,10 +4269,11 @@ function renderCoinQ(id){
      <div class="cq-risk"><h3>${esc(t('coin_risk'))}</h3>${riskHTML(X)}</div>`; })();
   const hdr = X ? `<div class="ch-id">${X.image?`<img src="${esc(safeUrl(X.image))}" alt="" width="44" height="44">`:''}<div><h2 id="cq-h">${esc(X.name)} <small>${esc(X.sym)}</small></h2>
       <div class="cq-px n"><b data-lp="${coin(id)?esc(id):''}">${X.price!=null?fmtCur(X.price,{cur:X.cur}):'—'}</b> <span class="${cls(X.chg24)}">${X.chg24!=null?arrow(X.chg24)+fmtPct(X.chg24,1):''}</span></div></div></div>` : `<h2 id="cq-h">${esc(t('coin_q'))}</h2>`;
-  $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal cq-modal" data-cq="${esc(id)}" role="dialog" aria-modal="true" aria-labelledby="cq-h">
-    <div class="modal-h">${hdr}<button class="btn ghost" data-act="close">${esc(t('close'))}</button></div>
+  const inner = `<div class="modal-h">${hdr}<button class="btn ghost" data-act="close">${esc(t('close'))}</button></div>
     <div class="cq-body">${body}</div>
-    <div class="cq-f"><a class="btn pri" href="#coin/${encodeURIComponent(id)}">${esc(t('coin_open'))} →</a><span class="dim">${esc(t('coin_disc'))}</span></div></div></div>`;
+    <div class="cq-f"><a class="btn pri" href="#coin/${encodeURIComponent(id)}">${esc(t('coin_open'))} →</a><span class="dim">${esc(t('coin_disc'))}</span></div>`;
+  const ex = $('.modal[data-cq]'); if(ex && ex.dataset.cq === id && !ex.closest('.modal-bg.out')){ ex.innerHTML = inner; return; }
+  $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal cq-modal" data-cq="${esc(id)}" role="dialog" aria-modal="true" aria-labelledby="cq-h">${inner}</div></div>`;
 }
 
 /* ---- the full coin page ---- */
@@ -4247,6 +4476,650 @@ function mottoHTML(){
   const anim = GREET_ANIM; GREET_ANIM = false; const tr = g.p.tr ? g.p.tr[S.lang === 'en' ? 'en' : 'no'] : '';
   return `<p class="motto${anim ? ' in' : ''}" id="motto">${esc(g.text)}${tr ? `<span class="motto-tr">${esc(tr)}</span>` : ''}</p>`;
 }
+
+/* =====================================================================
+   MOTION: smooth page changes (View Transitions where the browser has
+   them, a CSS fallback elsewhere), animated modals and sheets.
+   Data refreshes never animate; only real navigation does.
+   Everything is switched off when the device asks for reduced motion.
+   ===================================================================== */
+const reduceMotion = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const A_CLASSES = ['a-fade','a-fwd','a-back','a-tab','a-next','a-prev','a-zin','a-zout'];
+function animateIn(el, kind){
+  if(!el || reduceMotion()) return; const pre = kind === 'tab' ? 'a-pre-tab' : 'a-pre';
+  el.classList.remove(...A_CLASSES, 'a-pre', 'a-pre-tab'); el.classList.add(pre); clearTimeout(el._at); const tok = el._tok = (el._tok || 0) + 1;
+  requestAnimationFrame(() => requestAnimationFrame(() => { if(el._tok !== tok) return; el.classList.remove(pre); el.classList.add('a-'+kind); el._at = setTimeout(() => el.classList.remove('a-'+kind), 500); }));
+}
+function withTransition(kind, update){
+  const v = $('#view'); if(reduceMotion() || !v || !v.dataset.route){ update(); return; }
+  v.classList.add(kind === 'tab' ? 'a-pre-tab' : 'a-pre'); update(); animateIn(v, kind);
+}
+function closeModal(){
+  const r = $('#modal-root'), bg = r && r.querySelector('.modal-bg'); if(!bg){ if(r) r.innerHTML = ''; return; }
+  if(reduceMotion()){ r.innerHTML = ''; return; } if(bg.classList.contains('out')) return;
+  bg.classList.add('out'); setTimeout(() => { if(r.contains(bg)) r.innerHTML = ''; }, 210);
+}
+function closeSheet(){
+  const r = $('#sheet-root'), bg = r && r.querySelector('.sheet-bg'); if(!bg){ if(r) r.innerHTML = ''; return; }
+  if(reduceMotion()){ r.innerHTML = ''; return; } if(bg.classList.contains('out')) return;
+  bg.classList.add('out'); setTimeout(() => { if(r.contains(bg)) r.innerHTML = ''; }, 230);
+}
+
+/* =====================================================================
+   CALENDAR VIEWS (Apple-style): day, week, month, year and list.
+   Uses the same verified event data as the rest of the app; recurring
+   events (US jobless claims, Deribit expiries) are generated for any range.
+   ===================================================================== */
+Object.assign(I18N.no, {
+  t_cal:'Kalender', cv_day:'Dag', cv_week:'Uke', cv_month:'Måned', cv_year:'År', cv_list:'Liste', cat_hours:'Børstider',
+  cal_today:'I dag', cal_new:'Ny hendelse', cal_prev:'Forrige', cal_next:'Neste', cal_allday:'hele dagen', cal_wk:n=>`Uke ${n}`,
+  cal_wk_imp:'Viktigst denne uken', cal_wk_none:'Ingen hendelser denne uken med valgte kalendere.', cal_day_ev:'Hendelser denne dagen', cal_day_none:'Ingen hendelser denne dagen.',
+  cal_more:n=>`+${n} til`, cal_ics:'Legg i kalenderen min', cal_ics_week:'Eksporter uken', cal_ics_d:'Laster ned en .ics-fil som Apple Kalender, Google Kalender og Outlook kan åpne.',
+  cal_open_day:'Åpne dagen', cal_tip:'Sveip til siden for å bla. Trykk på en hendelse for detaljer.', cal_nyse:'New York-børsen åpen', cal_osl:'Oslo Børs åpen',
+  cal_del:'Slett hendelsen', cal_sum:o=>`${o.n} hendelser · ${o.h} med høy viktighet`, cal_agenda:'Neste 30 dager', cal_agenda_none:'Ingen hendelser de neste 30 dagene med valgte kalendere.',
+  cal_ago:'Var', cal_cd:'Starter om', cal_src:'Kilde', cal_tz:z=>`Tidene vises i ${z}.`, cal_lead2:'Viktige hendelser for kryptomarkedet, i en kalender du kjenner igjen. Tidene vises i din tidssone.',
+});
+Object.assign(I18N.en, {
+  t_cal:'Calendar', cv_day:'Day', cv_week:'Week', cv_month:'Month', cv_year:'Year', cv_list:'List', cat_hours:'Exchange hours',
+  cal_today:'Today', cal_new:'New event', cal_prev:'Previous', cal_next:'Next', cal_allday:'all-day', cal_wk:n=>`Week ${n}`,
+  cal_wk_imp:'Most important this week', cal_wk_none:'No events this week in the selected calendars.', cal_day_ev:'Events this day', cal_day_none:'No events this day.',
+  cal_more:n=>`+${n} more`, cal_ics:'Add to my calendar', cal_ics_week:'Export the week', cal_ics_d:'Downloads an .ics file that Apple Calendar, Google Calendar and Outlook can open.',
+  cal_open_day:'Open the day', cal_tip:'Swipe sideways to browse. Tap an event for details.', cal_nyse:'New York exchange open', cal_osl:'Oslo Børs open',
+  cal_del:'Delete event', cal_sum:o=>`${o.n} events · ${o.h} high impact`, cal_agenda:'Next 30 days', cal_agenda_none:'No events in the next 30 days in the selected calendars.',
+  cal_ago:'Was', cal_cd:'Starts in', cal_src:'Source', cal_tz:z=>`Times are shown in ${z}.`, cal_lead2:'Key events for the crypto market, in a calendar you already know. Times are shown in your time zone.',
+});
+
+const CAL_MODES = ['day','week','month','year','list'], CAL_CATS = ['cb','macro','crypto','market','custom','hours'];
+UI.cal = Object.assign({mode:'week', cats:{}}, (() => { const v = store.get('calv', {}); return {mode: CAL_MODES.includes(v.mode) ? v.mode : 'week', cats: v.cats && typeof v.cats==='object' ? v.cats : {}}; })());
+(() => { const p = partsIn(new Date(), S.tz); UI.cal.y = p.y; UI.cal.m = p.m; UI.cal.d = p.d; })();
+UI.calMap = {}; UI.calAnim = null; UI.calSegFrom = null; UI.calSc = {key:'', top:0};
+if(!UI.tab.calendar || UI.tab.calendar === 'events') UI.tab.calendar = 'cal';
+const calSave = () => store.set('calv', {mode:UI.cal.mode, cats:UI.cal.cats});
+const calOn = k => UI.cal.cats[k] !== false;
+
+/* ---- date helpers (all in the user's chosen time zone) ---- */
+const ymdK = (y,m,d) => `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const ymdP = s => { const [y,m,d] = String(s).split('-').map(Number); return {y, m, d}; };
+const dStart = (y,m,d) => zoned(y,m,d,0,0,S.tz);
+const nextD = (y,m,d) => addDays(y,m,d,1);
+const calToday = () => partsIn(new Date(), S.tz);
+const isTodayD = (y,m,d) => { const t = calToday(); return t.y===y && t.m===m && t.d===d; };
+const wdOf = (y,m,d) => new Date(Date.UTC(y,m-1,d)).getUTCDay();
+const weekStartOf = (y,m,d) => addDays(y,m,d, -((wdOf(y,m,d)+6)%7));
+const daysInM = (y,m) => new Date(Date.UTC(y,m,0)).getUTCDate();
+const fmtYMD = (y,m,d,o) => DTF(o).format(new Date(zoned(y,m,d,12,0,S.tz)));
+const monthName = (y,m) => fmtYMD(y,m,1,{month:'long'});
+function isoWeek(y,m,d){ const dt = new Date(Date.UTC(y,m-1,d)); const day = (dt.getUTCDay()+6)%7; dt.setUTCDate(dt.getUTCDate()-day+3); const fy = dt.getUTCFullYear(); const j4 = new Date(Date.UTC(fy,0,4)); return 1 + Math.round(((dt - j4)/DAY - 3 + ((j4.getUTCDay()+6)%7))/7); }
+const evYMD = ms => { const p = partsIn(new Date(ms), S.tz); return ymdK(p.y, p.m, p.d); };
+const hourPx = () => window.innerWidth < 760 ? 46 : 54;
+
+/* ---- events for any range ---- */
+function calRules(from, to){
+  const out = [], ny = 'America/New_York'; const p = partsIn(new Date(from - 2*DAY), ny), n = Math.ceil((to-from)/DAY) + 4;
+  for(let k = 0; k < n; k++){ const dt = addDays(p.y,p.m,p.d,k); if(dt.wd !== 4) continue; let d = dt; const ymd = ymdK(d.y,d.m,d.d); if(NYSE_HOL[ymd]) d = addDays(d.y,d.m,d.d,-1);
+    const at = zoned(d.y,d.m,d.d,8,30,ny); if(at >= from && at < to) out.push({id:'claims'+ymd, key:'claims', cat:'macro', imp:1, at, src:SRC.nfp, kind:'rule', gl:'claims'}); }
+  const a = new Date(from - 32*DAY); let y = a.getUTCFullYear(), m = a.getUTCMonth(); const months = Math.ceil((to-from)/(28*DAY)) + 3;
+  for(let i = 0; i < months; i++){ const last = new Date(Date.UTC(y, m+1, 0)); const day = last.getUTCDate() - ((last.getUTCDay()-5+7)%7); const q = [2,5,8,11].includes(m); const at = Date.UTC(y,m,day,8,0);
+    if(at >= from && at < to) out.push({id:'drb'+y+'-'+(m+1), key:q?'deribit_q':'deribit', cat:'crypto', imp:q?3:2, at, src:SRC.deribit, kind:'rule', gl:'expiry'}); m++; if(m > 11){ m = 0; y++; } }
+  return out;
+}
+function calSessions(from, to){
+  const out = []; [['nyse','cal_nyse'],['osl','cal_osl']].forEach(([id, k]) => { const ex = EXCH.find(x => x.id===id); if(!ex) return; intervals(ex, from, to).forEach(([s, e]) => out.push({id:'s'+id+s, cat:'hours', sess:true, at:s, end:e, title:t(k), imp:0})); });
+  return out;
+}
+function calEvents(from, to, withSess){
+  const base = CURATED.filter(e => e.kind !== 'rule' && e.at >= from && e.at < to);
+  const own = store.get('events', []).map(e => Object.assign({cat:'custom', kind:'custom'}, e)).filter(e => e.at >= from && e.at < to);
+  let all = base.concat(own, calRules(from, to)).filter(e => calOn(e.cat));
+  if(withSess && calOn('hours')) all = all.concat(calSessions(from, to));
+  all.sort((a,b) => a.at-b.at || (b.imp||0)-(a.imp||0)); all.forEach(e => { UI.calMap[e.id] = e; }); return all;
+}
+const isAllDay = e => e.key === 'hol';
+const cap = s => { s = String(s||''); return s.charAt(0).toUpperCase() + s.slice(1); };
+const catLabel = k => t('cat_'+k);
+
+/* ---- shared pieces ---- */
+function calLi(e, withDay){
+  const now = Date.now(), p = partsIn(new Date(e.at), S.tz); const past = e.at < now;
+  const w = withDay ? `<span class="w"><b>${esc(fmtYMD(p.y,p.m,p.d,{weekday:'short'}).replace('.',''))} ${p.d}.</b>${isAllDay(e)?esc(t('cal_allday')):esc(fmtTime(new Date(e.at)))}</span>` : `<span class="w"><b>${isAllDay(e)?esc(t('cal_allday')):esc(fmtTime(new Date(e.at)))}</b></span>`;
+  return `<button class="cal-li k-${e.cat}${past?' past':''}" data-act="cv-ev" data-id="${esc(e.id)}">${w}<i class="bar"></i><span class="tt">${esc(evTitle(e))}<small>${esc(catLabel(e.cat))}${e.src?' · '+esc(e.src.name):''}</small></span><span class="r">${e.imp?impBars(e.imp):''}${!past?`<span class="cd n" data-cd="${e.at}">${esc(countdown(e.at-now))}</span>`:''}</span></button>`;
+}
+function timeGrid(days){
+  const H = hourPx(), n = days.length, now = Date.now();
+  const R = days.map(x => { const nx = nextD(x.y,x.m,x.d); return [dStart(x.y,x.m,x.d), dStart(nx.y,nx.m,nx.d)]; });
+  const evs = calEvents(R[0][0], R[n-1][1], true);
+  const ad = R.map(([a,b]) => evs.filter(e => isAllDay(e) && e.at >= a && e.at < b));
+  const cols = days.map((x, i) => { const [a, b] = R[i];
+    const timed = evs.filter(e => !isAllDay(e) && !e.sess && e.at >= a && e.at < b);
+    const bands = evs.filter(e => e.sess && e.end > a && e.at < b).map(s => { const st = Math.max(s.at, a), en = Math.min(s.end, b);
+      return `<div class="cal-sess" style="top:${((st-a)/HOUR*H).toFixed(1)}px;height:${((en-st)/HOUR*H).toFixed(1)}px"><span>${esc(s.title)} ${esc(fmtTime(new Date(s.at)))}–${esc(fmtTime(new Date(s.end)))}</span></div>`; }).join('');
+    const items = timed.map(e => { const s = Math.round((e.at - a)/6e4); return {e, s, en: s + 30}; }).sort((p,q) => p.s-q.s);
+    let cl = [], ends = [], cEnd = -1; const placed = [];
+    const flush = () => { cl.forEach(it => { it.cols = ends.length; placed.push(it); }); cl = []; ends = []; };
+    items.forEach(it => { if(cl.length && it.s >= cEnd) flush(); let c = ends.findIndex(x => x <= it.s); if(c < 0){ c = ends.length; ends.push(it.en); } else ends[c] = it.en; it.col = c; cl.push(it); cEnd = Math.max(cEnd, it.en); }); flush();
+    const blocks = placed.map(it => { const e = it.e, w = 100/it.cols; return `<button class="cal-ev k-${e.cat}${e.imp===3?' hi':''}${e.at<now?' past':''}" data-act="cv-ev" data-id="${esc(e.id)}" style="top:${(it.s/60*H+1).toFixed(1)}px;height:${(30/60*H-3).toFixed(1)}px;left:calc(${(it.col*w).toFixed(3)}% + 2px);width:calc(${w.toFixed(3)}% - 4px)"><b><time class="n">${esc(fmtTime(new Date(e.at)))}</time> ${esc(evTitle(e))}</b></button>`; }).join('');
+    const nl = now >= a && now < b ? `<div class="cal-now" data-a="${a}" style="top:${((now-a)/HOUR*H).toFixed(1)}px"></div>` : '';
+    return `<div class="cal-col${isTodayD(x.y,x.m,x.d)?' today':''}">${bands}${blocks}${nl}</div>`; }).join('');
+  const hours = Array.from({length:24}, (_, h) => `<div class="cal-hr" style="top:${h*H}px"><span>${h ? String(h).padStart(2,'0')+':00' : ''}</span></div>`).join('');
+  const ti = R.findIndex(([a,b]) => now >= a && now < b); const nowL = ti >= 0 ? `<div class="cal-now-l n" data-a="${R[ti][0]}" style="top:${((now-R[ti][0])/HOUR*H).toFixed(1)}px">${esc(fmtTime(new Date(now)))}</div>` : '';
+  const head = n > 1 ? `<div class="cal-wh" style="--n:${n}"><span></span>${days.map(x => `<button class="cal-wd${isTodayD(x.y,x.m,x.d)?' today':''}" data-act="cv-day" data-ymd="${ymdK(x.y,x.m,x.d)}">${esc(fmtYMD(x.y,x.m,x.d,{weekday:'short'}).replace('.',''))}<b>${x.d}</b></button>`).join('')}</div>` : '';
+  const allDay = ad.some(l => l.length) ? `<div class="cal-ad" style="--n:${n}"><span class="cal-ad-l">${esc(t('cal_allday'))}</span>${ad.map(l => `<div>${l.map(e => `<button class="cal-pill k-${e.cat}" data-act="cv-ev" data-id="${esc(e.id)}">${esc(evTitle(e))}</button>`).join('')}</div>`).join('')}</div>` : '';
+  return {html:`${head}${allDay}<div class="cal-scroll" id="cal-scroll"><div class="cal-grid${n>1?' n7':''}" style="--n:${n};height:${24*H}px">${hours}<div class="cal-cols">${cols}</div>${nowL}</div></div>`, evs};
+}
+
+/* ---- the five views ---- */
+function calDayHTML(){
+  const c = UI.cal, ws = weekStartOf(c.y,c.m,c.d); const week = Array.from({length:7}, (_, i) => addDays(ws.y,ws.m,ws.d,i));
+  const wf = dStart(week[0].y,week[0].m,week[0].d), wl = nextD(week[6].y,week[6].m,week[6].d); const wev = calEvents(wf, dStart(wl.y,wl.m,wl.d), false);
+  const strip = `<div class="cal-strip">${week.map(x => { const k = ymdK(x.y,x.m,x.d); const dots = wev.filter(e => evYMD(e.at)===k).sort((a,b)=>b.imp-a.imp).slice(0,3);
+    return `<button class="cal-wd${isTodayD(x.y,x.m,x.d)?' today':''}${x.y===c.y&&x.m===c.m&&x.d===c.d?' sel':''}" data-act="cv-pick" data-ymd="${k}">${esc(fmtYMD(x.y,x.m,x.d,{weekday:'narrow'}))}<b>${x.d}</b><span class="dots">${dots.map(e => `<i class="k-${e.cat}"></i>`).join('')}</span></button>`; }).join('')}</div>`;
+  const g = timeGrid([{y:c.y, m:c.m, d:c.d}]); const list = g.evs.filter(e => !e.sess);
+  return `${strip}<div class="cal-dayt">${esc(cap(fmtYMD(c.y,c.m,c.d,{weekday:'long', day:'numeric', month:'long', year:'numeric'})))}</div>${g.html}
+    <div class="cal-list"><h3>${esc(t('cal_day_ev'))}</h3>${list.length ? list.map(e => calLi(e, false)).join('') : `<div class="empty">${esc(t('cal_day_none'))}</div>`}</div>`;
+}
+function calWeekHTML(){
+  const c = UI.cal, ws = weekStartOf(c.y,c.m,c.d); const days = Array.from({length:7}, (_, i) => addDays(ws.y,ws.m,ws.d,i));
+  const g = timeGrid(days); const evs = g.evs.filter(e => !e.sess); const hi = evs.filter(e => e.imp >= 3).length;
+  const top = evs.slice().sort((a,b) => (b.imp||0)-(a.imp||0) || a.at-b.at).slice(0, 10).sort((a,b) => a.at-b.at);
+  return `${g.html}<div class="cal-list"><h3>${esc(t('cal_wk_imp'))}<span class="dim">${esc(t('cal_sum', {n:evs.length, h:hi}))}</span></h3>
+    ${top.length ? top.map(e => calLi(e, true)).join('') : `<div class="empty">${esc(t('cal_wk_none'))}</div>`}
+    ${evs.length ? `<div style="margin-top:10px"><button class="btn sm ghost" data-act="cv-ics-week">⤓ ${esc(t('cal_ics_week'))}</button></div>` : ''}</div>`;
+}
+function calMonthHTML(){
+  const c = UI.cal, first = weekStartOf(c.y,c.m,1); const cells = []; for(let i = 0; i < 42; i++) cells.push(addDays(first.y,first.m,first.d,i));
+  const rows = cells.slice(35).every(x => x.m !== c.m) ? 5 : 6; const vis = cells.slice(0, rows*7); const last = vis[vis.length-1], ln = nextD(last.y,last.m,last.d);
+  const evs = calEvents(dStart(vis[0].y,vis[0].m,vis[0].d), dStart(ln.y,ln.m,ln.d), false); const by = {}; evs.forEach(e => { const k = evYMD(e.at); (by[k] = by[k] || []).push(e); });
+  const head = `<div class="cal-mh">${vis.slice(0,7).map(x => `<span>${esc(fmtYMD(x.y,x.m,x.d,{weekday: window.innerWidth < 760 ? 'narrow' : 'short'}).replace('.',''))}</span>`).join('')}</div>`;
+  const grid = vis.map(x => { const k = ymdK(x.y,x.m,x.d), l = (by[k] || []).slice().sort((a,b) => (b.imp||0)-(a.imp||0) || a.at-b.at); const sel = x.y===c.y && x.m===c.m && x.d===c.d;
+    return `<button class="cal-mc${x.m!==c.m?' out':''}${isTodayD(x.y,x.m,x.d)?' today':''}${sel?' sel':''}" data-act="cv-sel" data-ymd="${k}"><span class="cal-mn">${x.d}</span>
+      ${l.slice(0,3).map(e => `<span class="cal-mp k-${e.cat}">${isAllDay(e)?'':`<em>${esc(fmtTime(new Date(e.at)))}</em>`}${esc(evTitle(e))}</span>`).join('')}${l.length>3?`<span class="cal-mmore">${esc(t('cal_more', l.length-3))}</span>`:''}
+      <span class="cal-mdots">${l.slice(0,3).map(e => `<i class="k-${e.cat}"></i>`).join('')}</span></button>`; }).join('');
+  const sk = ymdK(c.y,c.m,c.d), sl = (by[sk] || []);
+  return `${head}<div class="cal-mg">${grid}</div><div class="cal-list" id="cal-daylist"><h3>${esc(cap(fmtYMD(c.y,c.m,c.d,{weekday:'long', day:'numeric', month:'long'})))}<button class="btn sm ghost" data-act="cv-day" data-ymd="${sk}">${esc(t('cal_open_day'))} →</button></h3>${sl.length ? sl.map(e => calLi(e, false)).join('') : `<div class="empty">${esc(t('cal_day_none'))}</div>`}</div>`;
+}
+function calYearHTML(){
+  const c = UI.cal, y = c.y, evs = calEvents(dStart(y,1,1), dStart(y+1,1,1), false); const imp = {}; evs.forEach(e => { const k = evYMD(e.at); imp[k] = Math.max(imp[k] || 0, e.imp || 0); });
+  const td = calToday();
+  return `<div class="cal-yg">${Array.from({length:12}, (_, i) => { const m = i+1, off = (wdOf(y,m,1)+6)%7, n = daysInM(y,m);
+    return `<button class="cal-ym${td.y===y&&td.m===m?' cur':''}" data-act="cv-month" data-m="${m}"><h4>${esc(monthName(y,m))}</h4><span class="cal-ymg">${'<i></i>'.repeat(off)}${Array.from({length:n}, (_, j) => { const d = j+1, k = ymdK(y,m,d), v = imp[k] || 0; return `<i class="${td.y===y&&td.m===m&&td.d===d?'t ':''}${v>=3?'h3':v>=2?'h2':''}">${d}</i>`; }).join('')}</span></button>`; }).join('')}</div>`;
+}
+function calListHTML(){
+  const c = UI.cal, from = dStart(c.y,c.m,c.d), e30 = addDays(c.y,c.m,c.d,30), evs = calEvents(from, dStart(e30.y,e30.m,e30.d), false); const by = {}; evs.forEach(e => { const k = evYMD(e.at); (by[k] = by[k] || []).push(e); });
+  const keys = Object.keys(by).sort(); if(!keys.length) return `<div class="empty">${esc(t('cal_agenda_none'))}</div>`;
+  return keys.map(k => { const p = ymdP(k), dw = dayWord(zoned(p.y,p.m,p.d,12,0,S.tz)), pre = dw === t('today') || dw === t('tomorrow') ? dw + ' · ' : '';
+    return `<div class="cal-agh${isTodayD(p.y,p.m,p.d)?' today':''}">${esc(pre)}${esc(pre ? fmtYMD(p.y,p.m,p.d,{weekday:'long', day:'numeric', month:'long'}) : cap(fmtYMD(p.y,p.m,p.d,{weekday:'long', day:'numeric', month:'long'})))}</div>${by[k].map(e => calLi(e, false)).join('')}`; }).join('');
+}
+function calTitle(){
+  const c = UI.cal;
+  if(c.mode === 'year') return `<b>${c.y}</b>`;
+  if(c.mode === 'week'){ const ws = weekStartOf(c.y,c.m,c.d), we = addDays(ws.y,ws.m,ws.d,6); const mn = ws.m === we.m ? monthName(ws.y,ws.m) : `${fmtYMD(ws.y,ws.m,1,{month:'short'})}–${fmtYMD(we.y,we.m,1,{month:'short'})}`;
+    return `<b>${esc(mn)}</b> <span>${we.y}</span><small>${esc(t('cal_wk', isoWeek(c.y,c.m,c.d)))}</small>`; }
+  return `<b>${esc(monthName(c.y,c.m))}</b> <span>${c.y}</span>${c.mode==='day'?`<small>${esc(t('cal_wk', isoWeek(c.y,c.m,c.d)))}</small>`:''}`;
+}
+function calPageHTML(){
+  const c = UI.cal, idx = CAL_MODES.indexOf(c.mode); UI.calMap = {};
+  const crumb = c.mode==='day' || c.mode==='week' ? `<button class="cal-crumb" data-act="cv-up">‹ ${esc(monthName(c.y,c.m))}</button>` : c.mode==='month' ? `<button class="cal-crumb" data-act="cv-up">‹ ${c.y}</button>` : `<span class="cal-crumb" style="visibility:hidden">·</span>`;
+  const body = c.mode==='day' ? calDayHTML() : c.mode==='week' ? calWeekHTML() : c.mode==='month' ? calMonthHTML() : c.mode==='year' ? calYearHTML() : calListHTML();
+  const from = UI.calSegFrom == null ? idx : UI.calSegFrom;
+  return `<section class="card cal">
+    <div class="cal-top"><div class="cal-tt">${crumb}<h2 class="cal-title">${calTitle()}</h2></div>
+      <div class="cal-nav"><button class="btn sm" data-act="cv-today">${esc(t('cal_today'))}</button><button class="icon-btn" data-act="cv-step" data-dir="-1" aria-label="${esc(t('cal_prev'))}">‹</button><button class="icon-btn" data-act="cv-step" data-dir="1" aria-label="${esc(t('cal_next'))}">›</button><button class="icon-btn add" data-act="cv-new" aria-label="${esc(t('cal_new'))}">+</button></div></div>
+    <div class="cal-seg" role="tablist" style="--n:${CAL_MODES.length};--i:${from}" data-i="${idx}"><span class="thumb"></span>${CAL_MODES.map((m, i) => `<button role="tab" aria-selected="${i===idx}" class="${i===idx?'on':''}" data-act="cv-mode" data-m="${m}">${esc(t('cv_'+m))}</button>`).join('')}</div>
+    <div class="cal-cats">${CAL_CATS.map(k => `<button class="cal-cat k-${k}${calOn(k)?' on':''}" data-act="cv-cat" data-k="${k}" aria-pressed="${calOn(k)}"><i></i>${esc(catLabel(k))}</button>`).join('')}</div>
+    <div class="cal-body" id="cal-body">${c.mode==='list' ? `<div class="cal-list" style="border:0;margin:0;padding:0"><h3>${esc(t('cal_agenda'))}</h3>${body}</div>` : body}</div>
+  </section><p class="dim" style="font-size:12.5px;margin:-4px 0 0">${esc(t('cal_tip'))} ${esc(t('cal_tz', S.tz))}</p>`;
+}
+
+/* ---- behaviour ---- */
+function calKey(){ const c = UI.cal; if(c.mode==='week'){ const w = weekStartOf(c.y,c.m,c.d); return 'w'+ymdK(w.y,w.m,w.d); } return c.mode + ymdK(c.y,c.m,c.d); }
+function calAfterRender(){
+  if(UI.route !== 'calendar' || UI.tab.calendar !== 'cal') return;
+  const seg = $('.cal-seg'); if(seg){ const i = +seg.dataset.i; requestAnimationFrame(() => requestAnimationFrame(() => { seg.style.setProperty('--i', i); })); UI.calSegFrom = i; }
+  const sc = $('#cal-scroll'); if(sc){ const key = calKey();
+    if(UI.calSc.key === key) sc.scrollTop = UI.calSc.top;
+    else { const H = hourPx(), now = Date.now(); const nl = $('.cal-now'); let min = 8*60; if(nl) min = (now - +nl.dataset.a)/6e4 - 90; else { const f = $('.cal-ev'); if(f) min = parseFloat(f.style.top)/H*60 - 60; } sc.scrollTop = Math.max(0, min/60*H); UI.calSc = {key, top:sc.scrollTop}; }
+    sc.addEventListener('scroll', () => { UI.calSc = {key, top:sc.scrollTop}; }, {passive:true}); }
+  const body = $('#cal-body'); if(body){ calSwipe(body); if(UI.calAnim){ animateIn(body, UI.calAnim); UI.calAnim = null; } }
+  if(UI.calListAnim){ animateIn($('#cal-daylist'), 'fade'); UI.calListAnim = false; }
+}
+function calSwipe(el){
+  let x0 = null, y0 = 0, t0 = 0;
+  el.addEventListener('touchstart', e => { if(e.touches.length !== 1){ x0 = null; return; } x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); }, {passive:true});
+  el.addEventListener('touchend', e => { if(x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.6 && Date.now()-t0 < 800) calStep(dx < 0 ? 1 : -1); }, {passive:true});
+}
+function calSet(y, m, d){ const n = daysInM(y, m); Object.assign(UI.cal, {y, m, d: Math.min(d, n)}); }
+function calRender(anim){ UI.calAnim = anim || null; renderView(); }
+function calStep(dir){
+  const c = UI.cal;
+  if(c.mode==='day'){ const x = addDays(c.y,c.m,c.d,dir); calSet(x.y,x.m,x.d); }
+  else if(c.mode==='week'){ const x = addDays(c.y,c.m,c.d,7*dir); calSet(x.y,x.m,x.d); }
+  else if(c.mode==='month'){ let m = c.m + dir, y = c.y; if(m < 1){ m = 12; y--; } if(m > 12){ m = 1; y++; } const td = calToday(); calSet(y, m, td.y===y && td.m===m ? td.d : 1); }
+  else if(c.mode==='year'){ calSet(c.y + dir, c.m, c.d); }
+  else { const x = addDays(c.y,c.m,c.d,30*dir); calSet(x.y,x.m,x.d); }
+  calRender(dir > 0 ? 'next' : 'prev');
+}
+function calMode(m, anim){ const old = UI.cal.mode, a = CAL_MODES.indexOf(old), b = CAL_MODES.indexOf(m); UI.calSegFrom = a; UI.cal.mode = m; calSave(); calRender(anim || (m==='list' || old==='list' ? 'fade' : b > a ? 'zout' : b < a ? 'zin' : 'fade')); }
+function calIcs(list, name){
+  const ie = s => String(s).replace(/[\\;,]/g, x => '\\'+x).replace(/\r?\n/g, '\\n'); const idt = ms => new Date(ms).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Crypto BRO//Kalender//NO','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  list.forEach(e => { const g = e.gl && glossOf(e.gl); L.push('BEGIN:VEVENT','UID:'+String(e.id).replace(/[^\w.-]/g,'')+'@crypto-bro','DTSTAMP:'+idt(Date.now()),'DTSTART:'+idt(e.at),'DTEND:'+idt(e.end || e.at+30*6e4),'SUMMARY:'+ie(evTitle(e)),'DESCRIPTION:'+ie((g ? g.d+'\n' : '')+(e.src ? e.src.name+': '+e.src.url : 'Crypto BRO')),'BEGIN:VALARM','TRIGGER:-PT30M','ACTION:DISPLAY','DESCRIPTION:'+ie(evTitle(e)),'END:VALARM','END:VEVENT'); });
+  L.push('END:VCALENDAR'); const blob = new Blob([L.join('\r\n')], {type:'text/calendar;charset=utf-8'}); const u = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 5000);
+}
+function openCalEv(id){
+  const e = UI.calMap[id] || allEvents().find(x => x.id===id); if(!e) return; const g = e.gl && glossOf(e.gl), now = Date.now(), p = partsIn(new Date(e.at), S.tz);
+  $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal cev k-${e.cat}" role="dialog" aria-modal="true" aria-labelledby="cev-h">
+    <div class="modal-h"><div><span class="cev-tag"><i></i>${esc(catLabel(e.cat))}</span><h2 id="cev-h">${esc(evTitle(e))}</h2></div><button class="btn ghost" data-act="close">${esc(t('close'))}</button></div>
+    <div class="cev-when"><b>${esc(cap(fmtYMD(p.y,p.m,p.d,{weekday:'long', day:'numeric', month:'long', year:'numeric'})))}</b><span>${isAllDay(e) ? esc(t('cal_allday')) : esc(fmtTime(new Date(e.at))) + ' · ' + esc(S.tz)}</span></div>
+    <div class="cev-row">${e.imp ? `<span class="cev-imp">${impBars(e.imp)} ${esc(t('imp'+e.imp))}</span>` : ''}${e.at > now ? `<span>${esc(t('cal_cd'))} <b class="cd n" data-cd="${e.at}">${esc(countdown(e.at-now))}</b></span>` : `<span class="dim">${esc(t('cal_ago'))} ${esc(ago(e.at))}</span>`}</div>
+    ${g ? `<div class="cev-why"><h3>${esc(t('what'))}</h3><p>${esc(g.d)}</p></div>` : ''}
+    ${e.src ? `<p class="src" style="margin-top:10px">${esc(t('cal_src'))}: <a href="${esc(safeUrl(e.src.url))}" target="_blank" rel="noopener">${esc(e.src.name)} ↗</a></p>` : ''}
+    <div class="cev-f"><button class="btn pri" data-act="cv-ics" data-id="${esc(e.id)}">⤓ ${esc(t('cal_ics'))}</button>${e.cat==='custom' ? `<button class="btn danger" data-act="cv-del" data-id="${esc(e.id)}">${esc(t('cal_del'))}</button>` : ''}<span class="dim">${esc(t('cal_ics_d'))}</span></div></div></div>`;
+}
+function openCalNew(){
+  const c = UI.cal, td = calToday(), h = Math.min(23, td.h + 1);
+  $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="cn-title" style="width:min(520px,100%)">
+    <div class="modal-h"><h2 id="cn-title" style="font-size:26px">${esc(t('cal_new'))}</h2><button class="btn ghost" data-act="close">${esc(t('cancel'))}</button></div>
+    <form id="cal-new" class="cn-form"><label>${esc(t('ev_title'))}<input class="inp" id="cn-t" required maxlength="120" autocomplete="off"></label>
+      <div class="cn-row"><label>${esc(t('ev_date'))}<input class="inp" id="cn-d" type="date" required value="${ymdK(c.y,c.m,c.d)}"></label><label>${esc(t('ev_time'))}<input class="inp" id="cn-h" type="time" required value="${String(h).padStart(2,'0')}:00"></label></div>
+      <label>${esc(t('ev_imp'))}<select class="inp" id="cn-i"><option value="3">${esc(t('imp3'))}</option><option value="2" selected>${esc(t('imp2'))}</option><option value="1">${esc(t('imp1'))}</option></select></label>
+      <button class="btn pri big" type="submit">${esc(t('save'))}</button></form></div></div>`;
+  setTimeout(() => { const x = $('#cn-t'); if(x) x.focus(); }, 60);
+}
+function calTick(){
+  const H = hourPx(), now = Date.now(); let stale = false;
+  $$('.cal-now,.cal-now-l').forEach(el => { const a = +el.dataset.a; if(now - a >= DAY){ stale = true; return; } el.style.top = ((now-a)/HOUR*H).toFixed(1)+'px'; if(el.classList.contains('cal-now-l')) el.textContent = fmtTime(new Date(now)); });
+  if(stale && !$('.modal')) renderView();
+}
+document.addEventListener('click', e => { try{
+  const a = e.target.closest('[data-act]'); if(!a) return; const act = a.dataset.act; if(!act.startsWith('cv-')) return;
+  const c = UI.cal;
+  if(act==='cv-step') calStep(+a.dataset.dir);
+  else if(act==='cv-today'){ const td = calToday(), before = dStart(c.y,c.m,c.d) > dStart(td.y,td.m,td.d); calSet(td.y,td.m,td.d); calRender(before ? 'prev' : 'next'); }
+  else if(act==='cv-mode'){ if(a.dataset.m !== c.mode) calMode(a.dataset.m); }
+  else if(act==='cv-up'){ calMode(c.mode==='month' ? 'year' : 'month', 'zout'); }
+  else if(act==='cv-month'){ calSet(c.y, +a.dataset.m, 1); const td = calToday(); if(td.y===c.y && td.m===c.m) c.d = td.d; calMode('month', 'zin'); }
+  else if(act==='cv-day'){ const p = ymdP(a.dataset.ymd); calSet(p.y,p.m,p.d); calMode('day', 'zin'); }
+  else if(act==='cv-pick'){ const p = ymdP(a.dataset.ymd), dir = dStart(p.y,p.m,p.d) > dStart(c.y,c.m,c.d) ? 'next' : 'prev'; calSet(p.y,p.m,p.d); calRender(dir); }
+  else if(act==='cv-sel'){ const p = ymdP(a.dataset.ymd); if(p.y===c.y && p.m===c.m && p.d===c.d){ calMode('day', 'zin'); return; }
+    const other = p.m !== c.m; const dir = dStart(p.y,p.m,p.d) > dStart(c.y,c.m,c.d) ? 'next' : 'prev'; calSet(p.y,p.m,p.d); if(other) calRender(dir); else { UI.calListAnim = true; calRender(null); } }
+  else if(act==='cv-cat'){ const k = a.dataset.k; c.cats[k] = !calOn(k); calSave(); calRender(null); }
+  else if(act==='cv-ev') openCalEv(a.dataset.id);
+  else if(act==='cv-new') openCalNew();
+  else if(act==='cv-ics'){ const ev = UI.calMap[a.dataset.id] || allEvents().find(x => x.id===a.dataset.id); if(ev) calIcs([ev], 'crypto-bro-' + evYMD(ev.at) + '.ics'); }
+  else if(act==='cv-ics-week'){ const ws = weekStartOf(c.y,c.m,c.d), we = addDays(ws.y,ws.m,ws.d,7); const list = calEvents(dStart(ws.y,ws.m,ws.d), dStart(we.y,we.m,we.d), false); if(list.length) calIcs(list, 'crypto-bro-uke-' + isoWeek(c.y,c.m,c.d) + '.ics'); }
+  else if(act==='cv-del'){ store.set('events', store.get('events', []).filter(x => x.id !== a.dataset.id)); closeModal(); calRender('fade'); toast(t('saved')); }
+}catch(err){ logErr(err); } });
+document.addEventListener('submit', e => { if(e.target.id !== 'cal-new') return; e.preventDefault(); try{
+  const title = $('#cn-t').value.trim(); if(!title) return; const [y,m,d] = $('#cn-d').value.split('-').map(Number), [h,mi] = $('#cn-h').value.split(':').map(Number);
+  const ev = store.get('events', []); ev.push({id:'c'+Date.now(), title, at:zoned(y,m,d,h,mi,S.tz), imp:+$('#cn-i').value}); store.set('events', ev);
+  if(!calOn('custom')){ UI.cal.cats.custom = true; calSave(); } calSet(y,m,d); closeModal(); calRender('fade'); toast(t('saved'));
+}catch(err){ logErr(err); } });
+document.addEventListener('keydown', e => {
+  if(UI.route !== 'calendar' || UI.tab.calendar !== 'cal' || $('.modal') || /INPUT|SELECT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) return;
+  if(e.key === 'ArrowLeft') calStep(-1); else if(e.key === 'ArrowRight') calStep(1); else if(e.key === 't' || e.key === 'T'){ const td = calToday(); calSet(td.y,td.m,td.d); calRender('fade'); }
+});
+let calRz = 0, calW = window.innerWidth;
+window.addEventListener('resize', () => { clearTimeout(calRz); calRz = setTimeout(() => { const w = window.innerWidth; if((w < 760) !== (calW < 760) && UI.route==='calendar'){ UI.calSc.key = ''; renderView(); } calW = w; }, 200); });
+
+/* =====================================================================
+   NEWS ANALYSIS: hides irrelevant items, groups stories covered by
+   several outlets, gives each key story a short summary and a plain
+   assessment of what it could mean for the market. Optional AI pass
+   searches the web thoroughly and explains stories in simple words.
+   ===================================================================== */
+FEEDS.push(
+  {id:'cryptoslate', name:'CryptoSlate', url:'https://cryptoslate.com/feed/', kind:'crypto'},
+  {id:'blockworks', name:'Blockworks', url:'https://blockworks.com/feed', kind:'crypto'},
+  {id:'gn_crypto', name:'Google News · krypto', url:'https://news.google.com/rss/search?q=bitcoin+OR+ethereum+OR+crypto+when:1d&hl=en-US&gl=US&ceid=US:en', kind:'crypto', noJina:true, gnews:true},
+  {id:'gn_macro', name:'Google News · makro', url:'https://news.google.com/rss/search?q=(Fed+OR+inflation+OR+tariffs+OR+SEC)+(crypto+OR+bitcoin+OR+stocks)+when:1d&hl=en-US&gl=US&ceid=US:en', kind:'macro', noJina:true, gnews:true}
+);
+Object.assign(I18N.no, {
+  t_brief:'Viktige saker', nb_t:'Dagens viktigste saker', nb_scan:o=>`Gikk gjennom ${o.n} artikler fra ${o.s} kilder. ${o.r} var relevante, samlet i ${o.c} saker. ${o.h} irrelevante saker er skjult.`,
+  nb_short:'Kort fortalt', nb_mean:'Hva kan dette bety for markedet?', nb_hits:'Berører', nb_srcs:'Kilder', nb_en:'fra kilden, på engelsk', nb_nosum:'Kilden ga ingen oppsummering. Trykk på overskriften for å lese saken.',
+  nb_n:n=>n>1?`${n} kilder`:'1 kilde', nb_dir:{pos:'▲ Positivt', neg:'▼ Negativt', mix:'◆ Uklart'}, nb_imp:['','Lav','Middels','Høy'], nb_all_mkt:'Hele kryptomarkedet', nb_auto:'Automatisk tolkning av overskrift og ingress. Den kan ta feil – les gjerne saken selv.',
+  nb_ai_t:'Grundig AI-gjennomgang av nettet', nb_ai_d:'AI søker bredt på nettet etter dagens viktigste krypto- og finansnyheter, sjekker dem mot kildene og forklarer enkelt hva de kan bety for markedet.', nb_ai_btn:'Gjennomsøk nettet nå', nb_ai_auto:'Gjør dette automatisk når jeg åpner siden (høyst hver 3. time)',
+  nb_ai_need:'Krever en Anthropic API-nøkkel under Innstillinger. Uten nøkkel får du fortsatt oppsummeringene og vurderingene under.', nb_ai_story:'Forklar saken enkelt', nb_ai_res:'AI-gjennomgang', nb_overall:'Stemningen i nyhetene',
+  nb_none:'Ingen relevante saker ennå. Nyhetene lastes inn …', nb_show_all:n=>`Vis ${n} skjulte saker`, nb_hide:'Skjul irrelevante saker',
+  nb_d:{pos:'Saken peker i positiv retning for markedet.', neg:'Saken peker i negativ retning for markedet.', mix:'Retningen er uklar – saken kan tolkes begge veier.'},
+  nb_x:{etf:'ETF-er er en viktig vei for store investorer inn i krypto. Penger inn betyr ny kjøpskraft, penger ut betyr salg.',
+    rates:'Renter styrer hvor mye «billige penger» det finnes. Lavere renter er som regel bra for krypto, høyere renter er som regel dårlig.',
+    infl:'Inflasjonstallene påvirker hva sentralbanken gjør med renten. Lavere inflasjon gir håp om rentekutt, som ofte løfter krypto.',
+    trade:'Toll og handelskonflikter gjør investorer nervøse, og da selger mange risikable eiendeler som krypto. Lettelser virker motsatt.',
+    reg:'Regler bestemmer hva banker, fond og børser får lov til. Klare og vennlige regler er positivt; søksmål, forbud og forsinkelser er negativt.',
+    sec:'Hacking og svindel svekker tilliten. Det rammer mest den coinen eller tjenesten som ble angrepet, men kan smitte over på resten.',
+    inst:'Når store selskaper og fond kjøper eller bygger på krypto, øker etterspørselen og troverdigheten.',
+    stable:'Stablecoins er «dollarene» i kryptomarkedet. Flere stablecoins betyr ofte mer penger klare til å kjøpe krypto.',
+    politics:'Utspill fra politikere, særlig i USA, kan flytte markedet raskt, spesielt når det gjelder toll, regler eller statlige kryptokjøp.',
+    macro:'Store økonomiske nyheter påvirker hvor villige investorer er til å ta risiko, og krypto følger ofte resten av finansmarkedet.',
+    coin:n=>`Saken gjelder direkte ${n}. Store nyheter om én coin kan gi store bevegelser i den – og noen ganger i hele markedet.`,
+    gen:'Saken er relevant for kryptomarkedet, men effekten er trolig moderat.'},
+});
+Object.assign(I18N.en, {
+  t_brief:'Key stories', nb_t:'Today\'s most important stories', nb_scan:o=>`Went through ${o.n} articles from ${o.s} sources. ${o.r} were relevant, grouped into ${o.c} stories. ${o.h} irrelevant items are hidden.`,
+  nb_short:'In short', nb_mean:'What could this mean for the market?', nb_hits:'Affects', nb_srcs:'Sources', nb_en:'from the source', nb_nosum:'The source gave no summary. Tap the headline to read the story.',
+  nb_n:n=>n>1?`${n} sources`:'1 source', nb_dir:{pos:'▲ Positive', neg:'▼ Negative', mix:'◆ Unclear'}, nb_imp:['','Low','Medium','High'], nb_all_mkt:'The whole crypto market', nb_auto:'Automatic reading of the headline and intro. It can be wrong – feel free to read the story yourself.',
+  nb_ai_t:'Thorough AI sweep of the web', nb_ai_d:'AI searches widely for today\'s most important crypto and finance news, checks it against the sources and explains simply what it could mean for the market.', nb_ai_btn:'Search the web now', nb_ai_auto:'Do this automatically when I open the page (at most every 3 hours)',
+  nb_ai_need:'Needs an Anthropic API key in Settings. Without a key you still get the summaries and assessments below.', nb_ai_story:'Explain this simply', nb_ai_res:'AI sweep', nb_overall:'Mood in the news',
+  nb_none:'No relevant stories yet. News is loading …', nb_show_all:n=>`Show ${n} hidden items`, nb_hide:'Hide irrelevant items',
+  nb_d:{pos:'The story points in a positive direction for the market.', neg:'The story points in a negative direction for the market.', mix:'The direction is unclear – the story can be read both ways.'},
+  nb_x:{etf:'ETFs are a key route for big investors into crypto. Money in means new buying power, money out means selling.',
+    rates:'Interest rates decide how much "cheap money" is around. Lower rates are usually good for crypto, higher rates usually bad.',
+    infl:'Inflation numbers shape what the central bank does with rates. Lower inflation raises hopes of rate cuts, which often lifts crypto.',
+    trade:'Tariffs and trade fights make investors nervous, and many then sell risky assets like crypto. Relief works the other way.',
+    reg:'Rules decide what banks, funds and exchanges may do. Clear, friendly rules are positive; lawsuits, bans and delays are negative.',
+    sec:'Hacks and fraud hurt trust. They hit the coin or service that was attacked hardest, but can spill over to the rest.',
+    inst:'When big companies and funds buy or build on crypto, demand and credibility rise.',
+    stable:'Stablecoins are the "dollars" of the crypto market. More stablecoins often means more money ready to buy crypto.',
+    politics:'Statements from politicians, especially in the US, can move the market fast, above all on tariffs, rules or state crypto purchases.',
+    macro:'Big economic news affects how willing investors are to take risk, and crypto often follows the rest of the financial market.',
+    coin:n=>`The story is directly about ${n}. Big news about one coin can move it a lot – and sometimes the whole market.`,
+    gen:'The story is relevant to the crypto market, but the effect is probably moderate.'},
+});
+DEF.newsAuto = false; if(S.newsAuto == null) S.newsAuto = false;
+UI.tab.news = 'brief'; UI.nsMap = {}; UI.newsAll = false;
+
+const NOISE_RE = /\b(sponsored|press release|partner content|price predictions?|presales?|pre-sale|best (crypto|cryptos|altcoins?|coins?|meme ?coins?|tokens?) to buy|top \d+ (crypto|cryptos|altcoins?|coins?|tokens?)|casinos?|betting|gambl\w*|giveaway|how to (buy|mine|stake)|beginner'?s guide|podcast|webinar|newsletter|quiz|horoscope|could (soar|explode|10x|100x)|\d+x (gains|potential)|millionaires?|next (bitcoin|shiba|dogecoin|pepe)|hidden gem|social security|student loans?|mortgage rates? today|my (aunt|uncle|wife|husband|mother|father))\b/i;
+const NEWS_COINS = [['bitcoin','Bitcoin',/\bbitcoin\b|\bBTC\b/i],['ethereum','Ethereum',/\bethereum\b|\bether\b|\bETH\b/],['solana','Solana',/\bsolana\b|\bSOL\b/],['ripple','XRP',/\bXRP\b|\bripple\b/i],['binancecoin','BNB',/\bBNB\b/],['dogecoin','Dogecoin',/\bdogecoin\b|\bDOGE\b/i],['cardano','Cardano',/\bcardano\b|\bADA\b/],['tron','Tron',/\bTRON\b|\bTRX\b/],['chainlink','Chainlink',/\bchainlink\b/i],['hyperliquid','Hyperliquid',/\bhyperliquid\b|\bHYPE\b/],['zcash','Zcash',/\bzcash\b|\bZEC\b/i],['monero','Monero',/\bmonero\b|\bXMR\b/i],['litecoin','Litecoin',/\blitecoin\b|\bLTC\b/i],['avalanche-2','Avalanche',/\bavalanche\b|\bAVAX\b/],['sui','Sui',/\bSui\b|\bSUI\b/],['the-open-network','Toncoin',/\btoncoin\b|\bTON\b|\bGRAM\b/],['stellar','Stellar',/\bstellar\b|\bXLM\b/i],['shiba-inu','Shiba Inu',/\bshiba inu\b|\bSHIB\b/i],['pepe','Pepe',/\bPEPE\b/],['tether','Tether',/\btether\b|\bUSDT\b/i],['usd-coin','USDC',/\bUSDC\b/],['uniswap','Uniswap',/\buniswap\b/i],['aave','Aave',/\baave\b/i],['polkadot','Polkadot',/\bpolkadot\b/i],['bittensor','Bittensor',/\bbittensor\b|\bTAO\b/],['worldcoin-wld','Worldcoin',/\bworldcoin\b|\bWLD\b/],['ondo-finance','Ondo',/\bondo\b/i],['official-trump','TRUMP',/\$TRUMP\b|\bTRUMP (coin|memecoin|token)\b/i],['world-liberty-financial','WLFI',/\bworld liberty\b|\bWLFI\b/i]];
+const newsCoins = n => NEWS_COINS.filter(([, , re]) => re.test(n.title)).map(([id, nm]) => ({id, nm}));
+function newsRel(n){
+  if(NOISE_RE.test(n.title)) return 0;
+  const w = (n.topics||[]).reduce((a, id) => a + (TOPICS.find(x => x.id===id) || {w:0}).w, 0), c = newsCoins(n).length;
+  if(n.kind==='macro' && !(n.topics||[]).some(x => ['macro','politics','reg','etf','btc','eth','stable','inst','sec'].includes(x)) && !c && !MKT_RE.test(n.title)) return 0;
+  return w + (n.people||[]).length*1.5 + c;
+}
+const isRelevant = n => newsRel(n) >= 1.5;
+const IMPACT = [
+  [/\b(net )?inflows?\b/i, 2, 'etf'], [/\boutflows?\b/i, -2, 'etf'], [/\b(etfs?)\b.{0,30}\b(launch|debut|approv|list)\w*/i, 1.5, 'etf'],
+  [/\brate cuts?\b|\bcuts? (interest )?rates\b|\bdovish\b|\bmonetary easing\b/i, 2, 'rates'], [/\brate hikes?\b|\bhikes? (interest )?rates\b|\bhawkish\b|higher for longer/i, -2, 'rates'],
+  [/inflation (cools|cooled|eases|eased|slows|slowed|falls|fell|drops|dropped)|(cooler|softer)[- ]than[- ]expected/i, 2, 'infl'], [/inflation (rises|rose|jumps|jumped|accelerates|accelerated|surges|heats)|hotter[- ]than[- ]expected|sticky inflation/i, -2, 'infl'],
+  [/tariffs?\b.{0,40}\b(eas|cut|paus|delay|lift|lower|remov|exempt|truce|deal)\w*|\b(eas|cut|paus|delay|lift|lower|remov|exempt)\w*\b.{0,25}tariffs?/i, 2, 'trade'], [/\b(new|higher|more|raises?|raised|hikes?|impos\w*|threat\w*|slaps?)\b.{0,25}tariffs?|tariffs? (hike|threat|war)|trade war/i, -2, 'trade'],
+  [/\b(hack(ed|ers?|s)?|exploit(ed|s)?|drain(ed|s)?|stolen|breach(ed)?)\b/i, -2.5, 'sec'],
+  [/\b(dismiss\w*|drops? (the )?(case|lawsuit|charges)|settles?|settled|wins? (the )?(case|lawsuit|appeal))\b/i, 1.5, 'reg'], [/\b(sues?|sued|lawsuit|charges?|charged|indict\w*|fraud|probe|investigat\w*|subpoena\w*)\b/i, -1.5, 'reg'],
+  [/\bbans?\b|\bbanned\b|crack(s|ing)? down|crackdown/i, -2, 'reg'], [/\b(clarity|framework|passes|passed|signs?|signed)\b.{0,30}\b(bill|act|law|rules?)\b|\bbill (passes|advances|clears)\b/i, 1.5, 'reg'],
+  [/\b(buys?|bought|acquir\w*|adds?|purchas\w*|accumulat\w*)\b.{0,40}\b(bitcoin|btc|ether|eth|solana|sol|xrp)\b/i, 1.5, 'inst'], [/strategic (bitcoin|crypto) reserve/i, 1.5, 'politics'],
+  [/\b(stablecoin)s?\b.{0,30}\b(record|grows?|growth|surge|supply hits)\b/i, 1, 'stable'],
+  [/\b(record high|all[- ]time high|new high)\b/i, 1.5, null, 1], [/\b(surges?|soars?|rall(y|ies|ied)|jumps?|climbs?|rebounds?|gains?)\b/i, 1, null, 1],
+  [/\b(plunges?|crash(es|ed)?|slumps?|tumbles?|sinks?|drops?|falls?|sell-?off|slides?|bloodbath)\b/i, -1, null, 1], [/\bliquidat\w*/i, -1, null, 1],
+  [/\b(bankrupt\w*|insolven\w*|collapse[sd]?|halts? withdrawals)\b/i, -2.5], [/\b(launch(es|ed)?|partners?(hip)?|integrat\w*|adopt\w*|goes live|upgrade)\b/i, .7, null, 1],
+  [/\b(outage|delist\w*|layoffs?|recession|shutdown)\b/i, -1.2],
+];
+function newsImpact(st){
+  const txt = st.items.map(x => x.title).join(' . ') + ' . ' + (st.lead.desc || ''); let s = 0, gen = 0, tag = null;
+  IMPACT.forEach(([re, w, tg, g]) => { if(re.test(txt)){ if(g) gen += w; else { s += w; if(!tag && tg) tag = tg; } } });
+  s += tag ? gen*.5 : gen; const dir = s >= 1.5 ? 'pos' : s <= -1.5 ? 'neg' : 'mix';
+  if(!tag){ const pr = ['etf','reg','sec','inst','stable','politics','macro'].find(x => st.topics.includes(x)); tag = pr || (st.coins.length ? 'coin' : 'gen'); }
+  const X = t('nb_x'); const why = tag==='coin' ? X.coin(st.coins.map(c => c.nm).slice(0,2).join(S.lang==='en'?' and ':' og ')) : X[tag] || X.gen;
+  return {dir, score:s, tag, text: t('nb_d')[dir] + ' ' + why};
+}
+function cleanSum(d, title){
+  let x = String(d||'').replace(/The post .*? appeared first on .*$/i,'').replace(/\b(Read more|Continue reading)\b.*$/i,'').replace(/\s*\[?(…|\.\.\.)\]?\s*$/,'…').trim();
+  if(!x || normT(x).startsWith(normT(title).slice(0,40))) return '';
+  const parts = x.match(/[^.!?]+[.!?]+/g) || [x]; let out = ''; for(const p of parts){ if((out+p).length > 280) break; out += p; } return (out || trunc(x, 260)).trim();
+}
+const STOPW = new Set('with that this from will after have says said more than over into could about what their they them amid ahead also just were been being when where which while your yours here there these those week today news price prices market markets crypto first last year years month says report reports update'.split(' '));
+const sigW = s => new Set((String(s).toLowerCase().match(/[a-z0-9$]{4,}/g) || []).filter(w => !STOPW.has(w)));
+function keyStories(){
+  const hidden = D.news.filter(n => !isRelevant(n)).length; const rel = D.news.filter(n => isRelevant(n) && Date.now()-n.t < 36*HOUR);
+  const cl = [];
+  rel.slice().sort((a,b) => a.t-b.t).forEach(n => { const w = sigW(n.title); let best = null, bs = 0;
+    for(const c of cl){ if(Math.abs(c.t-n.t) > 36*HOUR) continue; let k = 0; w.forEach(x => { if(c.words.has(x)) k++; }); const j = k/(Math.min(w.size, c.words.size) || 1); if(k >= 3 && j >= .5 && j > bs){ best = c; bs = j; } }
+    if(best){ best.items.push(n); best.t = Math.max(best.t, n.t); } else cl.push({items:[n], words:w, t:n.t}); });
+  const stories = cl.map(c => { const lead = c.items.slice().sort((a,b) => newsRel(b)-newsRel(a) || (b.desc||'').length-(a.desc||'').length)[0];
+    const srcs = Array.from(new Set(c.items.map(x => x.src))); const topics = Array.from(new Set(c.items.flatMap(x => x.topics||[]))); const coins = []; c.items.forEach(x => newsCoins(x).forEach(k => { if(!coins.find(y => y.id===k.id)) coins.push(k); }));
+    const rel0 = Math.max(...c.items.map(newsRel)); const score = (rel0 + (srcs.length-1)*1.6 + (c.items.flatMap(x => x.people||[]).length ? 1 : 0)) * Math.exp(-(Date.now()-c.t)/HOUR/18);
+    const best = c.items.map(x => cleanSum(x.desc, x.title)).sort((a,b) => b.length-a.length)[0] || '';
+    const st = {sid:'s'+gId(lead.id), lead, items:c.items, srcs, topics, coins, t:c.t, score, sum:best, rel:rel0 + (srcs.length-1)*1.6};
+    st.imp = st.rel >= 8 ? 3 : st.rel >= 4.5 ? 2 : 1; st.impact = newsImpact(st); UI.nsMap[st.sid] = st; return st; }).sort((a,b) => b.score-a.score);
+  return {stories, hidden, total:D.news.length, rel:rel.length, srcCount:new Set(D.news.map(n => n.srcId)).size};
+}
+function storyCard(st){
+  const L = st.lead, ai = (store.get('nsai', {})[st.sid+'|'+S.lang]) || null; const wide = st.topics.some(x => ['macro','politics','reg','etf','stable','inst'].includes(x)) || st.coins.some(c => c.id==='bitcoin');
+  const chips = (wide ? `<span class="ctag">${esc(t('nb_all_mkt'))}</span>` : '') + st.coins.slice(0,5).map(c => `<a class="ctag" href="#coin/${encodeURIComponent(c.id)}">${esc(c.nm)}</a>`).join('');
+  return `<article class="card ns ns-${st.impact.dir}"><div class="ns-top"><span class="ns-imp">${impBars(st.imp)} ${esc(t('nb_imp')[st.imp])}</span><span class="ns-dir ${st.impact.dir}">${esc(t('nb_dir')[st.impact.dir])}</span><span class="dim"><span data-ago="${st.t}">${esc(ago(st.t))}</span> · ${esc(t('nb_n', st.srcs.length))}</span></div>
+    <h3><a href="${esc(safeUrl(L.link))}" target="_blank" rel="noopener">${esc(L.title)}</a></h3>
+    ${ai ? `<div class="ns-sec ai">${badge('ai')}<div class="md">${md(ai.text)}</div>${aiSources(ai.sources)}</div>` : `
+    <div class="ns-sec"><h4>${esc(t('nb_short'))} ${badge('fact')}</h4><p>${st.sum ? esc(st.sum) : `<span class="dim">${esc(t('nb_nosum'))}</span>`}</p>${st.sum ? `<small class="dim">${esc(L.src)}${S.lang==='en'?'':' · '+esc(t('nb_en'))}</small>` : ''}</div>
+    <div class="ns-sec"><h4>${esc(t('nb_mean'))} ${badge('interp')}</h4><p>${esc(st.impact.text)}</p></div>`}
+    ${chips ? `<div class="ns-chips"><span class="dim">${esc(t('nb_hits'))}:</span>${chips}</div>` : ''}
+    <div class="ns-f"><span class="ns-src">${esc(t('nb_srcs'))}: ${st.items.slice(0,6).map(x => `<a href="${esc(safeUrl(x.link))}" target="_blank" rel="noopener">${esc(x.src)}</a>`).join(' · ')}</span>${!ai ? `<button class="btn sm" data-act="ns-ai" data-sid="${esc(st.sid)}">✦ ${esc(t('nb_ai_story'))}</button>` : ''}</div>
+    <div class="ns-out" id="nso-${esc(st.sid)}"></div></article>`;
+}
+function aiSweepHTML(){
+  const c = store.get('newsai', null); if(!c || c.lang !== S.lang) return '';
+  if(!c.items) return `<div class="md">${md(c.text||'')}</div>${aiSources(c.sources)}`;
+  return `${c.overall ? `<p class="ns-overall"><b>${esc(t('nb_overall'))}:</b> ${esc(c.overall)}</p>` : ''}<div class="ns-ai-list">${c.items.map(x => { const d = x.impact==='positive' ? 'pos' : x.impact==='negative' ? 'neg' : 'mix'; const imp = clamp(+x.importance||2, 1, 3);
+    return `<div class="ns-ai-i ns-${d}"><div class="ns-top"><span class="ns-imp">${impBars(imp)} ${esc(t('nb_imp')[imp])}</span><span class="ns-dir ${d}">${esc(t('nb_dir')[d])}</span>${x.who ? `<span class="dim">${esc(t('nb_hits'))}: ${esc(x.who)}</span>` : ''}</div>
+      <h4>${esc(x.title||'')}</h4><p>${esc(x.summary||'')}</p>${x.why ? `<p class="ns-why"><b>${esc(t('nb_mean'))}</b> ${esc(x.why)}</p>` : ''}${(x.sources||[]).length ? `<div class="ns-src">${(x.sources||[]).slice(0,4).map(s => `<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(trunc(s.name||s.title||s.url, 40))}</a>`).join(' · ')}</div>` : ''}</div>`; }).join('')}</div>${aiSources(c.sources)}`;
+}
+function newsBriefHTML(){
+  const K = keyStories(), ai = store.get('newsai', null);
+  if(S.aiKey && S.newsAuto && !UI.nsAuto && (!ai || ai.lang !== S.lang || Date.now()-ai.at > 3*HOUR) && D.news.length){ UI.nsAuto = true; setTimeout(aiSweep, 400); }
+  const list = K.stories.slice(0, 14);
+  return `<section class="card nb-head"><div class="card-h"><h2>${esc(t('nb_t'))}</h2><span class="dim" style="font-size:13px">${esc(t('updated'))} <span data-ago="${D.newsAt}">${esc(ago(D.newsAt))}</span></span></div>
+      <p class="muted" style="margin:-4px 0 0;font-size:13.5px">${esc(t('nb_scan', {n:K.total, s:K.srcCount, r:K.rel, c:K.stories.length, h:K.hidden}))}</p>
+      <div class="nb-ai"><div><b>✦ ${esc(t('nb_ai_t'))}</b><p>${esc(t('nb_ai_d'))}</p>
+        ${S.aiKey ? `<div class="nb-ai-c"><button class="btn pri" data-act="ns-sweep">${esc(t('nb_ai_btn'))}</button><label class="chk"><input type="checkbox" id="ns-auto" ${S.newsAuto?'checked':''}>${esc(t('nb_ai_auto'))}</label></div>` : `<p class="dim" style="font-size:12.5px">${esc(t('nb_ai_need'))}</p>`}</div>
+        <div id="ns-sweep-out">${ai && ai.lang===S.lang ? `<div class="src" style="margin:0 0 8px">${badge('ai')} ${esc(t('nb_ai_res'))} · ${esc(fmtDT(new Date(ai.at)))}</div>${aiSweepHTML()}` : ''}</div></div></section>
+    ${list.length ? list.map(storyCard).join('') : `<section class="card">${D.news.length ? `<div class="empty">${esc(t('nb_none'))}</div>` : errOr('news', t('ds.news'))}</section>`}
+    <p class="dim" style="font-size:12.5px;margin:0">${esc(t('nb_auto'))}</p>`;
+}
+function parseJSONLoose(s){ const m = String(s).match(/```(?:json)?\s*([\s\S]*?)```/); const raw = m ? m[1] : String(s).slice(String(s).indexOf('{'), String(s).lastIndexOf('}')+1); try{ return JSON.parse(raw); }catch(e){ return null; } }
+async function aiSweep(){
+  if(!S.aiKey){ go('settings'); return; } const out = $('#ns-sweep-out'), btn = $('[data-act="ns-sweep"]'); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
+  const no = S.lang !== 'en', K = keyStories(), cands = K.stories.slice(0, 25).map(s => `[${s.srcs.join(', ')} · ${new Date(s.t).toISOString().slice(0,16)}Z] ${s.lead.title}`);
+  const sys = no ? 'Du er en nøktern nyhetsredaktør for kryptomarkedet. Du skriver for en person som ikke kan så mye om finans: enkel norsk (bokmål), korte setninger, forklar fagord. Ikke gi kjøps- eller salgsråd. Ikke finn på saker, tall eller sitater – bruk bare det du faktisk finner i nettsøk, og oppgi kilder.'
+    : 'You are a sober news editor for the crypto market. You write for someone who does not know much about finance: plain English, short sentences, explain jargon. Do not give buy or sell advice. Do not invent stories, numbers or quotes – use only what you actually find via web search, and cite sources.';
+  const user = (no ? `Gjennomsøk nettet grundig etter de viktigste nyhetene de siste 24 timene (nå: ${new Date().toISOString()}) som kan påvirke kryptomarkedet: krypto (bitcoin, ether, store altcoins, ETF-strømmer, regulering, hacking, store selskaper) og makro (Fed og renter, inflasjon, toll, dollar, aksjemarkedet). Bruk flere ulike søk. Her er overskrifter appen allerede har funnet, som utgangspunkt:\n` : `Search the web thoroughly for the most important news of the last 24 hours (now: ${new Date().toISOString()}) that can affect the crypto market: crypto (bitcoin, ether, major altcoins, ETF flows, regulation, hacks, big companies) and macro (Fed and rates, inflation, tariffs, the dollar, the stock market). Use several different searches. Here are headlines the app already found, as a starting point:\n`)
+    + cands.join('\n') + (no ? `\n\nVelg de 6–8 viktigste sakene og hopp over det som ikke betyr noe for markedet. Svar KUN med JSON i dette formatet:\n{"overall":"én setning om stemningen","items":[{"title":"kort norsk tittel","summary":"2–3 enkle setninger om hva som skjedde","impact":"positive|negative|mixed","why":"1–2 enkle setninger om hvorfor dette kan påvirke markedet","who":"hvem det berører, f.eks. Hele markedet eller BTC, ETH","importance":1-3,"sources":[{"name":"kilde","url":"https://..."}]}]}`
+      : `\n\nPick the 6–8 most important stories and skip anything that does not matter for the market. Reply ONLY with JSON in this format:\n{"overall":"one sentence on the mood","items":[{"title":"short title","summary":"2–3 simple sentences on what happened","impact":"positive|negative|mixed","why":"1–2 simple sentences on why this could move the market","who":"who it affects, e.g. The whole market or BTC, ETH","importance":1-3,"sources":[{"name":"source","url":"https://..."}]}]}`);
+  try{ const r = await askClaude(sys, user, 8); const j = parseJSONLoose(r.text); const c = j && Array.isArray(j.items) ? {at:Date.now(), lang:S.lang, overall:j.overall||'', items:j.items.slice(0,10), sources:r.sources} : {at:Date.now(), lang:S.lang, text:r.text, sources:r.sources};
+    store.set('newsai', c); const o = $('#ns-sweep-out'); if(o) o.innerHTML = `<div class="src" style="margin:0 0 8px">${badge('ai')} ${esc(t('nb_ai_res'))} · ${esc(fmtDT(new Date(c.at)))}</div>${aiSweepHTML()}`; }
+  catch(e){ const o = $('#ns-sweep-out'); if(o) o.innerHTML = `<div class="err"><b>${esc(t('ai_err', e.message))}</b></div>`; }
+  const b2 = $('[data-act="ns-sweep"]'); if(b2) b2.disabled = false;
+}
+async function aiStory(sid){
+  if(!S.aiKey){ go('settings'); return; } const st = UI.nsMap[sid]; if(!st) return; const out = $('#nso-'+sid), btn = $(`[data-act="ns-ai"][data-sid="${sid}"]`); if(btn) btn.disabled = true; if(out) out.innerHTML = `<div class="empty">${esc(t('ai_working'))}</div>`;
+  const no = S.lang !== 'en';
+  const sys = no ? 'Du forklarer nyheter for en nybegynner innen krypto og finans. Enkel norsk (bokmål), korte setninger. Ikke gi kjøps- eller salgsråd. Ikke finn på fakta; bruk saken og nettsøk, og oppgi kilder.' : 'You explain news to a beginner in crypto and finance. Plain English, short sentences. No buy or sell advice. Do not invent facts; use the story and web search, and cite sources.';
+  const user = (no ? 'Forklar denne nyhetssaken. Søk gjerne opp saken for å få med detaljene. Bruk overskriftene (## ):\n## Hva skjedde?\n## Hvorfor betyr det noe?\n## Mulig effekt på markedet (positiv, negativ eller uklar – og for hvilke coins)\nMaks 170 ord.\n\n' : 'Explain this news story. Feel free to look it up for details. Use the headings (## ):\n## What happened?\n## Why does it matter?\n## Possible market effect (positive, negative or unclear – and for which coins)\nMax 170 words.\n\n')
+    + `Headline: ${st.lead.title}\nSources: ${st.srcs.join(', ')}\nLink: ${st.lead.link}\nIntro: ${st.sum || st.lead.desc || ''}\nPublished: ${new Date(st.t).toISOString()}`;
+  try{ const r = await askClaude(sys, user, 2); const all = store.get('nsai', {}); all[sid+'|'+S.lang] = {at:Date.now(), text:r.text, sources:r.sources}; const ks = Object.keys(all); if(ks.length > 40) ks.sort((a,b)=>all[a].at-all[b].at).slice(0, ks.length-40).forEach(k => delete all[k]); store.set('nsai', all);
+    const card = out && out.closest('.ns'); if(card){ card.outerHTML = storyCard(st); } }
+  catch(e){ if(out) out.innerHTML = `<div class="err"><b>${esc(t('ai_err', e.message))}</b></div>`; if(btn) btn.disabled = false; }
+}
+document.addEventListener('click', e => { const a = e.target.closest('[data-act]'); if(!a) return; const act = a.dataset.act;
+  if(act==='ns-sweep') aiSweep(); else if(act==='ns-ai') aiStory(a.dataset.sid); else if(act==='ns-all'){ UI.newsAll = !UI.newsAll; renderView(); } });
+document.addEventListener('change', e => { if(e.target.id==='ns-auto'){ S.newsAuto = e.target.checked; saveS(); toast(t('saved')); if(S.newsAuto){ UI.nsAuto = false; renderView(); } } });
+
+/* =====================================================================
+   TRADING AGENT: an autonomous paper trader with 1000 fake dollars.
+   It follows the trading document's method (support/resistance, candle
+   signals, retests, R:R >= 1.5, at least two confirming signals, stop
+   loss on every trade, 1 % risk) on closed 1-hour candles, long only,
+   and compares itself with simply holding bitcoin or a basket of coins.
+   Nobody can steer it: the page only shows what it does and why.
+   Runs whenever the app is open and replays missed candles on return.
+   ===================================================================== */
+Object.assign(I18N.no, {
+  p_agent:'Agent', d_agent:'En robot som trader med 1000 falske dollar etter læringsdokumentet, og som sammenligner seg med markedet.', tile_agent:o=>`Agenten: ${o.r} · markedet ${o.b}`,
+  ag_lead:'Agenten handler helt på egen hånd med 1000 falske dollar, etter reglene i trading-dokumentet. Du kan bare følge med – den kan ikke styres.',
+  ag_value:'Agentens verdi', ag_vs_btc:'Kjøp og hold bitcoin', ag_vs_bsk:'Kjøp og hold kurv (10 coins)', ag_beats:p=>`Slår markedet med ${p}`, ag_loses:p=>`Ligger ${p} bak markedet`, ag_start:d=>`Startet ${d} med 1 000 $`,
+  ag_status_run:'Regner …', ag_status_ok:t=>`Aktiv · sist sjekket ${t}`, ag_next:'Neste sjekk om', ag_wait:'Henter kursdata og starter agenten …', ag_err:'Fikk ikke hentet kursdata nå. Agenten prøver igjen automatisk.',
+  ag_open:'Åpne posisjoner', ag_none_open:'Ingen åpne posisjoner. Agenten venter på et signal som oppfyller reglene.', ag_log:'Handelslogg', ag_none_log:'Ingen handler ennå.',
+  ag_chart:'Verdi over tid', ag_rules:'Slik tenker agenten', ag_stats:'Nøkkeltall',
+  ag_cash:'Kontanter', ag_inpos:'I posisjoner', ag_trades:'Avsluttede handler', ag_win:'Treffprosent', ag_dd:'Største fall', ag_fees:'Betalt i gebyrer', ag_pnl:'Gevinst/tap',
+  ag_buy:'KJØP', ag_sell:'SALG', ag_bf:'simulert oppstart', ag_entry:'Inngang', ag_now:'Nå', ag_sl:'Stop', ag_tp:'Mål',
+  ag_why_buy:'Kjøpte fordi', ag_rr:'R:R', ag_be:'Stoppen flyttet til inngangsprisen', ag_x:{stop:'Stop loss traff – tapet ble holdt lite, slik planen sa.', tp:'Nådde målet ved neste motstand.', be:'Gikk ut på inngangsprisen etter at stoppen var flyttet dit.', signal:'Salgssignal: prisen står ved motstand med et svakt candlestick-signal.', time:'Tidsstopp: handelen gikk ingen vei på 3 døgn.'},
+  ag_n_buy:o=>`Agenten kjøpte ${o.s} til ${o.p}. ${o.w}`, ag_n_sell:o=>`Agenten solgte ${o.s} til ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`Mens appen var lukket gjorde agenten ${n} handler. Se Agent-siden.`,
+  ag_r:['Handler bare når minst to signaler peker samme vei (f.eks. support + bullish candle + trend).','Krever minst 1,5 ganger så mye mulig gevinst som risiko (R:R ≥ 1,5). Mot trenden kreves tre signaler.','Risikerer 1 % av kontoen per handel, og setter alltid stop loss under støtten.','Flytter stoppen til inngangsprisen når handelen er 1R i pluss.','Selger ved målet, ved stop loss, ved et tydelig salgssignal ved motstand, eller etter 3 døgn uten fremgang.','Maks 4 åpne posisjoner og maks 30 % av kontoen i én coin. Betaler 0,1 % gebyr per handel.','Handler bare «long» (kjøper og selger), som på en vanlig konto. Ser på 1-timeslys for 10 store coins.'],
+  ag_note:'Agenten har ingen egen server: den regner mens appen er åpen, og når du åpner appen igjen spoler den gjennom timene den gikk glipp av. Første uke er en simulert oppstart på ekte historiske kurser. Dette er en øvelse, ikke investeringsråd.',
+  ag_notif:'Slå på varsler', ag_notif_on:'Varsler er på',
+});
+Object.assign(I18N.en, {
+  p_agent:'Agent', d_agent:'A robot trading 1000 fake dollars by the learning document, comparing itself with the market.', tile_agent:o=>`Agent: ${o.r} · market ${o.b}`,
+  ag_lead:'The agent trades entirely on its own with 1000 fake dollars, following the rules of the trading document. You can only watch – it cannot be steered.',
+  ag_value:'Agent value', ag_vs_btc:'Buy and hold bitcoin', ag_vs_bsk:'Buy and hold basket (10 coins)', ag_beats:p=>`Beating the market by ${p}`, ag_loses:p=>`Trailing the market by ${p}`, ag_start:d=>`Started ${d} with $1,000`,
+  ag_status_run:'Working …', ag_status_ok:t=>`Active · last check ${t}`, ag_next:'Next check in', ag_wait:'Fetching prices and starting the agent …', ag_err:'Could not fetch prices right now. The agent will retry automatically.',
+  ag_open:'Open positions', ag_none_open:'No open positions. The agent is waiting for a signal that meets its rules.', ag_log:'Trade log', ag_none_log:'No trades yet.',
+  ag_chart:'Value over time', ag_rules:'How the agent thinks', ag_stats:'Key numbers',
+  ag_cash:'Cash', ag_inpos:'In positions', ag_trades:'Closed trades', ag_win:'Win rate', ag_dd:'Largest drop', ag_fees:'Paid in fees', ag_pnl:'Profit/loss',
+  ag_buy:'BUY', ag_sell:'SELL', ag_bf:'simulated start', ag_entry:'Entry', ag_now:'Now', ag_sl:'Stop', ag_tp:'Target',
+  ag_why_buy:'Bought because', ag_rr:'R:R', ag_be:'Stop moved to entry price', ag_x:{stop:'Stop loss hit – the loss was kept small, as planned.', tp:'Reached the target at the next resistance.', be:'Exited at the entry price after the stop had been moved there.', signal:'Sell signal: price is at resistance with a weak candlestick signal.', time:'Time stop: the trade went nowhere for 3 days.'},
+  ag_n_buy:o=>`The agent bought ${o.s} at ${o.p}. ${o.w}`, ag_n_sell:o=>`The agent sold ${o.s} at ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`While the app was closed the agent made ${n} trades. See the Agent page.`,
+  ag_r:['Only trades when at least two signals agree (e.g. support + bullish candle + trend).','Needs at least 1.5 times as much possible gain as risk (R:R ≥ 1.5). Against the trend it needs three signals.','Risks 1% of the account per trade and always sets a stop loss below support.','Moves the stop to the entry price once the trade is 1R in profit.','Sells at the target, at the stop loss, on a clear sell signal at resistance, or after 3 days without progress.','Max 4 open positions and max 30% of the account in one coin. Pays a 0.1% fee per trade.','Trades long only (buys and sells), like a normal account. Watches 1-hour candles for 10 large coins.'],
+  ag_note:'The agent has no server of its own: it works while the app is open, and when you reopen the app it replays the hours it missed. The first week is a simulated start on real historical prices. This is practice, not investment advice.',
+  ag_notif:'Turn on notifications', ag_notif_on:'Notifications are on',
+});
+ICON.agent = '<rect x="4.5" y="8" width="15" height="11" rx="3.5"/><path d="M12 4.5V8M9.2 12.6h.01M14.8 12.6h.01M9.5 16h5"/><circle cx="12" cy="3.6" r="1"/>';
+
+const AG = {coins:['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','LINK','AVAX','LTC'], tf:'1h', risk:.01, maxPos:4, maxAlloc:.3, fee:.001, start:1000, backfill:7*DAY, timeStop:3*DAY};
+const AGID = {BTC:'bitcoin', ETH:'ethereum', SOL:'solana', XRP:'ripple', BNB:'binancecoin', DOGE:'dogecoin', ADA:'cardano', LINK:'chainlink', AVAX:'avalanche-2', LTC:'litecoin'};
+let agState = store.get('agent', null), agBusy = false, agErr = '', agNextAt = 0;
+const agSave = () => store.set('agent', agState);
+const agFmt = v => fmtCur(v, {cur:'usd'});
+const agUsd = v => NF('agusd', {style:'currency', currency:'USD', currencyDisplay:'narrowSymbol', minimumFractionDigits:2, maximumFractionDigits:2}).format(v);
+function agWhy(w){
+  if(!w) return '';
+  if(w.type === 'buy'){ const fs = (w.fs||[]).map(([k, a]) => typeof a === 'string' && a.startsWith('pat:') ? t(k, t('pat.'+a.slice(4))) : a != null ? t(k, a) : t(k)); return `${t('ag_why_buy')}: ${fs.join(' + ')}. ${t('ag_sl')} ${agFmt(w.sl)}, ${t('ag_tp').toLowerCase()} ${agFmt(w.tp)} (${t('ag_rr')} ${fmtNum(w.rr, 1)}).`; }
+  return t('ag_x')[w.r] || '';
+}
+function agEquity(px){ let v = agState.cash; Object.entries(agState.pos).forEach(([s, p]) => { v += p.qty * (px[s] || p.entry); }); return v; }
+function agBuy(sym, px, setup, an, at, bf){
+  const st = agState; if(st.pos[sym] || Object.keys(st.pos).length >= AG.maxPos) return;
+  const eq = agEquity(st.lastPx || {}), riskD = eq * AG.risk, per = px - setup.sl; if(per <= 0) return;
+  let qty = riskD / per; qty = Math.min(qty, eq*AG.maxAlloc/px, (st.cash/(1+AG.fee))/px); if(qty*px < 10) return;
+  const fee = qty*px*AG.fee; st.cash -= qty*px + fee; st.fees = (st.fees||0) + fee;
+  const bullK = (an.patterns||[]).filter(p => p.bias==='bull').map(p => p.kind).pop();
+  const fs = setup.factors.filter(f => !f.neutral).map(f => [f.k, f.k==='cf_bull' && bullK ? 'pat:'+bullK : (typeof f.a === 'number' ? f.a : null)]);
+  const why = {type:'buy', fs, sl:setup.sl, tp:setup.tp, rr:setup.rr};
+  st.pos[sym] = {qty, entry:px, sl:setup.sl, sl0:setup.sl, tp:setup.tp, at, why, cost:qty*px+fee};
+  st.trades.unshift({at, side:'buy', sym, px, qty, val:qty*px, fee, why, bf:!!bf}); st.trades = st.trades.slice(0, 400);
+}
+function agSell(sym, px, reason, at, bf){
+  const st = agState, p = st.pos[sym]; if(!p) return; const val = p.qty*px, fee = val*AG.fee; st.cash += val - fee; st.fees = (st.fees||0) + fee;
+  const pnl = val - fee - p.cost; delete st.pos[sym];
+  st.trades.unshift({at, side:'sell', sym, px, qty:p.qty, val, fee, pnl, pnlPct:pnl/p.cost*100, entry:p.entry, why:{type:'sell', r:reason}, bf:!!bf}); st.trades = st.trades.slice(0, 400);
+}
+function agInit(cs){
+  const startAt = Math.floor((Date.now() - AG.backfill)/HOUR)*HOUR; const base = {}, last = {};
+  AG.coins.forEach(s => { const c = cs[s]; if(!c) return; const k = c.find(x => x.t >= startAt); if(k){ base[s] = k.o; last[s] = startAt - HOUR; } });
+  agState = {v:1, created:Date.now(), startAt, cash:AG.start, fees:0, pos:{}, trades:[], last, base, eq:[[startAt, AG.start, 1, 1]], lastPx:{}, notified:Date.now(), checked:0};
+}
+async function agentRun(){
+  if(agBusy) return; agBusy = true; agErr = ''; agRefreshUI();
+  try{
+    const cs = {}; for(const s of AG.coins){ try{ const k = await loadCandles(s, AG.tf, true); cs[s] = k.candles; }catch(e){} await sleep(150); }
+    if(!cs.BTC || Object.keys(cs).length < 5) throw new Error('candles');
+    if(!agState) agInit(cs);
+    const st = agState, now = Date.now(); AG.coins.forEach(s => { if(cs[s] && st.base[s] == null){ const k = cs[s][cs[s].length-2]; if(k){ st.base[s] = k.c; st.last[s] = k.t; } } });
+    const times = new Set(); AG.coins.forEach(s => (cs[s]||[]).forEach(c => { if(c.t + HOUR <= now && c.t > (st.last[s] ?? Infinity)) times.add(c.t); }));
+    const order = Array.from(times).sort((a,b) => a-b); const before = st.trades.length; let steps = 0;
+    for(const T of order){
+      const bf = T + HOUR < st.created; const px = {};
+      for(const s of AG.coins){ const c = cs[s]; if(!c) continue; const i = c.findIndex(x => x.t === T); if(i < 0){ const pc = c.filter(x => x.t <= T).pop(); if(pc) px[s] = pc.c; continue; }
+        const k = c[i]; px[s] = k.c; if(T <= (st.last[s] ?? Infinity)) continue; const at = T + HOUR; const p = st.pos[s];
+        if(p){ if(k.l <= p.sl){ agSell(s, Math.min(k.o, p.sl), p.sl >= p.entry ? 'be' : 'stop', at, bf); }
+          else if(k.h >= p.tp){ agSell(s, Math.max(k.o, p.tp), 'tp', at, bf); }
+          else { if(p.sl < p.entry && k.h >= p.entry + (p.entry - p.sl0)) p.sl = p.entry; if(at - p.at >= AG.timeStop) agSell(s, k.c, 'time', at, bf); } }
+        if(i >= 60){ const win = c.slice(Math.max(0, i-250), i+1); win.push({t:T+HOUR, o:k.c, h:k.c, l:k.c, c:k.c, v:0}); const an = analyze(win);
+          if(an){ if(st.pos[s]){ const sh = (an.cands||[]).find(x => x.side==='short' && x.rr >= 1.5 && x.score >= 2); if(sh) agSell(s, k.c, 'signal', at, bf); }
+            else if(an.setup && an.setup.side==='long') agBuy(s, k.c, an.setup, an, at, bf); } }
+        st.last[s] = T; }
+      st.lastPx = Object.assign(st.lastPx||{}, px);
+      const r = s => px[s] && st.base[s] ? px[s]/st.base[s] : null; const rs = AG.coins.map(r).filter(x => x != null);
+      st.eq.push([T+HOUR, agEquity(st.lastPx), r('BTC') || (st.eq.length ? st.eq[st.eq.length-1][2] : 1), rs.length ? rs.reduce((a,b)=>a+b,0)/rs.length : 1]);
+      if(++steps % 24 === 0) await sleep(0);
+    }
+    if(st.eq.length > 2200){ const cut = st.eq.length - 1500; st.eq = st.eq.filter((x, i) => i >= cut || i % 4 === 0); }
+    st.checked = Date.now(); agSave();
+    const fresh = st.trades.slice(0, st.trades.length - before).filter(x => !x.bf && x.at > (st.notified||0)).reverse();
+    if(fresh.length > 3) notify(t('ag_n_away', fresh.length)); else fresh.forEach(agNotify);
+    st.notified = Date.now(); agSave();
+  }catch(e){ agErr = e.message || 'error'; }
+  agBusy = false; agNextAt = (Math.floor(Date.now()/HOUR)+1)*HOUR + 90*1000; agRefreshUI();
+}
+function agNotify(x){
+  const w = agWhy(x.why); if(x.side==='buy') notify('🤖 ' + t('ag_n_buy', {s:x.sym, p:agFmt(x.px), w}));
+  else notify('🤖 ' + t('ag_n_sell', {s:x.sym, p:agFmt(x.px), r:(x.pnl>=0?'+':'−')+agUsd(Math.abs(x.pnl)), w}));
+}
+function agLiveTick(){
+  if(!agState || agBusy) return; const st = agState; let ch = false;
+  Object.keys(st.pos).forEach(s => { const L = D.all[s], p = st.pos[s]; if(!L || !L.price || Date.now()-L.t > 60000) return; const x = L.price; st.lastPx[s] = x;
+    if(x <= p.sl){ agSell(s, x, p.sl >= p.entry ? 'be' : 'stop', Date.now(), false); ch = true; }
+    else if(x >= p.tp){ agSell(s, x, 'tp', Date.now(), false); ch = true; }
+    else if(p.sl < p.entry && x >= p.entry + (p.entry - p.sl0)){ p.sl = p.entry; ch = true; } });
+  if(ch){ st.trades.filter(x => !x.bf && x.at > (st.notified||0)).reverse().forEach(agNotify); st.notified = Date.now(); agSave(); }
+  if(UI.route === 'agent') agUpdateLive();
+}
+const _onLiveTickA = onLiveTick;
+onLiveTick = function(){ _onLiveTickA(); try{ agLiveTick(); }catch(e){ logErr(e); } };
+setInterval(() => { if(!agBusy && agNextAt && Date.now() >= agNextAt) agentRun(); }, 30000);
+setTimeout(agentRun, 3500);
+
+/* ---- page ---- */
+function agLivePx(s){ const L = D.all[s]; return L && L.price && Date.now()-L.t < 90000 ? L.price : (agState && agState.lastPx && agState.lastPx[s]) || null; }
+function agNow(){
+  const st = agState; const px = {}; AG.coins.forEach(s => { const v = agLivePx(s); if(v) px[s] = v; }); const eq = agEquity(Object.assign({}, st.lastPx, px));
+  const r = s => px[s] && st.base[s] ? px[s]/st.base[s] : null; const rs = AG.coins.map(r).filter(x => x != null);
+  return {eq, btc: (r('BTC') || st.eq[st.eq.length-1][2]) * AG.start, bsk: (rs.length ? rs.reduce((a,b)=>a+b,0)/rs.length : st.eq[st.eq.length-1][3]) * AG.start, px};
+}
+function agChart(){
+  const pts = agState.eq; if(pts.length < 2) return `<div class="empty">${esc(t('ag_wait'))}</div>`;
+  const W = 900, H = 260, P = {l:58, r:12, t:12, b:24}; const t0 = pts[0][0], t1 = pts[pts.length-1][0];
+  const series = [pts.map(p => [p[0], p[1]]), pts.map(p => [p[0], p[2]*AG.start]), pts.map(p => [p[0], p[3]*AG.start])];
+  let mn = Infinity, mx = -Infinity; series.flat().forEach(([, v]) => { if(v < mn) mn = v; if(v > mx) mx = v; }); const nt = niceTicks(mn, mx, 4);
+  const X = v => P.l + (v-t0)/((t1-t0)||1)*(W-P.l-P.r), Y = v => P.t + (1-(v-nt.lo)/((nt.hi-nt.lo)||1))*(H-P.t-P.b);
+  const path = s => s.map((p, i) => (i?'L':'M')+X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1)).join('');
+  const cols = ['var(--accent)', 'var(--k-macro)', 'var(--fg3)'];
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="none" style="height:${H}px" role="img" aria-label="${esc(t('ag_chart'))}">`;
+  nt.ticks.forEach(v => { s += `<line x1="${P.l}" x2="${W-P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" vector-effect="non-scaling-stroke"/><text x="${P.l-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" font-weight="600" fill="var(--fg3)">${esc(agFmt(v))}</text>`; });
+  s += `<line x1="${P.l}" x2="${W-P.r}" y1="${Y(AG.start)}" y2="${Y(AG.start)}" stroke="var(--fg3)" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" opacity=".6"/>`;
+  [2,1,0].forEach(i => { s += `<path d="${path(series[i])}" fill="none" stroke="${cols[i]}" stroke-width="${i?1.6:2.6}" ${i===2?'stroke-dasharray="5 4"':''} vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`; });
+  for(let i = 0; i < 4; i++){ const tv = t0 + (t1-t0)*i/3; s += `<text x="${X(tv)}" y="${H-6}" text-anchor="${i===0?'start':i===3?'end':'middle'}" font-size="11" font-weight="600" fill="var(--fg3)">${esc(DTF({day:'numeric', month:'short'}).format(new Date(tv)))}</text>`; }
+  const sw = pts.findIndex(p => p[0] >= agState.created); if(sw > 0){ const x = X(pts[sw][0]); s += `<line x1="${x}" x2="${x}" y1="${P.t}" y2="${H-P.b}" stroke="var(--accent)" stroke-dasharray="2 4" vector-effect="non-scaling-stroke" opacity=".7"/>`; }
+  return s + `</svg><div class="legend"><span><i style="background:var(--accent)"></i>${esc(t('p_agent'))}</span><span><i style="background:var(--k-macro)"></i>${esc(t('ag_vs_btc'))}</span><span><i style="background:var(--fg3)"></i>${esc(t('ag_vs_bsk'))}</span>${sw > 0 ? `<span class="dim">┊ ${esc(t('ag_bf'))} | live</span>` : ''}</div>`;
+}
+function agStats(){
+  const st = agState, sells = st.trades.filter(x => x.side==='sell'), wins = sells.filter(x => x.pnl > 0).length; let peak = -Infinity, dd = 0; st.eq.forEach(p => { if(p[1] > peak) peak = p[1]; dd = Math.min(dd, (p[1]/peak - 1)*100); });
+  const inPos = Object.entries(st.pos).reduce((a, [s, p]) => a + p.qty*(agLivePx(s) || p.entry), 0);
+  const cell = (k, v) => `<div><span class="k">${esc(k)}</span><b class="n">${v}</b></div>`;
+  return `<div class="ag-stats">${cell(t('ag_cash'), esc(agFmt(st.cash)))}${cell(t('ag_inpos'), esc(agFmt(inPos)))}${cell(t('ag_trades'), sells.length)}${cell(t('ag_win'), sells.length ? fmtNum(wins/sells.length*100, 0)+pctSign() : '—')}${cell(t('ag_dd'), `<span class="${dd<0?'down':''}">${fmtPct(dd, 1)}</span>`)}${cell(t('ag_fees'), esc(agFmt(st.fees||0)))}</div>`;
+}
+function agPosHTML(){
+  const ps = Object.entries(agState.pos); if(!ps.length) return `<div class="empty">${esc(t('ag_none_open'))}</div>`;
+  return ps.map(([s, p]) => { const now = agLivePx(s) || p.entry, pl = p.qty*now*(1-AG.fee) - p.cost, plp = pl/p.cost*100;
+    return `<div class="ag-pos"><div class="ag-pos-h"><a href="#coin/${AGID[s]}" class="ag-sym">${esc(s)}</a><span class="dim">${esc(ago(p.at))}</span><span class="pchip n ${cls(pl)}" data-agpl="${s}">${pl>=0?'+':'−'}${esc(agUsd(Math.abs(pl)))} · ${esc(fmtPct(plp,1))}</span></div>
+      <div class="ag-pos-n n"><span>${esc(t('ag_entry'))} <b>${esc(agFmt(p.entry))}</b></span><span>${esc(t('ag_now'))} <b data-agpx="${s}">${esc(agFmt(now))}</b></span><span>${esc(t('ag_sl'))} <b class="down">${esc(agFmt(p.sl))}</b>${p.sl >= p.entry ? ` <small class="dim">(${esc(t('ag_be'))})</small>` : ''}</span><span>${esc(t('ag_tp'))} <b class="up">${esc(agFmt(p.tp))}</b></span></div>
+      <p class="ag-why">${esc(agWhy(p.why))}</p></div>`; }).join('');
+}
+function agLogHTML(){
+  const tr = agState.trades; if(!tr.length) return `<div class="empty">${esc(t('ag_none_log'))}</div>`;
+  return `<div class="ag-log">${tr.slice(0, 80).map(x => `<div class="ag-tr ${x.side}"><span class="ag-side">${esc(t(x.side==='buy'?'ag_buy':'ag_sell'))}</span>
+    <div class="ag-tr-m"><div class="ag-tr-t"><a href="#coin/${AGID[x.sym]}" class="ag-sym">${esc(x.sym)}</a> <span class="n">${esc(agFmt(x.px))}</span> <span class="dim n">· ${esc(agUsd(x.val))}</span>${x.side==='sell' ? ` <span class="pchip n ${cls(x.pnl)}">${x.pnl>=0?'+':'−'}${esc(agUsd(Math.abs(x.pnl)))} · ${esc(fmtPct(x.pnlPct,1))}</span>` : ''}${x.bf ? ` <span class="tag">${esc(t('ag_bf'))}</span>` : ''}</div>
+      <p class="ag-why">${esc(agWhy(x.why))}</p></div><span class="dim n ag-when">${esc(fmtDT(new Date(x.at)))}</span></div>`).join('')}</div>`;
+}
+function agHero(){
+  const N = agNow(), ret = (N.eq/AG.start-1)*100, rb = (N.btc/AG.start-1)*100, rk = (N.bsk/AG.start-1)*100, mk = Math.max(rb, rk), diff = ret - mk;
+  return `<div class="ag-hero-v"><span class="k">${esc(t('ag_value'))}</span><b class="n" data-agv>${esc(agFmt(N.eq))}</b><span class="n ${cls(ret)}" data-agr>${esc(fmtPct(ret, 2))}</span></div>
+    <div class="ag-cmp"><div><span class="k">${esc(t('ag_vs_btc'))}</span><b class="n">${esc(agFmt(N.btc))}</b><span class="n ${cls(rb)}">${esc(fmtPct(rb, 2))}</span></div><div><span class="k">${esc(t('ag_vs_bsk'))}</span><b class="n">${esc(agFmt(N.bsk))}</b><span class="n ${cls(rk)}">${esc(fmtPct(rk, 2))}</span></div></div>
+    <div class="ag-verdict ${diff>=0?'win':'lose'}">${esc(diff >= 0 ? t('ag_beats', fmtNum(diff, 2)+' pp') : t('ag_loses', fmtNum(-diff, 2)+' pp'))}</div>`;
+}
+V.agent = () => {
+  const perm = typeof Notification==='undefined' ? 'denied' : Notification.permission;
+  const head = pageHead(t('p_agent'), esc(t('ag_lead')), perm==='default' ? `<button class="btn" data-act="notif">🔔 ${esc(t('ag_notif'))}</button>` : perm==='granted' ? `<span class="badge live">${esc(t('ag_notif_on'))}</span>` : '');
+  if(!agState) return head + `<section class="card"><div class="${agErr?'err':'empty'}">${agErr ? `<b>${esc(t('ag_err'))}</b>` : esc(t('ag_wait'))}</div></section>`;
+  const st = agState;
+  return head + `<section class="card ag-hero"><div class="ag-top"><span class="ag-bot">${ico('agent', 1.8)}</span><div><b>BRO-agenten</b><span class="dim" id="ag-status">${esc(agBusy ? t('ag_status_run') : t('ag_status_ok', fmtTime(new Date(st.checked || Date.now()))))}${agNextAt && !agBusy ? ` · ${esc(t('ag_next'))} <span class="cd n" data-cd="${agNextAt}">${esc(countdown(agNextAt-Date.now()))}</span>` : ''}</span></div><span class="ldot" style="margin-left:auto"></span></div>
+      <div id="ag-hero">${agHero()}</div><p class="dim" style="margin:10px 0 0;font-size:12.5px">${esc(t('ag_start', fmtDT(new Date(st.startAt))))}${agErr ? ' · ' + esc(t('ag_err')) : ''}</p></section>
+    <section class="card"><div class="card-h"><h2>${esc(t('ag_chart'))}</h2></div>${agChart()}</section>
+    <section class="g2"><article class="card"><div class="card-h"><h2>${esc(t('ag_open'))}</h2><span class="dim">${Object.keys(st.pos).length}/${AG.maxPos}</span></div><div id="ag-pos">${agPosHTML()}</div></article>
+      <article class="card"><div class="card-h"><h2>${esc(t('ag_stats'))}</h2></div><div id="ag-stats">${agStats()}</div></article></section>
+    <section class="card"><div class="card-h"><h2>${esc(t('ag_log'))}</h2></div>${agLogHTML()}</section>
+    <section class="card"><div class="card-h"><h2>${esc(t('ag_rules'))}</h2>${badge('interp')}</div><ul class="ag-rules">${t('ag_r').map(r => `<li>${esc(r)}</li>`).join('')}</ul><p class="dim" style="font-size:12.5px;margin:10px 0 0">${esc(t('ag_note'))}</p></section>`;
+};
+function agUpdateLive(){ const h = $('#ag-hero'); if(h) h.innerHTML = agHero(); const p = $('#ag-pos'); if(p) p.innerHTML = agPosHTML(); const s = $('#ag-stats'); if(s) s.innerHTML = agStats(); }
+function agRefreshUI(){ if(UI.route === 'agent' && !$('.modal')) renderView(); }
 
 /* =====================================================================
    BOOT
