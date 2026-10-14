@@ -472,7 +472,17 @@ table.t tr:hover td{background:color-mix(in srgb,var(--fg) 3%,transparent)}
 .term{padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
 .term b{display:block;font-size:14px}
 .term p{margin:2px 0 0;font-size:13px;color:var(--fg2)}
+.bn-pick{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:10px;align-items:end;max-width:760px}
+.bn-fixed{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;font-weight:700;color:var(--fg3);padding-bottom:8px}.bn-fixed svg{width:20px;height:20px}
+.bn-slot{display:flex;flex-direction:column;gap:4px;min-width:0}.bn-slot small{font-size:11.5px;font-weight:700;color:var(--fg3)}.bn-slot select{width:100%}
+@media (max-width:760px){.bn-pick{grid-template-columns:repeat(3,minmax(0,1fr))}.bn-fixed{display:none}}
 /* ---------- trading agent ---------- */
+.ag-lev{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:var(--acc-bg);color:var(--accent);font:800 11.5px/1.2 var(--sans);border:1px solid var(--acc-line);font-variant-numeric:tabular-nums}
+.ag-ov-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.ag-ov-sum>div{padding:10px 12px;border-radius:12px;background:var(--bg2);border:1px solid var(--line)}.ag-ov-sum .k{display:block;font-size:11.5px;font-weight:700;color:var(--fg3)}.ag-ov-sum b{font-size:17px;font-weight:800}
+.ag-ov td,.ag-ov th{white-space:nowrap}
+@media (max-width:760px){.ag-ov-sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 .ag-hero{background:radial-gradient(520px 260px at 0% 0%,var(--acc-bg),transparent 70%),radial-gradient(420px 260px at 100% 100%,color-mix(in srgb,var(--accent-b) 10%,transparent),transparent 70%),var(--card)}
 .ag-top{display:flex;gap:12px;align-items:center;margin-bottom:14px}
 .ag-top b{display:block;font-family:var(--display);font-size:17px}.ag-top .dim{font-size:12.5px}
@@ -528,6 +538,29 @@ table.t tr:hover td{background:color-mix(in srgb,var(--fg) 3%,transparent)}
 .ns-ai-i{padding:12px 14px 12px 16px;border-radius:12px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
 .ns-ai-i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--warn)}.ns-ai-i.ns-pos::before{background:var(--up)}.ns-ai-i.ns-neg::before{background:var(--down)}
 .ns-ai-i h4{margin:8px 0 4px;font:800 15.5px/1.3 var(--sans)}.ns-ai-i p{margin:0 0 6px;font-size:14px;color:var(--fg2)}.ns-why b{color:var(--fg)}
+/* ---------- intro (logo + name on every app start) ---------- */
+#intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(600px 420px at 50% 42%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),var(--bg);animation:inOut .5s cubic-bezier(.4,0,.2,1) 1.75s both;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#intro.skip{animation:inOut .3s ease-out both}
+#intro.gone{display:none}
+.in-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;transform:translateZ(0)}
+.in-logo{position:relative;width:118px;height:118px;animation:inLogo .9s cubic-bezier(.34,1.45,.64,1) .05s both;filter:drop-shadow(0 18px 40px color-mix(in srgb,var(--accent-b) 45%,transparent))}
+.in-logo svg{width:100%;height:100%;display:block}
+.in-halo{position:absolute;top:-30px;left:50%;width:260px;height:260px;margin-left:-130px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 38%,transparent),transparent 65%);animation:inHalo 1.6s ease-out both;pointer-events:none}
+.in-ring{position:absolute;top:5px;left:50%;width:190px;height:190px;margin-left:-95px;border-radius:50%;border:2px solid color-mix(in srgb,var(--accent) 60%,transparent);animation:inRing 1.3s cubic-bezier(.16,1,.3,1) .25s both;pointer-events:none}
+.in-name{display:flex;align-items:baseline;font-family:var(--display);font-size:clamp(36px,9vw,54px);letter-spacing:-.04em;line-height:1;overflow:hidden;padding:4px 6px 8px}
+.in-a{font-weight:500;color:var(--fg);animation:inUp .7s cubic-bezier(.16,1,.3,1) .45s both}
+.in-b{font-weight:800;margin-left:2px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;animation:inUp .7s cubic-bezier(.16,1,.3,1) .58s both}
+.in-tag{font:600 14px/1.3 var(--sans);color:var(--fg3);letter-spacing:.02em;animation:inFade .6s ease-out .85s both}
+.in-bar{width:120px;height:3px;border-radius:3px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;margin-top:6px;animation:inFade .4s ease-out .7s both}
+.in-bar i{display:block;height:100%;background:var(--grad);border-radius:3px;transform-origin:left;animation:inBar 1.05s cubic-bezier(.65,0,.35,1) .7s both}
+@keyframes inLogo{0%{opacity:0;transform:scale(.55) rotate(-18deg)}60%{opacity:1}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes inHalo{0%{opacity:0;transform:scale(.6)}40%{opacity:1}100%{opacity:.55;transform:scale(1)}}
+@keyframes inRing{0%{opacity:.9;transform:scale(.55)}100%{opacity:0;transform:scale(1.25)}}
+@keyframes inUp{from{opacity:0;transform:translate3d(0,100%,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes inFade{from{opacity:0}to{opacity:1}}
+@keyframes inBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes inOut{from{opacity:1;visibility:visible}to{opacity:0;visibility:hidden;transform:scale(1.04)}}
+@media (prefers-reduced-motion:reduce){#intro{animation:inOut .3s ease-out .6s both!important}#intro *{animation:none!important}}
 /* ---------- motion (GPU-only: opacity + transform, no blur, no full-page snapshots) ---------- */
 :root{--ease-out:cubic-bezier(.22,1,.36,1);--ease-in:cubic-bezier(.4,0,1,1);--spring:cubic-bezier(.34,1.3,.64,1)}
 #view.a-pre,#view.a-pre-tab>.tabs~*,.a-pre{opacity:0}
@@ -819,6 +852,11 @@ a.lbr:hover{background:var(--card2)}
 </style>
 </head>
 <body>
+<div id="intro" aria-hidden="true"><div class="in-stage"><div class="in-halo"></div><div class="in-ring"></div><div class="in-logo"><svg class="in-svg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="lg-intro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accent-b)"/></linearGradient></defs><path d="M20 1.8a3 3 0 0 1 1.5.4l13.7 7.9a3 3 0 0 1 1.5 2.6v15.6a3 3 0 0 1-1.5 2.6l-13.7 7.9a3 3 0 0 1-3 0L4.8 30.9a3 3 0 0 1-1.5-2.6V12.7a3 3 0 0 1 1.5-2.6l13.7-7.9a3 3 0 0 1 1.5-.4z" fill="url(#lg-intro)"/><path d="M7.6 15.6h24.8" stroke="#0B0A12" stroke-width="2.2" stroke-linecap="round"/><path d="M8.9 15.6h9.2l-.8 5.1a3.4 3.4 0 0 1-3.4 2.9h-1.1a3.4 3.4 0 0 1-3.3-2.7z" fill="#0B0A12"/><path d="M21.9 15.6h9.2l-.6 5.3a3.4 3.4 0 0 1-3.3 2.7h-1.1a3.4 3.4 0 0 1-3.4-2.9z" fill="#0B0A12"/><path d="M11 17.6l2.6 0M24 17.6l2.6 0" stroke="#fff" stroke-opacity=".75" stroke-width="1.3" stroke-linecap="round"/><path d="M12.6 29.4l4.4-3.3 3.3 2.2 6.6-5" stroke="#0B0A12" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M24.1 23.2h3.1v3.1" stroke="#0B0A12" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="in-name"><span class="in-a">crypto</span><span class="in-b">BRO</span></div><div class="in-tag" id="in-tag">Din personlige kryptoassistent</div><div class="in-bar"><i></i></div></div></div>
+<script>(function(){try{var st=JSON.parse(localStorage.getItem('bro.settings')||'{}'),r=document.documentElement;var P={'#FF8A00':'#FF3D7F','#3D8BFF':'#7B5CFF','#A855F7':'#FF4FB8','#14C8A0':'#3D8BFF','#FF4D2E':'#FFB000','#F2B705':'#FF7A00'};
+var th=st.theme==='auto'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):(st.theme||'dark');r.dataset.theme=th;if(st.accent){r.style.setProperty('--accent',st.accent);r.style.setProperty('--accent-b',P[st.accent]||st.accent);}
+if(st.lang==='en'){var g=document.getElementById('in-tag');if(g)g.textContent='Your personal crypto assistant';}}catch(e){}})();</script>
 <noscript><p style="padding:24px">JavaScript må være aktivert. / JavaScript must be enabled.</p></noscript>
 <header class="hdr">
   <div class="hdr-in">
@@ -1070,7 +1108,7 @@ const store = {
   clear(){ this.keys().forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} }); }
 };
 const ALL_PAGES = ['market','trade','agent','leaders','news','calendar','fng','watchlist','alerts','learn'];
-const DEF = {lang:'no', theme:'dark', accent:'#FF8A00', size:'n', mode:'simple', greet:'Hello sir', start:'home', pages:ALL_PAGES.slice(), hidden:[], favs:['bitcoin','ethereum','solana'], watch:['bitcoin','ethereum','solana'], meta:{bitcoin:'btc',ethereum:'eth',solana:'sol'}, cur:'usd', tz:'Europe/Oslo', refresh:60, minVol:2000000, evAlert:30, feedsOff:[], customFeeds:[], aiKey:'', aiModel:'claude-sonnet-5-5', cgKey:'', r2jKey:''};
+const DEF = {bnav:null, lang:'no', theme:'dark', accent:'#FF8A00', size:'n', mode:'simple', greet:'Hello sir', start:'home', pages:ALL_PAGES.slice(), hidden:[], favs:['bitcoin','ethereum','solana'], watch:['bitcoin','ethereum','solana'], meta:{bitcoin:'btc',ethereum:'eth',solana:'sol'}, cur:'usd', tz:'Europe/Oslo', refresh:60, minVol:2000000, evAlert:30, feedsOff:[], customFeeds:[], aiKey:'', aiModel:'claude-sonnet-5-5', cgKey:'', r2jKey:''};
 const S = Object.assign({}, DEF, store.get('settings', {}));
 ['pages','hidden','favs','watch','feedsOff','customFeeds'].forEach(k => { if(!Array.isArray(S[k])) S[k] = DEF[k].slice(); });
 ALL_PAGES.forEach((p,i) => { if(!S.pages.includes(p)){ const prev = ALL_PAGES[i-1]; const at = prev ? S.pages.indexOf(prev) : -1; if(at >= 0) S.pages.splice(at+1, 0, p); else S.pages.push(p); } });
@@ -1650,6 +1688,12 @@ const help = (id, open) => { const g = glossOf(id); return g ? `<details class="
 const errOr = (k, name) => D.st[k] && D.st[k].s==='err' ? `<div class="err"><b>${esc(t('err_load',{s:name}))}</b>${esc(t('err_retry'))}</div>` : `<div class="empty">${esc(t('loading'))}</div>`;
 const impBars = n => `<span class="imp l${n}" title="${esc(t('imp'+n))}"><i></i><i></i><i></i></span>`;
 const visiblePages = () => S.pages.filter(p => !S.hidden.includes(p));
+function bnavPages(){
+  const ok = ALL_PAGES.concat(['settings']); const out = [];
+  (Array.isArray(S.bnav) ? S.bnav : []).forEach(p => { if(ok.includes(p) && !out.includes(p) && out.length < 3) out.push(p); });
+  visiblePages().forEach(p => { if(out.length < 3 && !out.includes(p)) out.push(p); });
+  return out;
+}
 function tabs(group, items){ return `<div class="tabs" role="tablist">${items.map(([v,l]) => `<button role="tab" aria-selected="${UI.tab[group]===v}" data-act="tab" data-g="${group}" data-v="${v}" class="${UI.tab[group]===v?'on':''}">${esc(l)}</button>`).join('')}</div>`; }
 const pageHead = (title, lead, right='') => `<div class="ph"><div><h1>${esc(title)}</h1>${lead?`<p>${lead}</p>`:''}</div>${right}</div>`;
 
@@ -2036,6 +2080,8 @@ V.settings = () => {
     <div class="set-row" id="favs" style="display:block"><div class="l" style="margin-bottom:8px"><b>${esc(t('s_favs'))}</b><small>${esc(t('s_favs_d'))}</small></div><div class="order">${favRows}</div>
      ${S.favs.length<8?`<div style="position:relative;margin-top:8px"><input class="inp" id="fav-q" placeholder="${esc(t('wl_ph'))}" style="width:100%" autocomplete="off"><div class="qres" id="fav-res" hidden></div></div>`:''}</div>
    </article></section>
+  <section class="card" id="bnav-set"><div class="card-h"><h2>${esc(t('s_bnav'))}</h2></div><p class="dim" style="margin:-4px 0 12px;font-size:13.5px">${esc(t('s_bnav_d'))}</p>
+    <div class="bn-pick"><span class="bn-fixed">${ico('home')}${esc(t('p_home'))}</span>${bnavPages().map((cur, i) => `<label class="bn-slot"><small>${esc(t('bn_slot', i+1))}</small><select class="inp" data-bn="${i}" aria-label="${esc(t('bn_slot', i+1))}">${ALL_PAGES.concat(['settings']).map(p => `<option value="${p}" ${p===cur?'selected':''}>${esc(t('p_'+p))}</option>`).join('')}</select></label>`).join('')}<span class="bn-fixed">${ico('more')}${esc(t('more'))}</span></div></section>
   <section class="card" id="pages"><div class="card-h"><h2>${esc(t('s_pages'))}</h2></div><p class="dim" style="margin:-4px 0 12px;font-size:13.5px">${esc(t('s_pages_d'))}</p><div class="order" style="max-width:520px">${pageRows}</div></section>
   <section class="g2">
    <article class="card"><div class="card-h"><h2>${esc(t('s_data'))}</h2></div>
@@ -2066,7 +2112,7 @@ V.settings = () => {
 function renderNav(){
   const pages = ['home'].concat(visiblePages());
   $('#tabsnav').innerHTML = pages.map(p => `<a href="#${p}" class="${UI.route===p?'on':''}">${ico(p)}${esc(t('p_'+p))}</a>`).join('');
-  const bn = ['home'].concat(visiblePages().slice(0,3));
+  const bn = ['home'].concat(bnavPages());
   $('#bnav').innerHTML = bn.map(p => `<a href="#${p}" class="${UI.route===p?'on':''}">${ico(p)}<span>${esc(t('p_'+p))}</span></a>`).join('') + `<button data-act="sheet" class="${!bn.includes(UI.route)?'on':''}">${ico('more')}<span>${esc(t('more'))}</span></button>`;
   $('#tagline').textContent = t('tagline');
   $('#mode-seg').innerHTML = `<button data-act="set" data-k="mode" data-v="simple" class="${S.mode==='simple'?'on':''}">${esc(t('simple'))}</button><button data-act="set" data-k="mode" data-v="expert" class="${S.mode==='expert'?'on':''}">${esc(t('expert'))}</button>`;
@@ -2312,7 +2358,7 @@ function onClick(e){
     case 'hello': openHello(); break;
     case 'close': closeModal(); break;
     case 'modal-bg': if(e.target === a) closeModal(); break;
-    case 'sheet': { $('#sheet-root').innerHTML = `<div class="sheet-bg" data-act="sheet-bg"><div class="sheet"><h3>${esc(t('more'))}</h3><div class="sheet-grid">${['home'].concat(visiblePages(),['settings']).map(p=>`<a href="#${p}">${ico(p)}${esc(t('p_'+p))}</a>`).join('')}</div><div style="display:flex;justify-content:center;margin-top:14px"><div class="seg">${[['simple',t('simple')],['expert',t('expert')]].map(([v,l])=>`<button data-act="set" data-k="mode" data-v="${v}" class="${S.mode===v?'on':''}">${esc(l)}</button>`).join('')}</div></div></div></div>`; break; }
+    case 'sheet': { $('#sheet-root').innerHTML = `<div class="sheet-bg" data-act="sheet-bg"><div class="sheet"><h3>${esc(t('more'))}</h3><div class="sheet-grid">${(() => { const bn = bnavPages(); return visiblePages().filter(p => !bn.includes(p)).concat(bn, ['settings'].filter(x => !bn.includes(x))); })().map(p=>`<a href="#${p}">${ico(p)}${esc(t('p_'+p))}</a>`).join('')}</div><div style="display:flex;justify-content:center;margin-top:12px"><a href="#settings" data-act="goto-bnav" class="btn sm">⇄ ${esc(t('s_bnav_edit'))}</a></div><div style="display:flex;justify-content:center;margin-top:14px"><div class="seg">${[['simple',t('simple')],['expert',t('expert')]].map(([v,l])=>`<button data-act="set" data-k="mode" data-v="${v}" class="${S.mode===v?'on':''}">${esc(l)}</button>`).join('')}</div></div></div></div>`; break; }
     case 'sheet-bg': if(e.target === a) closeSheet(); break;
     case 'ai-brief': aiBrief(); break;
     case 'ai-scan': aiScan(); break;
@@ -2331,6 +2377,7 @@ function onClick(e){
     case 'fav-up': case 'fav-dn': { const i = +a.dataset.i, j = act==='fav-up' ? i-1 : i+1; [S.favs[i], S.favs[j]] = [S.favs[j], S.favs[i]]; saveS(); renderView(); break; }
     case 'pg-up': case 'pg-dn': { const i = +a.dataset.i, j = act==='pg-up' ? i-1 : i+1; [S.pages[i], S.pages[j]] = [S.pages[j], S.pages[i]]; saveS(); renderNav(); renderView(); break; }
     case 'goto-favs': e.preventDefault(); go('settings'); setTimeout(()=>{ const el = $('#favs'); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }, 60); break;
+    case 'goto-bnav': e.preventDefault(); $('#sheet-root').innerHTML = ''; go('settings'); setTimeout(()=>{ const el = $('#bnav-set'); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }, 120); break;
     case 'goto-pages': e.preventDefault(); go('settings'); setTimeout(()=>{ const el = $('#pages'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 60); break;
     case 'news-src': UI.newsSrc = a.dataset.s; renderView(); break;
     case 'news-topic': UI.newsTopic = a.dataset.tp; renderView(); break;
@@ -2365,6 +2412,7 @@ document.addEventListener('change', e => {
   if(el.id==='al-evmin'){ S.evAlert = clamp(+el.value||0, 0, 240); saveS(); toast(t('saved')); }
   if(el.dataset.set){ const k = el.dataset.set; let v = el.value; if(['refresh','minVol'].includes(k)) v = +v; else v = String(v).trim(); setSetting(k, v); toast(t('saved')); if(!['aiKey','cgKey','r2jKey','greet'].includes(k)) renderView(); }
   if(el.dataset.feed){ const id = el.dataset.feed; if(el.checked) S.feedsOff = S.feedsOff.filter(x=>x!==id); else if(!S.feedsOff.includes(id)) S.feedsOff.push(id); saveS(); D.tries.news = 0; toast(t('saved')); }
+  if(el.dataset.bn != null){ const i = +el.dataset.bn, cur = bnavPages().slice(), v = el.value, j = cur.indexOf(v); if(j >= 0 && j !== i) cur[j] = cur[i]; cur[i] = v; S.bnav = cur; if(S.hidden.includes(v)) S.hidden = S.hidden.filter(x => x !== v); saveS(); renderNav(); renderView(); toast(t('saved')); }
   if(el.dataset.pagevis){ const p = el.dataset.pagevis; if(el.checked) S.hidden = S.hidden.filter(x=>x!==p); else if(!S.hidden.includes(p)) S.hidden.push(p); saveS(); renderNav(); }
   if(el.id==='import-file' && el.files && el.files[0]){ const r = new FileReader(); r.onload = () => { try{ const j = JSON.parse(r.result); if(!j || j.app!=='crypto-bro') throw 0; Object.assign(S, DEF, j.settings||{}); saveS(); if(Array.isArray(j.alerts)) store.set('alerts', j.alerts); if(Array.isArray(j.events)) store.set('events', j.events); if(j.quiz && typeof j.quiz==='object') store.set('quiz', j.quiz); if(j.demo && Array.isArray(j.demo.trades)) store.set('demo', j.demo); if(j.levels && typeof j.levels==='object') store.set('levels', j.levels); applyTheme(); renderNav(); renderView(); toast(t('s_import_ok')); }catch(x){ toast(t('s_import_err')); } }; r.readAsText(el.files[0]); el.value = ''; }
 });
@@ -2405,6 +2453,8 @@ setInterval(() => { if(D.liveConnected && lastMsg && Date.now()-lastMsg > 45000)
    TRADING MODULE: live candles, support/resistance, patterns, setups,
    risk calculator, demo trading + journal (based on the user's trading document)
    ===================================================================== */
+Object.assign(I18N.no, {s_bnav:'Knappene nederst (mobil)', s_bnav_d:'Velg hvilke tre sider som skal ligge nederst mellom Hjem og Mer. Resten finner du under Mer.', bn_slot:n=>`Knapp ${n}`, s_bnav_edit:'Endre knappene nederst'});
+Object.assign(I18N.en, {s_bnav:'Bottom buttons (mobile)', s_bnav_d:'Choose which three pages sit at the bottom between Home and More. Everything else is under More.', bn_slot:n=>`Button ${n}`, s_bnav_edit:'Change the bottom buttons'});
 Object.assign(I18N.no, {
   p_trade:'Trading', d_trade:'Live graf med support og resistance, signaler, risikokalkulator og demotrading.',
   tr_lead:'Gjør det dokumentet lærer bort, live: finn nivåer, se etter signaler, planlegg entry, stop loss og target, og øv med demotrades.',
@@ -4943,37 +4993,39 @@ document.addEventListener('change', e => { if(e.target.id==='ns-auto'){ S.newsAu
    ===================================================================== */
 Object.assign(I18N.no, {
   p_agent:'Agent', d_agent:'En robot som trader med 1000 falske dollar etter læringsdokumentet, og som sammenligner seg med markedet.', tile_agent:o=>`Agenten: ${o.r} · markedet ${o.b}`,
-  ag_lead:'Agenten handler helt på egen hånd med 1000 falske dollar, etter reglene i trading-dokumentet. Du kan bare følge med – den kan ikke styres.',
+  ag_lead:'Agenten handler helt på egen hånd med 1000 falske dollar og giring fra 1x til 100x, etter reglene i trading-dokumentet. Du kan bare følge med – den kan ikke styres.',
   ag_value:'Agentens verdi', ag_vs_btc:'Kjøp og hold bitcoin', ag_vs_bsk:'Kjøp og hold kurv (10 coins)', ag_beats:p=>`Slår markedet med ${p}`, ag_loses:p=>`Ligger ${p} bak markedet`, ag_start:d=>`Startet ${d} med 1 000 $`,
   ag_status_run:'Regner …', ag_status_ok:t=>`Aktiv · sist sjekket ${t}`, ag_next:'Neste sjekk om', ag_wait:'Henter kursdata og starter agenten …', ag_err:'Fikk ikke hentet kursdata nå. Agenten prøver igjen automatisk.',
   ag_open:'Åpne posisjoner', ag_none_open:'Ingen åpne posisjoner. Agenten venter på et signal som oppfyller reglene.', ag_log:'Handelslogg', ag_none_log:'Ingen handler ennå.',
   ag_chart:'Verdi over tid', ag_rules:'Slik tenker agenten', ag_stats:'Nøkkeltall',
   ag_cash:'Kontanter', ag_inpos:'I posisjoner', ag_trades:'Avsluttede handler', ag_win:'Treffprosent', ag_dd:'Største fall', ag_fees:'Betalt i gebyrer', ag_pnl:'Gevinst/tap',
   ag_buy:'KJØP', ag_sell:'SALG', ag_bf:'simulert oppstart', ag_entry:'Inngang', ag_now:'Nå', ag_sl:'Stop', ag_tp:'Mål',
-  ag_why_buy:'Kjøpte fordi', ag_rr:'R:R', ag_be:'Stoppen flyttet til inngangsprisen', ag_x:{stop:'Stop loss traff – tapet ble holdt lite, slik planen sa.', tp:'Nådde målet ved neste motstand.', be:'Gikk ut på inngangsprisen etter at stoppen var flyttet dit.', signal:'Salgssignal: prisen står ved motstand med et svakt candlestick-signal.', time:'Tidsstopp: handelen gikk ingen vei på 3 døgn.'},
-  ag_n_buy:o=>`Agenten kjøpte ${o.s} til ${o.p}. ${o.w}`, ag_n_sell:o=>`Agenten solgte ${o.s} til ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`Mens appen var lukket gjorde agenten ${n} handler. Se Agent-siden.`,
-  ag_r:['Handler bare når minst to signaler peker samme vei (f.eks. support + bullish candle + trend).','Krever minst 1,5 ganger så mye mulig gevinst som risiko (R:R ≥ 1,5). Mot trenden kreves tre signaler.','Risikerer 1 % av kontoen per handel, og setter alltid stop loss under støtten.','Flytter stoppen til inngangsprisen når handelen er 1R i pluss.','Selger ved målet, ved stop loss, ved et tydelig salgssignal ved motstand, eller etter 3 døgn uten fremgang.','Maks 4 åpne posisjoner og maks 30 % av kontoen i én coin. Betaler 0,1 % gebyr per handel.','Handler bare «long» (kjøper og selger), som på en vanlig konto. Ser på 1-timeslys for 10 store coins.'],
-  ag_note:'Agenten har ingen egen server: den regner mens appen er åpen, og når du åpner appen igjen spoler den gjennom timene den gikk glipp av. Første uke er en simulert oppstart på ekte historiske kurser. Dette er en øvelse, ikke investeringsråd.',
+  ag_why_buy:'Kjøpte fordi', ag_rr:'R:R', ag_be:'Stoppen flyttet til inngangsprisen', ag_x:{liq:'Likvidert: prisen falt så langt at hele innsatsen i handelen gikk tapt.', stop:'Stop loss traff – tapet ble holdt lite, slik planen sa.', tp:'Nådde målet ved neste motstand.', be:'Gikk ut på inngangsprisen etter at stoppen var flyttet dit.', signal:'Salgssignal: prisen står ved motstand med et svakt candlestick-signal.', time:'Tidsstopp: handelen gikk ingen vei på 3 døgn.'},
+  ag_n_buy:o=>`Agenten kjøpte ${o.s} med ${o.l}x giring til ${o.p}. ${o.w}`, ag_n_sell:o=>`Agenten solgte ${o.s} til ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`Mens appen var lukket gjorde agenten ${n} handler. Se Agent-siden.`,
+  ag_r:['Handler bare når minst to signaler peker samme vei (f.eks. support + bullish candle + trend).','Krever minst 1,5 ganger så mye mulig gevinst som risiko (R:R ≥ 1,5). Mot trenden kreves tre signaler.','Bruker giring fra 1x til 100x: 20x ved to signaler, 50x ved tre og opptil 100x ved fire eller flere. Giringen blir aldri så høy at likvideringsprisen ligger over stop loss.','Risikerer 2 % av kontoen per handel (3 % ved sterke signaler), og setter alltid stop loss. Maks 25 % av kontoen som innsats i én handel.','Flytter stoppen til inngangsprisen når handelen er 1R i pluss.','Selger ved målet, ved stop loss, ved et tydelig salgssignal ved motstand, eller etter 3 døgn uten fremgang. Faller prisen til likvideringsprisen, er innsatsen tapt.','Maks 5 åpne posisjoner. Betaler 0,06 % gebyr per handel og 0,01 % finansieringsavgift hver 8. time, som på en futures-børs.','Handler bare long (satser på at prisen stiger). Ser på 1-timeslys for 10 store coins.'],
+  ag_lev:'Giring', ag_liq:'Likvidering', ag_margin:'Innsats', ag_margin_t:'Innsats totalt', ag_expo:'Eksponering', ag_upl:'Urealisert gevinst/tap', ag_ov:'Alle åpne posisjoner', ag_whyopen:'Hvorfor den kjøpte', ag_lev_why:l=>`${l}x giring.`,
+  ag_note:'Agenten har ingen egen server: den regner mens appen er åpen, og når du åpner appen igjen spoler den gjennom timene den gikk glipp av. Første uke er en simulert oppstart på ekte historiske kurser. Giring gjør at gevinst og tap går mye fortere – med ekte penger kan man miste hele innsatsen på minutter. Dette er en øvelse, ikke investeringsråd.',
   ag_notif:'Slå på varsler', ag_notif_on:'Varsler er på',
 });
 Object.assign(I18N.en, {
   p_agent:'Agent', d_agent:'A robot trading 1000 fake dollars by the learning document, comparing itself with the market.', tile_agent:o=>`Agent: ${o.r} · market ${o.b}`,
-  ag_lead:'The agent trades entirely on its own with 1000 fake dollars, following the rules of the trading document. You can only watch – it cannot be steered.',
+  ag_lead:'The agent trades entirely on its own with 1000 fake dollars and 1x to 100x leverage, following the rules of the trading document. You can only watch – it cannot be steered.',
   ag_value:'Agent value', ag_vs_btc:'Buy and hold bitcoin', ag_vs_bsk:'Buy and hold basket (10 coins)', ag_beats:p=>`Beating the market by ${p}`, ag_loses:p=>`Trailing the market by ${p}`, ag_start:d=>`Started ${d} with $1,000`,
   ag_status_run:'Working …', ag_status_ok:t=>`Active · last check ${t}`, ag_next:'Next check in', ag_wait:'Fetching prices and starting the agent …', ag_err:'Could not fetch prices right now. The agent will retry automatically.',
   ag_open:'Open positions', ag_none_open:'No open positions. The agent is waiting for a signal that meets its rules.', ag_log:'Trade log', ag_none_log:'No trades yet.',
   ag_chart:'Value over time', ag_rules:'How the agent thinks', ag_stats:'Key numbers',
   ag_cash:'Cash', ag_inpos:'In positions', ag_trades:'Closed trades', ag_win:'Win rate', ag_dd:'Largest drop', ag_fees:'Paid in fees', ag_pnl:'Profit/loss',
   ag_buy:'BUY', ag_sell:'SELL', ag_bf:'simulated start', ag_entry:'Entry', ag_now:'Now', ag_sl:'Stop', ag_tp:'Target',
-  ag_why_buy:'Bought because', ag_rr:'R:R', ag_be:'Stop moved to entry price', ag_x:{stop:'Stop loss hit – the loss was kept small, as planned.', tp:'Reached the target at the next resistance.', be:'Exited at the entry price after the stop had been moved there.', signal:'Sell signal: price is at resistance with a weak candlestick signal.', time:'Time stop: the trade went nowhere for 3 days.'},
-  ag_n_buy:o=>`The agent bought ${o.s} at ${o.p}. ${o.w}`, ag_n_sell:o=>`The agent sold ${o.s} at ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`While the app was closed the agent made ${n} trades. See the Agent page.`,
-  ag_r:['Only trades when at least two signals agree (e.g. support + bullish candle + trend).','Needs at least 1.5 times as much possible gain as risk (R:R ≥ 1.5). Against the trend it needs three signals.','Risks 1% of the account per trade and always sets a stop loss below support.','Moves the stop to the entry price once the trade is 1R in profit.','Sells at the target, at the stop loss, on a clear sell signal at resistance, or after 3 days without progress.','Max 4 open positions and max 30% of the account in one coin. Pays a 0.1% fee per trade.','Trades long only (buys and sells), like a normal account. Watches 1-hour candles for 10 large coins.'],
-  ag_note:'The agent has no server of its own: it works while the app is open, and when you reopen the app it replays the hours it missed. The first week is a simulated start on real historical prices. This is practice, not investment advice.',
+  ag_why_buy:'Bought because', ag_rr:'R:R', ag_be:'Stop moved to entry price', ag_x:{liq:'Liquidated: the price fell so far that the whole stake in the trade was lost.', stop:'Stop loss hit – the loss was kept small, as planned.', tp:'Reached the target at the next resistance.', be:'Exited at the entry price after the stop had been moved there.', signal:'Sell signal: price is at resistance with a weak candlestick signal.', time:'Time stop: the trade went nowhere for 3 days.'},
+  ag_n_buy:o=>`The agent bought ${o.s} with ${o.l}x leverage at ${o.p}. ${o.w}`, ag_n_sell:o=>`The agent sold ${o.s} at ${o.p} (${o.r}). ${o.w}`, ag_n_away:n=>`While the app was closed the agent made ${n} trades. See the Agent page.`,
+  ag_r:['Only trades when at least two signals agree (e.g. support + bullish candle + trend).','Needs at least 1.5 times as much possible gain as risk (R:R ≥ 1.5). Against the trend it needs three signals.','Uses leverage from 1x to 100x: 20x with two signals, 50x with three and up to 100x with four or more. Leverage is never so high that the liquidation price sits above the stop loss.','Risks 2% of the account per trade (3% on strong signals) and always sets a stop loss. Max 25% of the account as the stake in one trade.','Moves the stop to the entry price once the trade is 1R in profit.','Sells at the target, at the stop loss, on a clear sell signal at resistance, or after 3 days without progress. If the price hits the liquidation price, the stake is lost.','Max 5 open positions. Pays a 0.06% fee per trade and a 0.01% funding fee every 8 hours, like a futures exchange.','Trades long only (bets on prices rising). Watches 1-hour candles for 10 large coins.'],
+  ag_lev:'Leverage', ag_liq:'Liquidation', ag_margin:'Stake', ag_margin_t:'Total stake', ag_expo:'Exposure', ag_upl:'Unrealised P/L', ag_ov:'All open positions', ag_whyopen:'Why it bought', ag_lev_why:l=>`${l}x leverage.`,
+  ag_note:'The agent has no server of its own: it works while the app is open, and when you reopen the app it replays the hours it missed. The first week is a simulated start on real historical prices. Leverage makes gains and losses happen much faster – with real money you can lose the whole stake in minutes. This is practice, not investment advice.',
   ag_notif:'Turn on notifications', ag_notif_on:'Notifications are on',
 });
 ICON.agent = '<rect x="4.5" y="8" width="15" height="11" rx="3.5"/><path d="M12 4.5V8M9.2 12.6h.01M14.8 12.6h.01M9.5 16h5"/><circle cx="12" cy="3.6" r="1"/>';
 
-const AG = {coins:['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','LINK','AVAX','LTC'], tf:'1h', risk:.01, maxPos:4, maxAlloc:.3, fee:.001, start:1000, backfill:7*DAY, timeStop:3*DAY};
+const AG = {coins:['BTC','ETH','SOL','XRP','BNB','DOGE','ADA','LINK','AVAX','LTC'], tf:'1h', risk:.02, riskHi:.03, maxPos:5, maxMargin:.25, fee:.0006, mmr:.005, funding:.0001, maxLev:100, start:1000, backfill:7*DAY, timeStop:3*DAY};
 const AGID = {BTC:'bitcoin', ETH:'ethereum', SOL:'solana', XRP:'ripple', BNB:'binancecoin', DOGE:'dogecoin', ADA:'cardano', LINK:'chainlink', AVAX:'avalanche-2', LTC:'litecoin'};
 let agState = store.get('agent', null), agBusy = false, agErr = '', agNextAt = 0;
 const agSave = () => store.set('agent', agState);
@@ -4981,25 +5033,36 @@ const agFmt = v => fmtCur(v, {cur:'usd'});
 const agUsd = v => NF('agusd', {style:'currency', currency:'USD', currencyDisplay:'narrowSymbol', minimumFractionDigits:2, maximumFractionDigits:2}).format(v);
 function agWhy(w){
   if(!w) return '';
-  if(w.type === 'buy'){ const fs = (w.fs||[]).map(([k, a]) => typeof a === 'string' && a.startsWith('pat:') ? t(k, t('pat.'+a.slice(4))) : a != null ? t(k, a) : t(k)); return `${t('ag_why_buy')}: ${fs.join(' + ')}. ${t('ag_sl')} ${agFmt(w.sl)}, ${t('ag_tp').toLowerCase()} ${agFmt(w.tp)} (${t('ag_rr')} ${fmtNum(w.rr, 1)}).`; }
+  if(w.type === 'buy'){ const fs = (w.fs||[]).map(([k, a]) => typeof a === 'string' && a.startsWith('pat:') ? t(k, t('pat.'+a.slice(4))) : a != null ? t(k, a) : t(k)); return `${w.lev ? t('ag_lev_why', w.lev) + ' ' : ''}${t('ag_why_buy')}: ${fs.join(' + ')}. ${t('ag_sl')} ${agFmt(w.sl)}, ${t('ag_tp').toLowerCase()} ${agFmt(w.tp)} (${t('ag_rr')} ${fmtNum(w.rr, 1)}).`; }
   return t('ag_x')[w.r] || '';
 }
-function agEquity(px){ let v = agState.cash; Object.entries(agState.pos).forEach(([s, p]) => { v += p.qty * (px[s] || p.entry); }); return v; }
+const agLiq = p => (p.lev||1) > 1 ? p.entry*(1 - 1/p.lev + AG.mmr) : 0;
+const agMargin = p => p.margin != null ? p.margin : p.qty*p.entry;
+const agPosVal = (p, price) => Math.max(0, agMargin(p) + p.qty*(price - p.entry));
+function agEquity(px){ let v = agState.cash; Object.entries(agState.pos).forEach(([s, p]) => { v += agPosVal(p, px[s] || p.entry); }); return v; }
+function agLevFor(stopFrac, score){
+  const liqCap = Math.floor(.92/(stopFrac + AG.mmr)); const want = score >= 4 ? 100 : score >= 3 ? 50 : 20;
+  return clamp(Math.min(want, liqCap, AG.maxLev), 1, AG.maxLev);
+}
 function agBuy(sym, px, setup, an, at, bf){
   const st = agState; if(st.pos[sym] || Object.keys(st.pos).length >= AG.maxPos) return;
-  const eq = agEquity(st.lastPx || {}), riskD = eq * AG.risk, per = px - setup.sl; if(per <= 0) return;
-  let qty = riskD / per; qty = Math.min(qty, eq*AG.maxAlloc/px, (st.cash/(1+AG.fee))/px); if(qty*px < 10) return;
-  const fee = qty*px*AG.fee; st.cash -= qty*px + fee; st.fees = (st.fees||0) + fee;
+  const eq = agEquity(st.lastPx || {}), stopFrac = (px - setup.sl)/px; if(stopFrac <= 0) return;
+  const riskD = eq * (setup.score >= 3 ? AG.riskHi : AG.risk), lev = agLevFor(stopFrac, setup.score);
+  let notional = riskD/stopFrac, margin = notional/lev; const maxM = Math.min(eq*AG.maxMargin, st.cash/(1 + AG.fee*lev));
+  if(margin > maxM){ margin = maxM; notional = margin*lev; } if(notional < 10 || margin < 2) return;
+  const qty = notional/px, fee = notional*AG.fee; st.cash -= margin + fee; st.fees = (st.fees||0) + fee;
   const bullK = (an.patterns||[]).filter(p => p.bias==='bull').map(p => p.kind).pop();
   const fs = setup.factors.filter(f => !f.neutral).map(f => [f.k, f.k==='cf_bull' && bullK ? 'pat:'+bullK : (typeof f.a === 'number' ? f.a : null)]);
-  const why = {type:'buy', fs, sl:setup.sl, tp:setup.tp, rr:setup.rr};
-  st.pos[sym] = {qty, entry:px, sl:setup.sl, sl0:setup.sl, tp:setup.tp, at, why, cost:qty*px+fee};
-  st.trades.unshift({at, side:'buy', sym, px, qty, val:qty*px, fee, why, bf:!!bf}); st.trades = st.trades.slice(0, 400);
+  const why = {type:'buy', fs, sl:setup.sl, tp:setup.tp, rr:setup.rr, lev};
+  const pos = {qty, entry:px, lev, margin, sl:setup.sl, sl0:setup.sl, tp:setup.tp, at, why, cost:margin+fee}; pos.liq = agLiq(pos); st.pos[sym] = pos;
+  st.trades.unshift({at, side:'buy', sym, px, qty, val:notional, margin, lev, fee, why, bf:!!bf}); st.trades = st.trades.slice(0, 400);
 }
 function agSell(sym, px, reason, at, bf){
-  const st = agState, p = st.pos[sym]; if(!p) return; const val = p.qty*px, fee = val*AG.fee; st.cash += val - fee; st.fees = (st.fees||0) + fee;
-  const pnl = val - fee - p.cost; delete st.pos[sym];
-  st.trades.unshift({at, side:'sell', sym, px, qty:p.qty, val, fee, pnl, pnlPct:pnl/p.cost*100, entry:p.entry, why:{type:'sell', r:reason}, bf:!!bf}); st.trades = st.trades.slice(0, 400);
+  const st = agState, p = st.pos[sym]; if(!p) return; const lev = p.lev || 1, margin = agMargin(p), notional = p.qty*px;
+  const fee = notional*(p.lev ? AG.fee : .001), funding = p.lev ? p.qty*p.entry*AG.funding*Math.max(0, (at - p.at)/(8*HOUR)) : 0;
+  const payout = reason === 'liq' ? 0 : Math.max(0, margin + p.qty*(px - p.entry) - fee - funding);
+  st.cash += payout; st.fees = (st.fees||0) + fee + funding; const pnl = payout - p.cost; delete st.pos[sym];
+  st.trades.unshift({at, side:'sell', sym, px, qty:p.qty, val:notional, margin, lev, fee:fee+funding, pnl, pnlPct:pnl/margin*100, entry:p.entry, why:{type:'sell', r:reason}, bf:!!bf}); st.trades = st.trades.slice(0, 400);
 }
 function agInit(cs){
   const startAt = Math.floor((Date.now() - AG.backfill)/HOUR)*HOUR; const base = {}, last = {};
@@ -5019,7 +5082,8 @@ async function agentRun(){
       const bf = T + HOUR < st.created; const px = {};
       for(const s of AG.coins){ const c = cs[s]; if(!c) continue; const i = c.findIndex(x => x.t === T); if(i < 0){ const pc = c.filter(x => x.t <= T).pop(); if(pc) px[s] = pc.c; continue; }
         const k = c[i]; px[s] = k.c; if(T <= (st.last[s] ?? Infinity)) continue; const at = T + HOUR; const p = st.pos[s];
-        if(p){ if(k.l <= p.sl){ agSell(s, Math.min(k.o, p.sl), p.sl >= p.entry ? 'be' : 'stop', at, bf); }
+        if(p){ const lq = agLiq(p); if(lq && k.o <= lq) agSell(s, k.o, 'liq', at, bf);
+          else if(k.l <= p.sl){ agSell(s, Math.min(k.o, p.sl), p.sl >= p.entry ? 'be' : 'stop', at, bf); }
           else if(k.h >= p.tp){ agSell(s, Math.max(k.o, p.tp), 'tp', at, bf); }
           else { if(p.sl < p.entry && k.h >= p.entry + (p.entry - p.sl0)) p.sl = p.entry; if(at - p.at >= AG.timeStop) agSell(s, k.c, 'time', at, bf); } }
         if(i >= 60){ const win = c.slice(Math.max(0, i-250), i+1); win.push({t:T+HOUR, o:k.c, h:k.c, l:k.c, c:k.c, v:0}); const an = analyze(win);
@@ -5040,13 +5104,14 @@ async function agentRun(){
   agBusy = false; agNextAt = (Math.floor(Date.now()/HOUR)+1)*HOUR + 90*1000; agRefreshUI();
 }
 function agNotify(x){
-  const w = agWhy(x.why); if(x.side==='buy') notify('🤖 ' + t('ag_n_buy', {s:x.sym, p:agFmt(x.px), w}));
+  const w = agWhy(x.why); if(x.side==='buy') notify('🤖 ' + t('ag_n_buy', {s:x.sym, p:agFmt(x.px), l:x.lev||1, w}));
   else notify('🤖 ' + t('ag_n_sell', {s:x.sym, p:agFmt(x.px), r:(x.pnl>=0?'+':'−')+agUsd(Math.abs(x.pnl)), w}));
 }
 function agLiveTick(){
   if(!agState || agBusy) return; const st = agState; let ch = false;
   Object.keys(st.pos).forEach(s => { const L = D.all[s], p = st.pos[s]; if(!L || !L.price || Date.now()-L.t > 60000) return; const x = L.price; st.lastPx[s] = x;
-    if(x <= p.sl){ agSell(s, x, p.sl >= p.entry ? 'be' : 'stop', Date.now(), false); ch = true; }
+    const lq = agLiq(p); if(lq && x <= lq){ agSell(s, x, 'liq', Date.now(), false); ch = true; }
+    else if(x <= p.sl){ agSell(s, x, p.sl >= p.entry ? 'be' : 'stop', Date.now(), false); ch = true; }
     else if(x >= p.tp){ agSell(s, x, 'tp', Date.now(), false); ch = true; }
     else if(p.sl < p.entry && x >= p.entry + (p.entry - p.sl0)){ p.sl = p.entry; ch = true; } });
   if(ch){ st.trades.filter(x => !x.bf && x.at > (st.notified||0)).reverse().forEach(agNotify); st.notified = Date.now(); agSave(); }
@@ -5082,22 +5147,33 @@ function agChart(){
 }
 function agStats(){
   const st = agState, sells = st.trades.filter(x => x.side==='sell'), wins = sells.filter(x => x.pnl > 0).length; let peak = -Infinity, dd = 0; st.eq.forEach(p => { if(p[1] > peak) peak = p[1]; dd = Math.min(dd, (p[1]/peak - 1)*100); });
-  const inPos = Object.entries(st.pos).reduce((a, [s, p]) => a + p.qty*(agLivePx(s) || p.entry), 0);
+  const inPos = Object.entries(st.pos).reduce((a, [s, p]) => a + agPosVal(p, agLivePx(s) || p.entry), 0);
   const cell = (k, v) => `<div><span class="k">${esc(k)}</span><b class="n">${v}</b></div>`;
   return `<div class="ag-stats">${cell(t('ag_cash'), esc(agFmt(st.cash)))}${cell(t('ag_inpos'), esc(agFmt(inPos)))}${cell(t('ag_trades'), sells.length)}${cell(t('ag_win'), sells.length ? fmtNum(wins/sells.length*100, 0)+pctSign() : '—')}${cell(t('ag_dd'), `<span class="${dd<0?'down':''}">${fmtPct(dd, 1)}</span>`)}${cell(t('ag_fees'), esc(agFmt(st.fees||0)))}</div>`;
 }
 function agPosHTML(){
   const ps = Object.entries(agState.pos); if(!ps.length) return `<div class="empty">${esc(t('ag_none_open'))}</div>`;
-  return ps.map(([s, p]) => { const now = agLivePx(s) || p.entry, pl = p.qty*now*(1-AG.fee) - p.cost, plp = pl/p.cost*100;
-    return `<div class="ag-pos"><div class="ag-pos-h"><a href="#coin/${AGID[s]}" class="ag-sym">${esc(s)}</a><span class="dim">${esc(ago(p.at))}</span><span class="pchip n ${cls(pl)}" data-agpl="${s}">${pl>=0?'+':'−'}${esc(agUsd(Math.abs(pl)))} · ${esc(fmtPct(plp,1))}</span></div>
-      <div class="ag-pos-n n"><span>${esc(t('ag_entry'))} <b>${esc(agFmt(p.entry))}</b></span><span>${esc(t('ag_now'))} <b data-agpx="${s}">${esc(agFmt(now))}</b></span><span>${esc(t('ag_sl'))} <b class="down">${esc(agFmt(p.sl))}</b>${p.sl >= p.entry ? ` <small class="dim">(${esc(t('ag_be'))})</small>` : ''}</span><span>${esc(t('ag_tp'))} <b class="up">${esc(agFmt(p.tp))}</b></span></div>
+  return ps.map(([s, p]) => { const now = agLivePx(s) || p.entry, pl = agPosVal(p, now) - p.cost, plp = pl/agMargin(p)*100;
+    return `<div class="ag-pos"><div class="ag-pos-h"><a href="#coin/${AGID[s]}" class="ag-sym">${esc(s)}</a><span class="ag-lev">${p.lev||1}x</span><span class="dim">${esc(ago(p.at))}</span><span class="pchip n ${cls(pl)}" data-agpl="${s}">${pl>=0?'+':'−'}${esc(agUsd(Math.abs(pl)))} · ${esc(fmtPct(plp,1))}</span></div>
+      <div class="ag-pos-n n"><span>${esc(t('ag_entry'))} <b>${esc(agFmt(p.entry))}</b></span><span>${esc(t('ag_now'))} <b data-agpx="${s}">${esc(agFmt(now))}</b></span><span>${esc(t('ag_sl'))} <b class="down">${esc(agFmt(p.sl))}</b>${p.sl >= p.entry ? ` <small class="dim">(${esc(t('ag_be'))})</small>` : ''}</span><span>${esc(t('ag_tp'))} <b class="up">${esc(agFmt(p.tp))}</b></span>${agLiq(p) ? `<span>${esc(t('ag_liq'))} <b class="down">${esc(agFmt(agLiq(p)))}</b></span>` : ''}</div>
       <p class="ag-why">${esc(agWhy(p.why))}</p></div>`; }).join('');
 }
 function agLogHTML(){
   const tr = agState.trades; if(!tr.length) return `<div class="empty">${esc(t('ag_none_log'))}</div>`;
   return `<div class="ag-log">${tr.slice(0, 80).map(x => `<div class="ag-tr ${x.side}"><span class="ag-side">${esc(t(x.side==='buy'?'ag_buy':'ag_sell'))}</span>
-    <div class="ag-tr-m"><div class="ag-tr-t"><a href="#coin/${AGID[x.sym]}" class="ag-sym">${esc(x.sym)}</a> <span class="n">${esc(agFmt(x.px))}</span> <span class="dim n">· ${esc(agUsd(x.val))}</span>${x.side==='sell' ? ` <span class="pchip n ${cls(x.pnl)}">${x.pnl>=0?'+':'−'}${esc(agUsd(Math.abs(x.pnl)))} · ${esc(fmtPct(x.pnlPct,1))}</span>` : ''}${x.bf ? ` <span class="tag">${esc(t('ag_bf'))}</span>` : ''}</div>
+    <div class="ag-tr-m"><div class="ag-tr-t"><a href="#coin/${AGID[x.sym]}" class="ag-sym">${esc(x.sym)}</a>${x.lev ? ` <span class="ag-lev">${x.lev}x</span>` : ''} <span class="n">${esc(agFmt(x.px))}</span> <span class="dim n">· ${esc(agUsd(x.val))}</span>${x.side==='sell' ? ` <span class="pchip n ${cls(x.pnl)}">${x.pnl>=0?'+':'−'}${esc(agUsd(Math.abs(x.pnl)))} · ${esc(fmtPct(x.pnlPct,1))}</span>` : ''}${x.bf ? ` <span class="tag">${esc(t('ag_bf'))}</span>` : ''}</div>
       <p class="ag-why">${esc(agWhy(x.why))}</p></div><span class="dim n ag-when">${esc(fmtDT(new Date(x.at)))}</span></div>`).join('')}</div>`;
+}
+function agOverview(){
+  const ps = Object.entries(agState.pos); if(!ps.length) return `<div class="empty">${esc(t('ag_none_open'))}</div>`;
+  let mT = 0, eT = 0, pT = 0;
+  const rows = ps.map(([s, p]) => { const now = agLivePx(s) || p.entry, m = agMargin(p), pl = agPosVal(p, now) - p.cost; mT += m; eT += p.qty*now; pT += pl; const lq = agLiq(p);
+    const risk = lq ? (now - lq)/now*100 : null;
+    return `<tr><td><a href="#coin/${AGID[s]}" class="ag-sym">${esc(s)}</a></td><td><span class="ag-lev">${p.lev||1}x</span></td><td class="n">${esc(agFmt(p.entry))}</td><td class="n"><b>${esc(agFmt(now))}</b></td>
+      <td class="n"><span class="pchip n ${cls(pl)}">${pl>=0?'+':'−'}${esc(agUsd(Math.abs(pl)))} · ${esc(fmtPct(pl/m*100,1))}</span></td><td class="n">${esc(agUsd(m))}</td>
+      <td class="n"><span class="down">${esc(agFmt(p.sl))}</span> / <span class="up">${esc(agFmt(p.tp))}</span></td><td class="n">${lq ? `<span class="down">${esc(agFmt(lq))}</span> <small class="dim">(${esc(fmtNum(risk,1))} % unna)</small>` : '—'}</td></tr>`; }).join('');
+  return `<div class="ag-ov-sum"><div><span class="k">${esc(t('ag_open'))}</span><b class="n">${ps.length}/${AG.maxPos}</b></div><div><span class="k">${esc(t('ag_margin_t'))}</span><b class="n">${esc(agUsd(mT))}</b></div><div><span class="k">${esc(t('ag_expo'))}</span><b class="n">${esc(agUsd(eT))}</b></div><div><span class="k">${esc(t('ag_upl'))}</span><b class="n ${cls(pT)}">${pT>=0?'+':'−'}${esc(agUsd(Math.abs(pT)))}</b></div></div>
+    <div class="tw"><table class="t ag-ov"><thead><tr><th>Coin</th><th>${esc(t('ag_lev'))}</th><th>${esc(t('ag_entry'))}</th><th>${esc(t('ag_now'))}</th><th>${esc(t('ag_pnl'))}</th><th>${esc(t('ag_margin'))}</th><th>${esc(t('ag_sl'))} / ${esc(t('ag_tp'))}</th><th>${esc(t('ag_liq'))}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function agHero(){
   const N = agNow(), ret = (N.eq/AG.start-1)*100, rb = (N.btc/AG.start-1)*100, rk = (N.bsk/AG.start-1)*100, mk = Math.max(rb, rk), diff = ret - mk;
@@ -5112,15 +5188,26 @@ V.agent = () => {
   const st = agState;
   return head + `<section class="card ag-hero"><div class="ag-top"><span class="ag-bot">${ico('agent', 1.8)}</span><div><b>BRO-agenten</b><span class="dim" id="ag-status">${esc(agBusy ? t('ag_status_run') : t('ag_status_ok', fmtTime(new Date(st.checked || Date.now()))))}${agNextAt && !agBusy ? ` · ${esc(t('ag_next'))} <span class="cd n" data-cd="${agNextAt}">${esc(countdown(agNextAt-Date.now()))}</span>` : ''}</span></div><span class="ldot" style="margin-left:auto"></span></div>
       <div id="ag-hero">${agHero()}</div><p class="dim" style="margin:10px 0 0;font-size:12.5px">${esc(t('ag_start', fmtDT(new Date(st.startAt))))}${agErr ? ' · ' + esc(t('ag_err')) : ''}</p></section>
-    <section class="card"><div class="card-h"><h2>${esc(t('ag_chart'))}</h2></div>${agChart()}</section>
-    <section class="g2"><article class="card"><div class="card-h"><h2>${esc(t('ag_open'))}</h2><span class="dim">${Object.keys(st.pos).length}/${AG.maxPos}</span></div><div id="ag-pos">${agPosHTML()}</div></article>
+    <section class="card"><div class="card-h"><h2>${esc(t('ag_ov'))}</h2>${badge('live','<span class="ldot"></span>')}</div><div id="ag-ov">${agOverview()}</div></section>
+    <section class="g2"><article class="card"><div class="card-h"><h2>${esc(t('ag_whyopen'))}</h2></div><div id="ag-pos">${agPosHTML()}</div></article>
       <article class="card"><div class="card-h"><h2>${esc(t('ag_stats'))}</h2></div><div id="ag-stats">${agStats()}</div></article></section>
+    <section class="card"><div class="card-h"><h2>${esc(t('ag_chart'))}</h2></div>${agChart()}</section>
     <section class="card"><div class="card-h"><h2>${esc(t('ag_log'))}</h2></div>${agLogHTML()}</section>
     <section class="card"><div class="card-h"><h2>${esc(t('ag_rules'))}</h2>${badge('interp')}</div><ul class="ag-rules">${t('ag_r').map(r => `<li>${esc(r)}</li>`).join('')}</ul><p class="dim" style="font-size:12.5px;margin:10px 0 0">${esc(t('ag_note'))}</p></section>`;
 };
-function agUpdateLive(){ const h = $('#ag-hero'); if(h) h.innerHTML = agHero(); const p = $('#ag-pos'); if(p) p.innerHTML = agPosHTML(); const s = $('#ag-stats'); if(s) s.innerHTML = agStats(); }
+function agUpdateLive(){ const o = $('#ag-ov'); if(o) o.innerHTML = agOverview(); const h = $('#ag-hero'); if(h) h.innerHTML = agHero(); const p = $('#ag-pos'); if(p) p.innerHTML = agPosHTML(); const s = $('#ag-stats'); if(s) s.innerHTML = agStats(); }
 function agRefreshUI(){ if(UI.route === 'agent' && !$('.modal')) renderView(); }
 
+/* ---- intro: logo + name on every start, again when you come back after a while ---- */
+(function(){
+  const el = document.getElementById('intro'); if(!el) return; let hidAt = 0, tmr = 0;
+  const finish = () => { el.classList.add('gone'); el.classList.remove('skip'); };
+  const arm = ms => { clearTimeout(tmr); tmr = setTimeout(finish, ms); };
+  el.addEventListener('click', () => { el.classList.add('skip'); arm(320); });
+  arm(reduceMotion() ? 950 : 2300);
+  window.playIntro = () => { const cur = document.getElementById('intro'); if(!cur) return; const c = cur.cloneNode(true); c.classList.remove('gone','skip'); cur.replaceWith(c); c.addEventListener('click', () => { c.classList.add('skip'); clearTimeout(tmr); tmr = setTimeout(() => c.classList.add('gone'), 320); }); clearTimeout(tmr); tmr = setTimeout(() => c.classList.add('gone'), reduceMotion() ? 950 : 2300); };
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'hidden') hidAt = Date.now(); else if(hidAt && Date.now() - hidAt > 10*60*1000){ hidAt = 0; window.playIntro(); } });
+})();
 /* =====================================================================
    BOOT
    ===================================================================== */
